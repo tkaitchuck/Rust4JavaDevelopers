@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Concurrency - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects</a></li><li><a href="traits.html"><strong aria-hidden="true">9.</strong> Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">10.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">11.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">12.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">13.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">14.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">15.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">16.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">17.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html" class="active"><strong aria-hidden="true">18.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">19.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">20.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">21.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">22.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">23.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">24.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">25.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">26.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">27.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">28.</strong> Using Rust with Java</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"></h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#concurrency" id="concurrency"><h1>Concurrency</h1></a>
+<p>• Futures_cpupool
+◦ Futures chaining
+◦ Async / await.
+◦ Futex
+• Async example w/ futures
+◦ Select and join compared to and and or in Java
+◦ Futures with streams (.buffered)
+◦ Performance
+• Async! Macro
+• Arc
+• Queue example / channels
+◦ Send attribute
+◦ Select
+◦ using channels doesn't prevent race conditions because Go lacks immutability. In Java the same problem exists. In Rust it ownership is explicit so it’s safe
+• Turn a sync API into an async one</p>
+<p>In Java you would synchronize the code like this.__ In Rust you synchronize it like this.__  In both cases the lock is guaranteed to be released at the end of the scope. In Java’s case it is because a special scope is being introduced. In the case of Rust, there is no special language feature it just uses the normal destructor to release the lock. This means a new scope does not need to be introduced. Of course you can add one line this __ if you want to reduce the scope a lock is held. (This could also be done with a private method). Another common pattern is to use a loop conditional expression __ as this has a very small scope.</p>
+<p>Locks in both languages work the same way, if one thread holds the lock, another thread attempting to acquire the same lock will block.</p>
+<p>The mutex object returns a MutexGard object which works like a RefCell. It allows for mutablity borrowing the data but does not allow for taking ownership.</p>
+<p>Safety Monitor: Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock.</p>
+<p>In Java the pattern is that locks should live inside of the class and it is the responsibility of the implementation to implement the locking. This makes sense as the code is relatively compact and all located in a single file which makes it easier to validate. In Rust the pattern is to do synchronization outside. This has a few advantages: it allows callers to make multiple calls under the same lock, so two or more calls in order can be done atomically together without using a second lock. It also means the class can be written once without thinking about thread safety and added by the caller if needed. Applying this pattern to Java would be a bad idea because it would be very hard to verify the lock is held everywhere the data is being accessed. By putting all of the places you need to check into a single file, you can verify it is correct. This is not a problem with Rust because the correctness will be enforced by the compiler. Applying the Java pattern to Rust is also a bad idea. Because other someone else in another module can add methods to your objects neither the compiler nor any of the standard tools will allow a pattern where all of the methods on a particular object are expected to do something.</p>
+<p>In Java it is important to encapsulate state for ownership and in turn thread safety. In many functional programming languages the pattern is to do the reverse and have the state passed into the function. The advantage of this is it makes the program very easy to test. Example:</p>
+<hr />
+<p>In Rust because the ownership contract is explicit it becomes easier to write more testable code around state transitions. Example:
+__
+This retains the strong ownership and safety guarantees of the Java version while improving the testability.
+This can be made explicit using types. If we write it like this the compiler will enforce the correct pattern on callers.
+__
+Notice that as far as the caller is concerned they are dealing with a single class, but internally we have made it such that only the valid sequence transitions can occur.</p>
+<p>Here is an example of how to make a thread safe version of a Map in both Java and Rust. __ In Java we use Collections.synchronizedMap(). The implementation of this looks like __. There are a few things to notice. First, this is very specific to Map. It can't even deal with a nested data structure. So the standard library needs a different one of these for every collection and have to write your own class like this for every data structure you create. Not great in terms of code duplication. Additionally it does not solve the whole problem. The method iterator() and stream() note this in their Javadocs. The caller is expected to grab the lock like this __. This is not ideal because it breaks the abstraction and it's not safe because there is nothing to check and make sure the caller actually does this. Finally the caller itself could modify the map when iterating over it. This would result in incorrect behavior even in a single thread. None of these sort of mistakes are possible in the Rust version as they would all be compile errors. (The iterator method borrows the collection, so it cannot be modified elsewhere before the iterator is dropped.) __</p>
+<p>There is a popular crate called Rayon that takes this one level further. If you import Rayon it adds a concept of a parrallel iterator, to automatically provide data-parallel operations on most data structures. For example if you have __ you can just change ‘.iter’ to ‘.par_iter’ like so __. Then the code will run in parallel on multiple threads. All the needed synchronization and coordination is managed by Rayon, and all safety guraentees remain in place. So if you accidentally tried to modify an outside variable without synchronization like this __ the compiler will catch it and produce and error _.</p>
+<p>Another elegant albeit rarely used pattern in Rust is Cow. COW stands for copy on write. Cow is similar to Java’s CopyOnWriteArrayList or CopyOnWriteArraySet but it isn't specific to a single data structure. It is generic and can wrap any cloneable object. It will clone the object if it gets modified while there is another reference outstanding. Which means if cow is wrapping a list that is modified in a loop, the list will be copied at most once.</p>
+<p>There are two important traits 'send’ which indicates a type can be sent from one thread to another. And ‘sync’ which indicates a type can be accessed by multiple threads at the same time. These are Auto traits. So the compiler will automatically work out for each type if it is one or both of those. So while you normally don't need to think about them, they can be useful if you want to declare this requirement on an interface. For example __. Here the interface explicitly requires that the Type passed in be sendable between threads.</p>
+<p>In Java if you had an application where you were dealing with users and users are allowed to perform certain operations once they have been authenticated. Then you might define two different classes _ and _. Then your method signature could like _ and AuthenticatedUser could look like this _. The advantage of this approach is there is not an “isAuthenticated” boolean that you could forget to check, or that could be accidentally set through some other code path. Here the only way to invoke the sensitive method is to have an AuthenticatedUser and the only way to get one is to call Authenticate. This is in effect using Java’s type system to enforce an invariant in your code. These sort of techniques allow Java code to offer stronger security guarantees than more dynamic languages like Ruby or Python. It Rust this pattern is even more common because in addition to types, Rust's stronger notion or generics, Traits, Lifetimes, and ownership allow many different types of guarantees to be enforced. This is worth thinking about when you are designing interfaces. A great example of this is the “mpsc” class in Rust's standard library.</p>
+<p>In CS theory there is a really clever and very low overhead lock-free algorithm for transferring data between threads. However it only works if there is only a single thread that is receiving the data. This is still handy because it is common to have many worker threads reporting their results back to some master thread. This algorithm was actually well known at the time that Java was designing its concurrent collections. But it wasn't used. It wasn't because it would be very awkward to explain. Imagine reading the docs to a class like LinkedBlockingQueue and seeing a long explanation of which threads were allowed to call which methods. Because this would simply be too error-prone Java only provided a less efficient but more general algorithm. The crux of the problem was that Java just couldn't represent the restrictions on the object within the language itself. This isn't true in Rust. You can see an implementation of this in std::sync::mpsc (mpsc is an acronym for multiple producer single consumer). FOOTNOTE:(This isn't the only or best way to send data between threads. If you are looking for a more flexible alternative check out crossbeam-channel)</p>
+<p>(While the implementation of mpsc isn't a big deal, it is a useful example to show how complicated restrictions can be modeled). To create sure a channel you call _ and it returns two objects a sender and a receiver, where items sent to the sender go to the receiver. The sender implements clone which means you are free to make multiple copies of it. (The copies are similarly connected to the receiver) Both sender and receiver implement the trait Send but not the trait Sync. This means they can be passed to another thread but not used by multiple threads at the same time. (This is enforced by the compiler) The channel is closed automatically when all the producers or the consumer are dropped. While this pattern looks a little odd, it creates an interface that is impossible to use incorrectly. So even though the requirements for this algorithm are oddly specific, Rust allows it to be implemented in a way where any bug in the way it is used will be a compilation error. This is the Rustacean ideal. </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="rust_makes_you_better_at_java.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="rust_makes_you_better_at_java.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

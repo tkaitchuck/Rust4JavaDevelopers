@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Cargo - </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects</a></li><li><a href="traits.html"><strong aria-hidden="true">9.</strong> Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">10.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">11.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">12.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">13.</strong> Modules</a></li><li><a href="cargo.html" class="active"><strong aria-hidden="true">14.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">15.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">16.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">17.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">18.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">19.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">20.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">21.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">22.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">23.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">24.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">25.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">26.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">27.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">28.</strong> Using Rust with Java</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"></h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#cargo" id="cargo"><h1>Cargo</h1></a>
+<p>• https://blog.rust-lang.org/2016/05/05/cargo-pillars.html
+• Toml format
+• Dependencies
+◦ Dev-Dependencies
+• Cargo tools
+◦ Audit
+◦ Test
+◦ Doc test</p>
+<a class="header" href="#versions" id="versions"><h2>Versions</h2></a>
+<p>• Depreciation warning</p>
+<p>One old idea that Rust embraces is versioning. Unlike Java (or most other programming languages) in Rust when creating a new project you explicitly specify which edition of the language you wish use. This Book is written to the 2018 edition of the language. This edition has different syntax than the 2015 edition, and future editions will change things as well. But backwards compatibility is maintained because the compiler can check which edition is being used and compile to that standard. Because regardless of which edition is being used the code is compiled to native code, code written in any edition can depend on code written in any other edition. This frees the language to evolve and change overtime without being tied down to legacy.</p>
+<p>Similarly in Rust all projects are expected to use semantic versioning of the form Major.Minor.Patch where a change to the patch version means no publicly visible changes have occurred, a change to the minor version means changes have occurred but existing code should still work, and a change to the major version means dependant code needs to be re-written. Changes that break backwards compatibility are also OK prior to a 1.0.0 version.</p>
+<p>The Rust language itself also versioned in this way. This is actually how Java was originally versioned. They released 1.2, 1.3, 1.4, and 1.5. But then they decided that they could drop the leading 1 because they were not going to break compatibility. Just looking at the version number you can see that Rust releases a lot faster than Java. The Language is on a six-week release cycle so it's constantly improving.</p>
+<p>This rapid release cycle is made possible because it is well factored in well tested. Most of what would be considered the standard library in another language is packaged and released separately. The developers even have a tool which will build all publicly available code against a new version of the language before it is released.</p>
+<p>Unlike Java, Rust has a very small standard library. Instead it provides powerful and flexible primitives, that allow many features you wouldn’t expect to be developed as libraries. This works because Rust has a built in dependency management system called Cargo.</p>
+<p>Cargo is very will integrated into the language. You can think of Cargo as being similar to Gradle and Maven in Java. Each project has a <code>Cargo.toml</code> file. This is where ….</p>
+<a class="header" href="#common-dependencies" id="common-dependencies"><h2>Common dependencies</h2></a>
+<p>• Logging of events for metrics
+• Slotmap
+◦ Provides a map where the map generates the key. Efficient useful for ECS.
+◦ Slotmap vs slab?
+• Rtfm for embedded systems. Also Singleton. And svd2rust
+• Bindgen
+• Rust-simple-signal
+• Fuzzers
+◦ Cargo fuzz uses an address checker to verify uninitialized memory is not being read.
+• Command line arg library - clap
+• Serde
+◦ Versioning with Enum and option
+• Serde_json json Macro
+• Itertools crate adds more functions
+◦ Rayon, faster, etc.
+• anymap - as a component registry
+• Instead of rolling your own graph: Petgraph or an ECS
+• Rocket
+◦ Prevents: directory traversal, csrf, SQL injection, css, remote code execution, authentication, authorization, input validation, misconfiguration.
+• Habitat
+• Serdie
+• Servo
+• redox
+• Tokio
+• Ripgrep
+• Rustfmt/racer/rustfix
+• Rustup
+• Cargo
+• Rr
+• Quick check
+• Crossbeam
+• Rayon
+• Diesel</p>
+<p>Below are some common dependencies and a brief description of what they do:</p>
+<p>Cargo</p>
+<p>Rustup</p>
+<p>Rustc</p>
+<p>Random</p>
+<p>High precision math and units
+IoUtils</p>
+<p>Builder equals, hash, and serializable
+Log</p>
+<p>slog</p>
+<p>Similar to Junit
+Benchmark / criterion</p>
+<p>Example testing</p>
+<p>Quick check / propcheck</p>
+<p>Checksyle</p>
+<p>Findbugs</p>
+<p>Lint (clippy)</p>
+<p>Fuzzers: afl / hongfuzz / cargo fuzz</p>
+<a class="header" href="#rustc" id="rustc"><h2>Rustc</h2></a>
+<p>If you've been programming in Java for a long time you're probably used to compiler-errors that you just look at to get the line number and then go to the that line and see what's wrong. IDEs have mostly even obsoleted this by just underlining the problem, which is usually sufficient to work out the problem. Rust goes well above and beyond this. It has very clear and detailed error messages explaining exactly what the problem is some of which even suggest Solutions what's more each error message has a number associated with it but you can look up online and see if full documentation as to why that error message occurs examples of it occurring how to avoid it and how to structure code so is to prevent it from being a problem.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="modules.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="equivalent_frameworks.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="modules.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="equivalent_frameworks.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
