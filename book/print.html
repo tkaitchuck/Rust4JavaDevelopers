@@ -155,10 +155,10 @@
 The Safety Monitor: “Hi, I make sure your program is correct, and won’t fail at runtime. A lot of people call me ‘the borrow checker’ because that’s a big part of my job. But I do more than that. I enforce style guidelines, memory safety, thread safety, type safety and more. I’ll act as a guide and alert you if you do anything that could go wrong.”
 The optimizer: “Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”</p>
 <a class="header" href="#history-of-rust" id="history-of-rust"><h1>History of Rust</h1></a>
-<p>“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”</p>
-<ul>
-<li>The Book of Mozilla, 11:14</li>
-</ul>
+<blockquote>
+<p><strong>“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”</strong><br />
+-- The Book of Mozilla, 11:14</p>
+</blockquote>
 <p>In the early days of computer programming, all programs were what today we would call proceederal. Which gave rise to various ways to organize code. However it was quickly realized that mutable shared state was the root of most bugs.</p>
 <p>So two divergent sets of practices arose. Functional programming which sought to remove the mutability, and write code using only immutable data. And object oriented programming which sought to use encapsulation to prevent state from being shared.</p>
 <p>Both approaches have been developed over the course of decades. Now they both work quite well. However they usually don't work together. This is because it is very easy to combine ideas from the two and end up with shared mutable state, which loses the benefit of both approaches. So while there have been many ideas that have crossed over from OO languages to Functional languages and vice versa, the have been limited and adapted to the language they are in, and in general don't achieve the same effect they do in the language they came from.</p>
@@ -744,31 +744,14 @@ while { i = i*2; i &lt; 65536 } {
 }
 #}</code></pre></pre>
 <p>here the code is iterating over the powers of 2, but the code to update the variable <code>i</code> has been put in the top as part of the loop conditional. (The purpose of showing this is not to encourage doing this all over the place, but rather to show how the compiler sees things)</p>
+<a class="header" href="#functions-as-arguments" id="functions-as-arguments"><h2>Functions as arguments</h2></a>
 <p>In Java sometimes you pass functions as arguments. With a named function this is doen like this <strong>. The Rust equivalent would be do this</strong>. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __.</p>
-<a class="header" href="#ownership" id="ownership"><h1>Ownership</h1></a>
-<p>Similar to Java, Rust's function calls are normally “pass by reference” meaning that if you pass an object to a function and modify it the caller will see those modifications. However also like Java, primitives are an exception to this and are “pass by value”. Meaning if you pass an integer to a function and it increments it. The caller will not see the change.</p>
-<p>In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)</p>
-<p>• String types (mutability, borrowing, assignment as move)
-◦ String concatenation
-▪ Format! In example
-◦ Stringbuilder
-◦ In Java Strings are Immutable, and a primitive. You might not think about it too much but this is an essential language feature. If Java hadn’t provided a single standard String implementation in the standard library, or if they had chosen to make it mutable it would be very difficult to work in the language. Imagine if every time you passed a string into a method you had to make a defensive copy or carefully check the method’s Javadocs to make sure it doesn’t modify the string. So it might seem surprising that Rust went into a different direction. However there is a very simple reason for this, Rust’s methods always declare if they need to modify the value being passed. __. Similarly the caller has to explicitly pass either a mutable or immutable reference or slice of the string. So there is no ambiguity. A function can never pass a string somewhere and have it unexpectedly modified.
-• Fixed size arrays
-• Byte array and ByteBuffer
-• Vec and arraylist
-◦ Strings are actually Vecs of UTF-8 characters/bytes
-• Raw strings for multi line constants
-• Slices
-◦ Str is a slice of a String (get it?)
-◦ Should be after indexes and range traits are introduced (Operator overloading)
-◦ A slice of a vec is an array
-▪ Made possible by ownership</p>
-<a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc"><h2>Memory safety and GC</h2></a>
-<p>Like Java rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not.</p>
-<p>Not coincidentally it turns out, the same static analysis that solves the core problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
+<a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc"><h1>Memory safety and GC</h1></a>
+<p>Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not.</p>
+<p>Not coincidentally it turns out, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
 <p>One way to think about it is to think of Rust as having compile time garbage collection. The compiler works out where in your code objects are no longer used automatically generates the necessary code to deallocate them.</p>
-<p>So like Java this means it does not suffer from memory leaks, use-after-free bugs, dangling pointer bugs, or buffer overflows that plague most compiled languages. At the same time Rust does not have the overhead of garbage collection or the associated runtime which has prevented languages like Java and C# from reaching the performance of C++ in “object heavy” applications.</p>
-<a class="header" href="#ownership-1" id="ownership-1"><h2>Ownership</h2></a>
+<p>So like Java this means Rust does not suffer from memory leaks, use-after-free bugs, dangling pointer bugs, or buffer overflows that plague most compiled languages. At the same time Rust does not have the overhead of garbage collection or the associated runtime which has prevented languages like Java and C# from reaching the performance of C++ in “object heavy” applications.</p>
+<a class="header" href="#ownership" id="ownership"><h1>Ownership</h1></a>
 <p>To explain how Rust achieves automatic memory management without garbage collection and a number of other more advanced features we need to first explain Ownership.</p>
 <p>Ownership is a common pattern in programming in any language even though it really isn’t a part of most languages themselves. It’s best to see this through example. In Java compare the method <code>addAll</code> on <code>TreeSet</code> to the static method <code>Collections.sort</code>. Both provide ways to sort a list of items by passing it into a method, but the contract of these methods is quite different. In the case of the <code>TreeSet.add</code> ownership of the values is being implicitly transferred to the TreeSet. The caller should not hold onto references to the items added to the Set. If they want to modify one of the items they should first remove it from the set. Otherwise the change could affect the of sort order and break the TreeSet resulting in undefined behavior. On the other hand <code>Collections.sort</code> does not have this restriction. In fact it is implicit in the contract of the method that the implementation won't hold onto references to the items passed after the method returns. If the implementation of sort were to modify the the list after it returned it would surely break the caller's code. <code>Collections.max</code> is similar but it has the additional implicit assumption that it won't modify the passed list.</p>
 <p>In Rust these assumptions are explicitly declared as part of the method signature. So if in Java we were to declare integer speffic versions on each of these, it would look like this:</p>
@@ -812,14 +795,14 @@ fn process(items: Vec&lt;String&gt;) {
 <p>when the function returns, the vector <code>items</code> and all of the strings in it will be dropped from memory.</p>
 <p>This might seems like it doesn’t allow cycles. There are ways to create cycles, but for the most part they aren’t needed. Why this is the case will be covered in “How Rust makes you a better Java programmer”.</p>
 <p>However the main tool that used is borrowing.</p>
-<a class="header" href="#borrows" id="borrows"><h2>Borrows</h2></a>
+<a class="header" href="#borrows" id="borrows"><h1>Borrows</h1></a>
 <p>• Output to be populated
 • Sort example
 • Also called reference (Not the same as a C++ ref, more like a smart pointer)
 • Primitive (copy by value) vs pointer
 • Copy vs move (is similar)</p>
 <p>In addition to compile time memory management and guaranteed thread safety (more on this in the concurrency chapter), explicit ownership opens up a lot of useful patterns.</p>
-<p>In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code>java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code>java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can do this</p>
+<p>In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code>java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code>java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -829,9 +812,70 @@ fn process(items: Vec&lt;String&gt;) {
 let buffer = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 output.write(&amp;buffer[2 .. 8]);
 #}</code></pre></pre>
-<p>which passes just a segment of a byte array to another function. In addition to convince, and performance, it allows you specify if the slice is being passed for reading from or writing to and having this enforced by the compiler. So if you have a function that looks like this __, it can be sure that the data won’t be changed while it is reading it. No defensive copies required. Similarly the caller is guaranteed that the function won’t modify the contents of the buffer.</p>
-<p>Borrowing also works for loops. When using a for loop to iterate over a collection, you can either pass the for loop the collection itself __ or you can let it borrow the collection __. If the collection is borrowed then inside the loop each entry will itself be borrowed. This is actually a important feature. In Java a for each loop can't take an iterator only an iterable. This is because if it did you could write __ the second loop wouldn’t make any sense because it can’t get any data because there is no way to invoke .iterator() again and reread the data. For this reason Java introduced a second concept ‘streams’ which don’t work with for loops. So because there is no way to convey to the compiler that the for loop will consume the values it is iterating over Java had to create two separate concepts  stream and iterator that don’t work together. You can either write __ or __ but you can’t mix these ways of coding. But in rust this can be conveyed by either passing or lending the collection to the for loop. This allows the concepts of stream and iterator to be unified into a single simple interface and work with for loops without the risk that you will reuse the consumed stream allowing you to write __.</p>
-<p>In addition to these there are a bunch of other common patterns. __ Here a method is borrowing a parameter but it's not modifying when is the messages returned your guaranteed it is not still holding onto it. __ Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed) __ here a function is making explicit that when called it is now the owner of the provided _ and the caller no longer has any references to it. A similar method in Java would be unsafe. Sometimes Java programs just do this anyway because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashMap, it is understood that you should not modify the object afterwards. But because nothing actually prevents this. As a result this pattern is generally avoided to prevent bugs resulting from such confusion.</p>
+<p>which passes a segment of a byte array to the <code>write</code> function. In addition to convince and performance, it allows you specify if the slice is being passed can be written to or just read from have this enforced by the compiler. So if you have a function that looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# struct MyConfig(i32);
+pub fn applyConfig(config : &amp;MyConfig) {
+  //...
+}
+#}</code></pre></pre>
+<p>you can be sure that the <code>config</code> object won’t be changed by passing it to the function. No defensive copies required. Similarly, above the caller is guaranteed that <code>output.write(&amp;buffer)</code> won’t modify the contents of the buffer.</p>
+<p>Borrowing also works with loops. When using a for loop to iterate over a collection, you can either pass the for loop the collection itself</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let strings = vec![&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, &quot;bat&quot;];
+for value in strings {
+  println!(&quot;Hello {}&quot;, value);
+}
+#}</code></pre></pre>
+<p>consuming the collection in the process, much a like a stream in Java. Or you can let it borrow the collection</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let strings = vec![&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, &quot;bat&quot;];
+for &amp;value in &amp;strings {
+  println!(&quot;Hello {}&quot;, value);
+}
+#}</code></pre></pre>
+<p>If the collection is borrowed then inside the loop each entry will itself be borrowed. This is actually a important feature. In Java a for-each loop can't take an iterator only an iterable. This is because if it did you could write</p>
+<pre><code class="language-java">Iterator&lt;String&gt; iter = //...
+for (value : iter) {
+  //...
+}
+for (oops : iter) {
+  //Can't get here...
+}
+</code></pre>
+<p>the second loop wouldn’t make any sense because it can’t get any data because there is no way to invoke .iterator() again and reread the data. For this reason Java introduced a second concept ‘streams’ which don’t work with for loops. Because there was no way to convey to the compiler that the for loop will consume the values it's iterating over, Java had to create two separate concepts <code>stream</code> and <code>iterator</code> that don’t work together. You can either write</p>
+<pre><code class="language-java">List&lt;Foo&gt; foos = //...
+for (Foo f : foos) {
+  if (meetsCriteria(f)) {
+    process(f);
+  }
+}
+</code></pre>
+<p>or you could write</p>
+<pre><code class="language-java">List&lt;Foo&gt; foos = //...
+foos.stream().filter(f -&gt; meetsCriteria(f)).forEach(f-&gt;process(f));
+
+</code></pre>
+<p>but you can’t mix these ways of coding. In Rust this can be conveyed by either passing or lending the collection to the for loop. This allows the concepts of stream and iterator to be unified into a single simple interface and work with for loops without the risk of accidentally reusing the consumed stream allowing you to write:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Foo(i32);
+# fn get_foos() -&gt; Vec&lt;Foo&gt; { vec![Foo(1), Foo(2)] }
+# fn meets_criteria(f : &amp;Foo) -&gt; bool { true }
+# fn process(f : Foo) {}
+let foos : Vec&lt;Foo&gt; = get_foos();
+for f in foos.into_iter().filter(|f| meets_criteria(f)) {
+  process(f);
+}
+#}</code></pre></pre>
+<p>In addition to these there are a bunch of other common patterns. __ Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. __ Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed) __ here a function is making explicit that when called it is now the owner of the provided _ and the caller no longer has any references to it. A similar method in Java would be unsafe. Sometimes Java programs just do this anyway because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashMap, it is understood that you should not modify the object afterwards. But because nothing actually prevents this. As a result this pattern is generally avoided to prevent bugs resulting from such confusion.</p>
 <p>• Similar pattern getting an entry by key and doing .or_insert() += 1.</p>
 <p>The rules for ownership and borrowing are straight forward: __</p>
 <p>...</p>
@@ -855,13 +899,32 @@ output.write(&amp;buffer[2 .. 8]);
 • Ref and RefMut are returned. These act as a lifetime tracker which allows the enforcement of one writer at a time.</p>
 <p>In general using ‘cell’ or ‘RefCell’ a lot is considered bad design. ‘Cell’ and ‘RefCell’ should be reserved for special cases that don’t impact the externally visible functionality. For example they provide a easy way to add things like counters, metrics, debugging information to an existing object without having to refactor all the code that is accessing it. Similarly they are frequently used when constructing Mock objects for test purposes. (The actual code may be accessing the object in a ‘read-only’ way, but the mock still may want to record what calls have occured)</p>
 <p>Reference cycles and ambiguous ownership is an anti-pattern in Java, and a really really aggressively discouraged anti-pattern in Rust. But one place it tends to get asked about a lot is doing GUI programing. For example when rendering a window with many widgets it is easy to jump to the conclusion that links are needed between all sorts of objects as changes to one may involve changes to another. This generally arises from the false belief that objects in an object oriented system should be directly modeled after real life objects. often this is not the case because concerns are cross-cutting. If you're writing code in Rust this pattern will fail faster. While this might be frustrating to the author it's actually good because it prevents you from writing bad code. There are actually a lot of good talks on this subject, such as <em>ECS at rustconf</em> and <em>xi-GUI</em>. I'm not going to go into the details here because these problems are application specific. However if you find yourself fighting the borrow checker or tempted to use unsafe or RefCell all over the place, it’s probably worth taking a step back and re evaluating the broader design. …….. data oriented design.</p>
-<a class="header" href="#returning-borrowed-values" id="returning-borrowed-values"><h2>Returning borrowed values</h2></a>
+<a class="header" href="#returning-borrowed-values" id="returning-borrowed-values"><h1>Returning borrowed values</h1></a>
 <p>Borrowing is not just for parameters, it is also for returned values. The simplest case is where the returned value is derived from an input parameter. For example __. Another case is where the value being returned comes from 'self’ and is being lent to the caller. For example __. In both these cases the caller is bound by the contract of borrowing, exactly the same as though it were provided as an input parameter. If it helps, imagine the rest of the function were factored out into a private method and had the result as a borrowed parameter. For example __.</p>
 <p>When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. For example __. Here the compiler won't be able to work it out, because it only looks at one method at a time.</p>
 <p>In such a case you can label your inputs. Like so __ (Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. __ Then it is clear which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)</p>
 <p>If somehow the result could come from multiple inputs, or it is ambiguous like __. You can simply give the the same label, and the compiler will be forced to make the conservative assumption that it could have come from either.</p>
 <p>Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.</p>
 <p>Safety monitor: don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</p>
+<a class="header" href="#pass-by-value-vs-pass-by-reference" id="pass-by-value-vs-pass-by-reference"><h1>Pass by value vs Pass by reference</h1></a>
+<p>Similar to Java, Rust's function calls are normally “pass by reference” meaning that if you pass an object to a function and modify it the caller will see those modifications. However also like Java, primitives are an exception to this and are “pass by value”. Meaning if you pass an integer to a function and it increments it. The caller will not see the change.</p>
+<p>In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)</p>
+<a class="header" href="#todo" id="todo"><h1>TODO</h1></a>
+<p>• String types (mutability, borrowing, assignment as move)
+◦ String concatenation
+▪ Format! In example
+◦ Stringbuilder
+◦ In Java Strings are Immutable, and a primitive. You might not think about it too much but this is an essential language feature. If Java hadn’t provided a single standard String implementation in the standard library, or if they had chosen to make it mutable it would be very difficult to work in the language. Imagine if every time you passed a string into a method you had to make a defensive copy or carefully check the method’s Javadocs to make sure it doesn’t modify the string. So it might seem surprising that Rust went into a different direction. However there is a very simple reason for this, Rust’s methods always declare if they need to modify the value being passed. __. Similarly the caller has to explicitly pass either a mutable or immutable reference or slice of the string. So there is no ambiguity. A function can never pass a string somewhere and have it unexpectedly modified.
+• Fixed size arrays
+• Byte array and ByteBuffer
+• Vec and arraylist
+◦ Strings are actually Vecs of UTF-8 characters/bytes
+• Raw strings for multi line constants
+• Slices
+◦ Str is a slice of a String (get it?)
+◦ Should be after indexes and range traits are introduced (Operator overloading)
+◦ A slice of a vec is an array
+▪ Made possible by ownership</p>
 <a class="header" href="#objects" id="objects"><h1>Objects</h1></a>
 <p>• Members
 ◦ Constants
@@ -903,7 +966,7 @@ output.write(&amp;buffer[2 .. 8]);
 • Almost all of these are written in standard rust. Including thing like iterator which will be covered in the next chapter. These automatically add a LOT of premade functions for your custom made types that you don’t have to write. For the traits supporting #derive this is even easier, because you don’t even have to do anything besides type the name. Even more importantly because everything is just standard rust, and there are no special hooks in the compiler for any of these types. This means in your own code you can build abstractions that are just as powerful. <Even better this is all done at compile time so there is no overhead></p>
 <p>The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked. In Rust ‘this’ is called ‘self’. In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method. So leaving it out is analogous to declaring a method ‘static’ in Java. Similar to Java such a method is invoked from the type itself. The following functions are equivalent __ and __.</p>
 <p>Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code. They are broken out across multiple traits. In many cases there are internal/related structs, enums, and traits which allow for greater code reuse. For example below is a table of common traits <strong>(ndex, intoiter, etc</strong>_. Each of these is small and easy to implement. Each one appears on a lot of types you wouldn't necessarily guess right away. For example _, and _. The advantage is each one unlocks a lot of flexibility because there is a lot of code that takes advantage of them. See __ or __ or __ as there is a lot of functions built around iterators. This pattern holds generally in Rust. Classes are not monolithic. Instead they have many small components that hook into each other to provide greater code reuse.</p>
-<p>Traits allow can have implementation methods on them like Java interfaces (as of Java 8). For example __ is the same as __. Where the trait is defining the method _ but leaving the methods _ and _ up to the implementer of the trait.</p>
+<p>Traits allow can have implementation methods on them like Java interfaces. For example __ is the same as __. Where the trait is defining the method _ but leaving the methods _ and _ up to the implementer of the trait.</p>
 <p>Traits are a concept in Rust that are very similar to an interface in Java. The main difference being that by convention Traits tend to have very few methods, usually just one or two each. As such APIs tend to be a bit finer grained but you may deal with more of them.</p>
 <p>Below are some common interfaces in Java and their Rust equivalents:
 __</p>
@@ -918,9 +981,15 @@ __</p>
 ◦ Copy trait
 ◦ Can also be made mutually exclusive which is useful for making the compiler enforce invariants.
 In Rust the implementation of traits is declared in a separate block from the declaration of the member variables. While this might seem strange coming from Java, it is actually a very important feature. Because methods are not located in the object itself the language doesn't need to distinguish between 'primitives’ and 'objects’ like Java. This is why Java needs Integer and int, Long and long, and Double and double.</p>
-<p>So in Rust an i32 can be a key in a map without needing to be wrapped. This is also useful because they don't have to be in the same file. So you can for example declare a trait and the supply an implementation for an existing type. For example here is a trait for objects that can be doubled:
-__
-And we can implement this for i32:
+<p>So in Rust an i32 can be a key in a map without needing to be wrapped. This is also useful because they don't have to be in the same file. So you can for example declare a trait and the supply an implementation for an existing type. For example here is a trait for objects that can be doubled:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+trait doubleable {
+  fn double(Self, Self) -&gt; Self;
+}
+#}</code></pre></pre>
+<p>And we can implement this for i32:
 __
 And now we can invoke this like any other method:
 __

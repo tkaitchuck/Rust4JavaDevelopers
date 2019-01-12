@@ -114,6 +114,8 @@ while { i = i*2; i < 65536 } {
 ```
 here the code is iterating over the powers of 2, but the code to update the variable `i` has been put in the top as part of the loop conditional. (The purpose of showing this is not to encourage doing this all over the place, but rather to show how the compiler sees things)
 
+## Functions as arguments
+
 In Java sometimes you pass functions as arguments. With a named function this is doen like this __. The Rust equivalent would be do this__. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The `|` characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __. 
 
 

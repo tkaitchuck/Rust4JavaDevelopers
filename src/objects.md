@@ -45,7 +45,7 @@ The in Java methods have access to an implicit variable ‘this’ which is the 
 Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code. They are broken out across multiple traits. In many cases there are internal/related structs, enums, and traits which allow for greater code reuse. For example below is a table of common traits __(ndex, intoiter, etc___. Each of these is small and easy to implement. Each one appears on a lot of types you wouldn't necessarily guess right away. For example _, and _. The advantage is each one unlocks a lot of flexibility because there is a lot of code that takes advantage of them. See __ or __ or __ as there is a lot of functions built around iterators. This pattern holds generally in Rust. Classes are not monolithic. Instead they have many small components that hook into each other to provide greater code reuse. 
 
 
-Traits allow can have implementation methods on them like Java interfaces (as of Java 8). For example __ is the same as __. Where the trait is defining the method _ but leaving the methods _ and _ up to the implementer of the trait.
+Traits allow can have implementation methods on them like Java interfaces. For example __ is the same as __. Where the trait is defining the method _ but leaving the methods _ and _ up to the implementer of the trait.
 
 Traits are a concept in Rust that are very similar to an interface in Java. The main difference being that by convention Traits tend to have very few methods, usually just one or two each. As such APIs tend to be a bit finer grained but you may deal with more of them.
 

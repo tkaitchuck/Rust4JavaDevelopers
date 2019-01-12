@@ -147,9 +147,15 @@
 ◦ Copy trait
 ◦ Can also be made mutually exclusive which is useful for making the compiler enforce invariants.
 In Rust the implementation of traits is declared in a separate block from the declaration of the member variables. While this might seem strange coming from Java, it is actually a very important feature. Because methods are not located in the object itself the language doesn't need to distinguish between 'primitives’ and 'objects’ like Java. This is why Java needs Integer and int, Long and long, and Double and double.</p>
-<p>So in Rust an i32 can be a key in a map without needing to be wrapped. This is also useful because they don't have to be in the same file. So you can for example declare a trait and the supply an implementation for an existing type. For example here is a trait for objects that can be doubled:
-__
-And we can implement this for i32:
+<p>So in Rust an i32 can be a key in a map without needing to be wrapped. This is also useful because they don't have to be in the same file. So you can for example declare a trait and the supply an implementation for an existing type. For example here is a trait for objects that can be doubled:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+trait doubleable {
+  fn double(Self, Self) -&gt; Self;
+}
+#}</code></pre></pre>
+<p>And we can implement this for i32:
 __
 And now we can invoke this like any other method:
 __
