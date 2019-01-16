@@ -1,7 +1,7 @@
 # Memory safety and GC
 Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not. 
 
-Not coincidentally it turns out, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection. 
+It turns out, not coincidentally, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection. 
 
 One way to think about it is to think of Rust as having compile time garbage collection. The compiler works out where in your code objects are no longer used automatically generates the necessary code to deallocate them.
 
@@ -132,7 +132,32 @@ for f in foos.into_iter().filter(|f| meets_criteria(f)) {
 }
 ```
 
-In addition to these there are a bunch of other common patterns. __ Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. __ Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed) __ here a function is making explicit that when called it is now the owner of the provided _ and the caller no longer has any references to it. A similar method in Java would be unsafe. Sometimes Java programs just do this anyway because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashMap, it is understood that you should not modify the object afterwards. But because nothing actually prevents this. As a result this pattern is generally avoided to prevent bugs resulting from such confusion.
+In addition to these there are a bunch of other common patterns.
+```rust
+# trait Example {
+fn read_from_buffer(&self, buffer : &[u8]);
+# }
+```
+Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. 
+```rust
+use std::path::Path;
+trait Config {
+  //...
+  fn get_storage_location(&self) -> &Path;
+  //...
+}
+```
+Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed)
+```rust
+use std::collections::HashMap;
+
+trait Config {
+  //...
+  fn set_attributes(&mut self, attributes: HashMap<String, String>);
+  //...
+}
+```
+here the `set_attributes` function is making explicit that when called it is now the owner of the provided `attributes` and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood that you should not modify the object afterwards. But nothing actually prevents this. 
 
   • Similar pattern getting an entry by key and doing .or_insert() += 1. 
 

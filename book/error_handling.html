@@ -3,9 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Error handling - </title>
+        <title>Error handling - Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="">
+        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title"></h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -141,7 +141,56 @@
 <p>Java's implementation of this however isn't ideal. Part of the problem is in early versions of Java an implementation had to declare that a method throws an exception if it implemented an interface that declared such an exception. While this is no longer the case, it is the reason why ByteArrayOutputStream still throws IOException. There are also a couple of cases where Java defined things is a very awkward way, like that InputStream's and OutputStream's close method throws, or that InterruptedException is both checked and catching it resets interrupted status. Finally and more subjectivity, RuntimeExceptions and checked exceptions FEEL too similar. It's too easy to think of them as part of the same thing, and not realize the massive difference between ordinary errors and cases that truly cannot be handled, because they arise from bugs in the program itself.</p>
 <p>All of this combined with a lack of a concise way to rethrow one exception as another lead to a large backlash against checked exceptions. This is somewhat unfortunate, because similar to how the backlash against some annoying corner cases with types resulted in the popularity of dynamic typed languages, the backlash against the inconveniences of checked exceptions directly lead to C# removing them and using a strictly runtime exception model. Which while more convenient than Java's model was a step back in terms of ensuring correctness.</p>
 <p>Fortunately Rust has found a way to resolve these issues. Rust's solution is quite different from Java's. But it is similar in that there are two types of error handling. The “normal” way, which is used for expected errors provides strong guarantees that the error will be handled. Rust's error handling syntax is very lightweight. It doesn't require writing try/catch blocks all over the place, and provides a seamless way of converting between different exception types and converting to the “unrecoverable” type (analogous to Java's runtime exceptions) allowing a way to “bail out” instead of handling the error, if there isn't a way to do so. Below is an example __. (See Joe Duffy's “The error model” and use table)</p>
-<p>In Java it is common to use Preconditions. The pattern in Rust is to use assertions. So the following are idiomatically equivalent __ and __. If instead of panicking you just want to return an Error, use the 'ensure!’ macro from the Failure crate. __</p>
+<p>In Java it is common to use Preconditions. The pattern in Rust is to use assertions. So the following are idiomatically equivalent</p>
+<pre><code class="language-java">class Decoder {
+  //...
+  public Message decode(String message) {
+    Preconditions.checkNotNull(message);
+    Preconditions.checkArgument(!message.isEmpty(), &quot;Cannot decode an empty message.&quot;);
+    //...
+  }
+}
+</code></pre>
+<p>and</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Message();
+struct Decoder {
+  //...
+}
+impl Decoder {
+  //...
+  pub fn decode(&amp;self, message : &amp;str) -&gt; Message {
+    //No need for a null check because there are no NPEs in Rust.
+    assert!(!message.is_empty());
+    //...
+  # Message()
+  }
+}
+#}</code></pre></pre>
+<p>If instead of panicking you just want to return an Error, use the 'ensure!’ macro from the Failure crate.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use derive_more::Display;
+use failure::*;
+
+struct Message{/* ... */}
+
+struct Decoder {
+  //...
+}
+impl Decoder {
+  //...
+  pub fn decode(&amp;self, message : &amp;str) -&gt; Result&lt;Message, Error&gt; {
+    ensure!(!message.is_empty(), &quot;Message was empty&quot;);
+    //...
+    Ok(Message{/*...*/})
+  }
+}
+
+#}</code></pre></pre>
 <p>One problem with Java's exceptions is they don't work with things like Futures or Java Streams very well. This is because these interfaces need to be generic so the type information in the exception is lost, and they are likely running from a callback or threadpool so the stacktrace is not helpful. This eliminates two of the main benefits of using exceptions. Fortunately Rust's model overcomes both of these problems. So where in Java you would have to write something like this __ and if it failed you would get a stack traces that looked like __, whereas in Rust you could just write __ and if it failed you would get a stacktrace that looked like __.</p>
 <p>To add a new exception type on a public interface, in Java you would either have to make the new exception Runtime. (Which may or may not be desirable depending on the circumstances) Or you can subtype an existing exception. In Rust the pattern is to use an error Enum. For example __. This way all the errors are explicitly enumerated and they can either be handled all the same or individually by the caller. If you use a non-exhaustive Enum like __. Then new types of failures can be added in the future without breaking compatibility. (Because in a matching on the Enum will require a default branch)</p>
 <p>In Java there are checked exceptions such as IOException and unchecked exceptions such as Error. Rust has analogous concepts. Panic is a similar to an Error in Java. It is assumed to be unrecoverable. It is sort of a controlled crash. In the event of a panic rust will gracefully unwind the stack similar to Java. It runs destructors (which works like a finalize block in Java). However it will not release locks, as this could mean that only a part of a critical section was executed and the data is left in an inconsistent state. (Other threads trying to acquire the mutex will get error when they call lock()).</p>
@@ -202,6 +251,12 @@ In Java you might write __. The equivalent Rust would be __. Notice that the exc
 
         
 
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
         
 
         

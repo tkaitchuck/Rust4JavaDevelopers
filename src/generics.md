@@ -5,7 +5,7 @@
     ◦ In structs
     ◦ In traits
     ◦ Defaults
-    ◦ Associated types
+    ◦ Associated types - FromStr provides a good example. 
 Non-trivial example to show assignment + use
   • Strongly Prefer associated types on traits
     ◦ Better declaration syntax with multiple values

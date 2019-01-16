@@ -3,9 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Ownership - </title>
+        <title>Ownership - Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="">
+        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title"></h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -138,7 +138,7 @@
                     <main>
                         <a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc"><h1>Memory safety and GC</h1></a>
 <p>Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not.</p>
-<p>Not coincidentally it turns out, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
+<p>It turns out, not coincidentally, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
 <p>One way to think about it is to think of Rust as having compile time garbage collection. The compiler works out where in your code objects are no longer used automatically generates the necessary code to deallocate them.</p>
 <p>So like Java this means Rust does not suffer from memory leaks, use-after-free bugs, dangling pointer bugs, or buffer overflows that plague most compiled languages. At the same time Rust does not have the overhead of garbage collection or the associated runtime which has prevented languages like Java and C# from reaching the performance of C++ in “object heavy” applications.</p>
 <a class="header" href="#ownership" id="ownership"><h1>Ownership</h1></a>
@@ -265,7 +265,38 @@ for f in foos.into_iter().filter(|f| meets_criteria(f)) {
   process(f);
 }
 #}</code></pre></pre>
-<p>In addition to these there are a bunch of other common patterns. __ Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. __ Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed) __ here a function is making explicit that when called it is now the owner of the provided _ and the caller no longer has any references to it. A similar method in Java would be unsafe. Sometimes Java programs just do this anyway because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashMap, it is understood that you should not modify the object afterwards. But because nothing actually prevents this. As a result this pattern is generally avoided to prevent bugs resulting from such confusion.</p>
+<p>In addition to these there are a bunch of other common patterns.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Example {
+fn read_from_buffer(&amp;self, buffer : &amp;[u8]);
+# }
+#}</code></pre></pre>
+<p>Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::path::Path;
+trait Config {
+  //...
+  fn get_storage_location(&amp;self) -&gt; &amp;Path;
+  //...
+}
+#}</code></pre></pre>
+<p>Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed)</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::collections::HashMap;
+
+trait Config {
+  //...
+  fn set_attributes(&amp;mut self, attributes: HashMap&lt;String, String&gt;);
+  //...
+}
+#}</code></pre></pre>
+<p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code> and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood that you should not modify the object afterwards. But nothing actually prevents this.</p>
 <p>• Similar pattern getting an entry by key and doing .or_insert() += 1.</p>
 <p>The rules for ownership and borrowing are straight forward: __</p>
 <p>...</p>
@@ -357,6 +388,12 @@ for f in foos.into_iter().filter(|f| meets_criteria(f)) {
 
         
 
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
         
 
         

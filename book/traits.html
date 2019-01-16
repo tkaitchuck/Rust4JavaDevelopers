@@ -3,9 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Traits - </title>
+        <title>Traits - Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="">
+        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title"></h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -139,7 +139,6 @@
                         <a class="header" href="#traits" id="traits"><h1>Traits</h1></a>
 <p>• Default methods
 • Traits can inherit
-• Let's look at how Java and Rust support overloading. In Java you do it one the class like this__. In Rust the methods are defined on the impl of the traits. This might seem a bit verbose, but traits are more powerful than simple overloading that you can do in Java. In Rust you can overload functions with identical signatures or that differ by only a generic or a return type. each of those is associated with a trait. In Java you can never implement the same interface for two different generic types. For example __ Instead you have to overload the methods and not implement an interface. __ This of course destroys code reusability and prevents you from using interfaces as a means of abstraction because you are always coding to the impl. In Rust the interface is mandatory, which makes it easy to extend in the future and forces you think about the generalization. For example here is some code I wrote in Java __. Notice the overloaded method. In Rust I would have to create an interface that defines what I want. In this case _. This is already a common pattern so I can just use _. Then I can generalize my implementation by writing __. Now not only can I overload this method by adding more implementations, but my callers can too! All they have to do is implement _ like so __.
 • Associated types
 ◦ Needs an example. (Specs does this)
 ◦ Associated constants
@@ -152,24 +151,149 @@ In Rust the implementation of traits is declared in a separate block from the de
 # #![allow(unused_variables)]
 #fn main() {
 trait doubleable {
-  fn double(Self, Self) -&gt; Self;
+  fn double(self : Self) -&gt; Self;
+}
+
+// And we can implement this for i32:
+
+impl doubleable for i32 {
+  fn double(self : i32) -&gt; i32 {
+    2 * self
+  }
+}
+
+// And now we can invoke this like any other method:
+
+assert_eq!(10, 5.double());
+#}</code></pre></pre>
+<p>It's worth noting that there is never any ambiguity about where the implementation of a particular trait is. This is because it is only allowed to be in one of two places, where the trait is defined or where the type is defined. Because circular dependencies are not allowed and the definition will need to depend on both, the one that depends on the other must contain the implementation. This is referred to as “the orphan rule”. It appears in couple of places, aside from making method calls unambiguous, it also ensures things work as you might intuitively expect and means that unlike some languages (<em>ahem</em> Scalla) the behavior of code can't be altered simply by adding an import statement.</p>
+<p>Java has method overloading which works like this:</p>
+<pre><code class="language-java">class Processor {
+  public void process(Foo item) {
+    //...
+  }
+  public void process(Bar item) {
+    //...
+  }
+}
+</code></pre>
+<p>in Rust the equivlent would be:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+mod processor {
+# struct Foo; struct Bar;
+  struct Processor;
+  trait Process&lt;Item&gt; {
+    fn process(&amp;self, item : Item);  
+  }
+  impl Process&lt;Foo&gt; for Processor {
+    fn process(&amp;self, item : Foo) {
+     //...
+    }
+  }
+  impl Process&lt;Bar&gt; for Processor {
+    fn process(&amp;self, item : Bar) {
+      //...
+   }
+  }
 }
 #}</code></pre></pre>
-<p>And we can implement this for i32:
+<p>In Rust the methods are defined on the impl of the traits. This might seem a bit verbose, but traits are more powerful than simple overloading that you can do in Java. It also has the advantage that the implementations don't need to be located where <code>Processor</code> is declared. A new type can add it's own overload and implement it by for example by delegating to an existing implementation. Additionally in Rust you can overload functions with identical signatures or that differ by only a generic or a return type. each of those is associated with a trait. In Java you can never implement the same interface for two different generic types. For example:</p>
+<pre><code class="language-java">class Processor {
+  void processList(List&lt;Foo&gt; items);
+  void processList(List&lt;Bar&gt; items); //Ooops..
+}
+</code></pre>
+<p>Where as rust can just add:</p>
+<pre><code class="language-rust ignore">impl Process&lt;Vec&lt;Bar&gt; for Processor {
+  fn process(&amp;self, item : Vec&lt;Bar&gt;) {
+    //...
+  }
+}
+impl Process&lt;Vec&lt;Foo&gt; for Processor {
+  fn process(&amp;self, item : Vec&lt;Foo&gt;) {
+    //...
+  }
+}
+</code></pre>
+<p>Instead you have to overload the methods. This means the same class cannot implement an interface for multiple types.</p>
+<pre><code class="language-java">class FastProcessor implements Processor&lt;Foo&gt;, Processor&lt;Bar&gt; { //Oops not allowed...
+  //...
+}
+</code></pre>
+<p>This of course destroys code reusability and prevents you from using interfaces as a means of abstraction because you are always coding to the impl. In Rust the interface is mandatory, which makes it easy to extend in the future and forces you think about the generalization. For example here is some code I wrote in Java __. Notice the overloaded method. In Rust I would have to create an interface that defines what I want. In this case _. This is already a common pattern so I can just use _. Then I can generalize my implementation by writing __. Now not only can I overload this method by adding more implementations, but my callers can too! All they have to do is implement _ like so __.</p>
+<p>Java uses overloading to have a single method that can work for multiple different types. However Java also has what is called “single dispatch”. This means if you want a function to work generically for all implementations of a given interface but a different function for each one, you need to use the Visitor pattern:</p>
+<pre><code class="language-java">class Processor {
+  public void process(Foo item) {
+    //...
+  }
+  public void process(Bar item) {
+    //...
+  }
+}
+interface Processable {
+  public void process(Processor processor);
+}
+class Foo implements Processable {
+  public void process(Processor processor) {
+    processor.process(this);
+  }
+}
+class Bar implements Processable {
+  public void process(Processor processor) {
+    processor.process(this);
+  }
+}
+
+Processor processor = //...
+List&lt;? extends Processable&gt; items = //...
+for (Processable item : items) {
+  // This will invoke the overloaded Processor.process(item) with the correct type.
+  item.process(processor); 
+}
+</code></pre>
+<p>You’ve probably written code like that a few times, and it generally works. It's certainly better than a single function with a large switch statement. But it still involves a lot of boilerplate code because each impl needs to write the visit function.
+This is even more problematic if you don't own they types that need to implement visit() because then you can't write such a method. So your back to either writing a lot of conditional logic in a large function to sort them out, or you have to wrap the types with your own type.</p>
+<p>In Rust none of that would be needed. You can add an implementation of an trait that is type specific.</p>
+<pre><pre class="playpen"><code class="language-rust">mod processor {
+# pub struct Foo; pub struct Bar;
+  pub struct Processor {
+    //...
+  }
+  pub trait Processable {
+    fn process(&amp;self, processor : &amp;Processor);  
+  }
+  impl Processable for Foo {
+    fn process(&amp;self, processor : &amp;Processor) {
+      //...
+    }
+  }
+  impl Processable for Bar {
+    fn process(&amp;self, processor : &amp;Processor) {
+      //...
+    }
+  }
+}
+//...
+use crate::processor::*;
+pub fn main() {
+  let p : Processor = //...
+# Processor {};
+  let items : Vec&lt;Box&lt;dyn Processable&gt;&gt; = //...
+# vec![];
+  for item in items {
+    item.process(&amp;p);
+  }
+}
+</code></pre></pre>
+<p>In the above example you may have noticed the 'dyn’ keyword. This is similar to <code>? extends</code> in Java. It indicates there is more than one implementation. IE: the type is dynamic and the actual implementation won't be known until runtime.</p>
+<p>In Java you are probably also used to seeing things like:
 __
-And now we can invoke this like any other method:
-__
-It's worth noting that there is never any ambiguity about where the implementation of a particular trait is. This is because it is only allowed to be in one of two places, where the trait is defined or where the type is defined. Because circular dependencies are not allowed and the definition will need to depend on both, the one that depends on the other must contain the implementation. This is referred to as “the orphan rule”. It appears in couple of places, aside from making method calls unambiguous, it also ensures things work as you might intuitively expect and means that unlike some languages (<em>ahem</em> Scalla) the behavior of code can't be altered simply by adding an import statement.</p>
-<p>Java has method overloading which works like this:
-__
-This allows you to have a single method that can work for multiple different types. However Java also has what is called “single dispatch”. <Explain concept >
-This means if you want a function to work generically for all implementations of a given interface but a different function for each one, you need to use the Visitor pattern:
-__
-You’ve probably written code like that a few times, and it generally works. It's certainly better than a single function with a large switch statement. But it still involves a lot of boilerplate code because each impl needs to write the visit function.
-This is even more problematic if you don't own they types that need to implement visit() because then you can't write such a method. So your back to either writing a lot of conditional logic in a large function to sort them out, or you have to wrap the types with your own type.
-__
-In Rust none of that would be needed. You can add an implementation of an trait that is type specific.</p>
-<p>In the above examples you may have noticed the 'dyn’ keyword. This is just an indication that the implementation of the type is dynamic and won't be known until runtime. At the moment the keyword is not mandatory as it doesn't really do anything besides add clearly. But it is encouraged and it may be mandated in future Editions of Rust. So we include it.</p>
+Where the ‘? Extends’ indicates that the value could be any type as long as it implements the interface. This is different from 'T extends’ as there doesn't have to be a single type T.</p>
+<p>So in Java to make a heterogeneous list you might do this:__ That would allow each member of the list to be a different type of _. In Rust you would write it like this __. The “dyn” keyword means that the type is dynamic and won't be available until runtime.</p>
+<p>Notice here a Box is needed because “dyn” implies we don't actually know they type and hence the size which the compiler needs to correctly size the elements of vector.</p>
+<p>While that might seem like a fair number of extra characters, it actually opens up a lot of flexibility. If we wanted to call a method appropriate for each member of the list, in Java we would have to implement the Visitor pattern mentioned above __. Where as in Rust we can just write __.</p>
 
                     </main>
 
@@ -212,6 +336,12 @@ In Rust none of that would be needed. You can add an implementation of an trait 
 
         
 
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
         
 
         

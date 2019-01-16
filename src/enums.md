@@ -6,7 +6,37 @@
   • Enums can implement traits
   • bitflags
 
-Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example __. This will allow an i64 to be referred to as ‘Time’ like so __. Note that Time is not a separate type. So a i64 can be passed to the function. This will not allow adding any special methods to the type, but it also means all the methods of the existing type are there. Because of these limitations, aliasing is generally not used for public interfaces, but to improve readability of code. It does have another important use: renaming an imported type. In Java if you have two types with the same name you have to refer to one by its fully qualified name. __ In Rust you could just rename one of types. __.
+## aliases
+Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example:
+```rust 
+type Time = i64;
+```
+This will allow an i64 to be referred to as ‘Time’ like so:
+```rust
+# struct Message{timestamp:i64};
+# let message = Message{timestamp:0};
+type Time = i64;
+let timestamp : Time = message.timestamp;
+```
+Note that Time is not a separate type. So a i64 can be passed to the function. This will not allow adding any special methods to the type, but it also means all the methods of the existing type are there. Because of these limitations, aliasing is generally not used for public interfaces, but to improve readability of code. It does have another important use: renaming an imported type. In Java if you have two types with the same name you have to refer to one by its fully qualified name. 
+```java
+import java.awt.List;
+//...
+class Example {
+  private List awtList;
+  //..
+  void method () {
+    //This is awkward...
+    java.util.List<String> items = Arrays.asList(awtList.getItems());
+  }
+}
+```
+In Rust you could just rename one of types.
+```rust,ignore
+use some::value as other_value;
+```
+
+## Enums
 
 Enums in Rust are different from enums in Java. They aren't just constants, they can have fields and multiple instances can be instantiated. Additionally different values can have different member variables. So in Java you can do __ but in Rust you can do __. Notice the _ parameter on the _. This can be different for different instances.
 
@@ -22,15 +52,35 @@ Rust also supports `destructuring`. This allows assignment statements to extract
 
 ## Tuples
 
-Rust supports Tupples. Tupples are just like 'Pair’ in _ or Map.Entry. They are a simple wrapper of multiple objects. The syntax looks like __.
+Rust supports Tupples. Tupples are just like 'Pair’ in `apache lang` in Java or Map.Entry. They are a simple wrapper of multiple objects. The syntax looks like:
+```rust
+let pair : (i32, String) = (5, "Hello".to_string()); 
+```
+which is a tuple of a integer and a String. Tupples aren't full blown classes so the fields don't even have names. They are accessed by number. 
+```rust
+let pair = (10, 20);
+let ten = pair.0;
+let twenty = pair.1;
+//Tupples can also be named
+struct Position(f64, f64);
+let pos = Position(1.4, 3.2);
+```
+Tupples should only be used when it is very clear what the represent, because without accessor methods or named fields their meaning can be ambiguous to someone who doesn't fully understand the context.
 
-They aren't full blown classes so the fields don't even have names. They are accessed by number. __. Tupples should only be used when it is very clear what the represent, because without accessor methods or named fields their meaning can be ambiguous to someone who doesn't fully understand the context.
+Tupples can have 0 or more values. An empty tuple is just `()` this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”) 
 
-Tupples can have 0 or more values. An empty tuple is just ‘()’ this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”) 
+Tuples with two parameters are the most common. IE . But 3 or more is possible. 
+```rust 
+let tripple = (1, 1.0, "one");
+let quad = (2, 2.0, "two", true);
+```
+A single element tuple might seem pointless but it does provide a way to name something. IE: 
+```rust
+struct Distance(f64);
 
-Tuples with two parameters are the most common. IE __. But 3 or more is possible. __.
-
-A single element tuple might seem pointless but it does provide a way to name something. IE __. Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.
+let london_to_NY = Distance(3459.3,);
+```
+Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.
   • https://medium.com/@robertgrosse/ref-patterns-destructuring-and-invisible-borrows-2f8ae6902656
 
 ## Match

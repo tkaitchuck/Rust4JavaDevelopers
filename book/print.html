@@ -3,9 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title></title>
+        <title>Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="">
+        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title"></h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -748,7 +748,7 @@ while { i = i*2; i &lt; 65536 } {
 <p>In Java sometimes you pass functions as arguments. With a named function this is doen like this <strong>. The Rust equivalent would be do this</strong>. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __.</p>
 <a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc"><h1>Memory safety and GC</h1></a>
 <p>Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not.</p>
-<p>Not coincidentally it turns out, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
+<p>It turns out, not coincidentally, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
 <p>One way to think about it is to think of Rust as having compile time garbage collection. The compiler works out where in your code objects are no longer used automatically generates the necessary code to deallocate them.</p>
 <p>So like Java this means Rust does not suffer from memory leaks, use-after-free bugs, dangling pointer bugs, or buffer overflows that plague most compiled languages. At the same time Rust does not have the overhead of garbage collection or the associated runtime which has prevented languages like Java and C# from reaching the performance of C++ in “object heavy” applications.</p>
 <a class="header" href="#ownership" id="ownership"><h1>Ownership</h1></a>
@@ -875,7 +875,38 @@ for f in foos.into_iter().filter(|f| meets_criteria(f)) {
   process(f);
 }
 #}</code></pre></pre>
-<p>In addition to these there are a bunch of other common patterns. __ Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. __ Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed) __ here a function is making explicit that when called it is now the owner of the provided _ and the caller no longer has any references to it. A similar method in Java would be unsafe. Sometimes Java programs just do this anyway because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashMap, it is understood that you should not modify the object afterwards. But because nothing actually prevents this. As a result this pattern is generally avoided to prevent bugs resulting from such confusion.</p>
+<p>In addition to these there are a bunch of other common patterns.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Example {
+fn read_from_buffer(&amp;self, buffer : &amp;[u8]);
+# }
+#}</code></pre></pre>
+<p>Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::path::Path;
+trait Config {
+  //...
+  fn get_storage_location(&amp;self) -&gt; &amp;Path;
+  //...
+}
+#}</code></pre></pre>
+<p>Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed)</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::collections::HashMap;
+
+trait Config {
+  //...
+  fn set_attributes(&amp;mut self, attributes: HashMap&lt;String, String&gt;);
+  //...
+}
+#}</code></pre></pre>
+<p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code> and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood that you should not modify the object afterwards. But nothing actually prevents this.</p>
 <p>• Similar pattern getting an entry by key and doing .or_insert() += 1.</p>
 <p>The rules for ownership and borrowing are straight forward: __</p>
 <p>...</p>
@@ -973,7 +1004,6 @@ __</p>
 <a class="header" href="#traits" id="traits"><h1>Traits</h1></a>
 <p>• Default methods
 • Traits can inherit
-• Let's look at how Java and Rust support overloading. In Java you do it one the class like this__. In Rust the methods are defined on the impl of the traits. This might seem a bit verbose, but traits are more powerful than simple overloading that you can do in Java. In Rust you can overload functions with identical signatures or that differ by only a generic or a return type. each of those is associated with a trait. In Java you can never implement the same interface for two different generic types. For example __ Instead you have to overload the methods and not implement an interface. __ This of course destroys code reusability and prevents you from using interfaces as a means of abstraction because you are always coding to the impl. In Rust the interface is mandatory, which makes it easy to extend in the future and forces you think about the generalization. For example here is some code I wrote in Java __. Notice the overloaded method. In Rust I would have to create an interface that defines what I want. In this case _. This is already a common pattern so I can just use _. Then I can generalize my implementation by writing __. Now not only can I overload this method by adding more implementations, but my callers can too! All they have to do is implement _ like so __.
 • Associated types
 ◦ Needs an example. (Specs does this)
 ◦ Associated constants
@@ -986,24 +1016,149 @@ In Rust the implementation of traits is declared in a separate block from the de
 # #![allow(unused_variables)]
 #fn main() {
 trait doubleable {
-  fn double(Self, Self) -&gt; Self;
+  fn double(self : Self) -&gt; Self;
+}
+
+// And we can implement this for i32:
+
+impl doubleable for i32 {
+  fn double(self : i32) -&gt; i32 {
+    2 * self
+  }
+}
+
+// And now we can invoke this like any other method:
+
+assert_eq!(10, 5.double());
+#}</code></pre></pre>
+<p>It's worth noting that there is never any ambiguity about where the implementation of a particular trait is. This is because it is only allowed to be in one of two places, where the trait is defined or where the type is defined. Because circular dependencies are not allowed and the definition will need to depend on both, the one that depends on the other must contain the implementation. This is referred to as “the orphan rule”. It appears in couple of places, aside from making method calls unambiguous, it also ensures things work as you might intuitively expect and means that unlike some languages (<em>ahem</em> Scalla) the behavior of code can't be altered simply by adding an import statement.</p>
+<p>Java has method overloading which works like this:</p>
+<pre><code class="language-java">class Processor {
+  public void process(Foo item) {
+    //...
+  }
+  public void process(Bar item) {
+    //...
+  }
+}
+</code></pre>
+<p>in Rust the equivlent would be:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+mod processor {
+# struct Foo; struct Bar;
+  struct Processor;
+  trait Process&lt;Item&gt; {
+    fn process(&amp;self, item : Item);  
+  }
+  impl Process&lt;Foo&gt; for Processor {
+    fn process(&amp;self, item : Foo) {
+     //...
+    }
+  }
+  impl Process&lt;Bar&gt; for Processor {
+    fn process(&amp;self, item : Bar) {
+      //...
+   }
+  }
 }
 #}</code></pre></pre>
-<p>And we can implement this for i32:
+<p>In Rust the methods are defined on the impl of the traits. This might seem a bit verbose, but traits are more powerful than simple overloading that you can do in Java. It also has the advantage that the implementations don't need to be located where <code>Processor</code> is declared. A new type can add it's own overload and implement it by for example by delegating to an existing implementation. Additionally in Rust you can overload functions with identical signatures or that differ by only a generic or a return type. each of those is associated with a trait. In Java you can never implement the same interface for two different generic types. For example:</p>
+<pre><code class="language-java">class Processor {
+  void processList(List&lt;Foo&gt; items);
+  void processList(List&lt;Bar&gt; items); //Ooops..
+}
+</code></pre>
+<p>Where as rust can just add:</p>
+<pre><code class="language-rust ignore">impl Process&lt;Vec&lt;Bar&gt; for Processor {
+  fn process(&amp;self, item : Vec&lt;Bar&gt;) {
+    //...
+  }
+}
+impl Process&lt;Vec&lt;Foo&gt; for Processor {
+  fn process(&amp;self, item : Vec&lt;Foo&gt;) {
+    //...
+  }
+}
+</code></pre>
+<p>Instead you have to overload the methods. This means the same class cannot implement an interface for multiple types.</p>
+<pre><code class="language-java">class FastProcessor implements Processor&lt;Foo&gt;, Processor&lt;Bar&gt; { //Oops not allowed...
+  //...
+}
+</code></pre>
+<p>This of course destroys code reusability and prevents you from using interfaces as a means of abstraction because you are always coding to the impl. In Rust the interface is mandatory, which makes it easy to extend in the future and forces you think about the generalization. For example here is some code I wrote in Java __. Notice the overloaded method. In Rust I would have to create an interface that defines what I want. In this case _. This is already a common pattern so I can just use _. Then I can generalize my implementation by writing __. Now not only can I overload this method by adding more implementations, but my callers can too! All they have to do is implement _ like so __.</p>
+<p>Java uses overloading to have a single method that can work for multiple different types. However Java also has what is called “single dispatch”. This means if you want a function to work generically for all implementations of a given interface but a different function for each one, you need to use the Visitor pattern:</p>
+<pre><code class="language-java">class Processor {
+  public void process(Foo item) {
+    //...
+  }
+  public void process(Bar item) {
+    //...
+  }
+}
+interface Processable {
+  public void process(Processor processor);
+}
+class Foo implements Processable {
+  public void process(Processor processor) {
+    processor.process(this);
+  }
+}
+class Bar implements Processable {
+  public void process(Processor processor) {
+    processor.process(this);
+  }
+}
+
+Processor processor = //...
+List&lt;? extends Processable&gt; items = //...
+for (Processable item : items) {
+  // This will invoke the overloaded Processor.process(item) with the correct type.
+  item.process(processor); 
+}
+</code></pre>
+<p>You’ve probably written code like that a few times, and it generally works. It's certainly better than a single function with a large switch statement. But it still involves a lot of boilerplate code because each impl needs to write the visit function.
+This is even more problematic if you don't own they types that need to implement visit() because then you can't write such a method. So your back to either writing a lot of conditional logic in a large function to sort them out, or you have to wrap the types with your own type.</p>
+<p>In Rust none of that would be needed. You can add an implementation of an trait that is type specific.</p>
+<pre><pre class="playpen"><code class="language-rust">mod processor {
+# pub struct Foo; pub struct Bar;
+  pub struct Processor {
+    //...
+  }
+  pub trait Processable {
+    fn process(&amp;self, processor : &amp;Processor);  
+  }
+  impl Processable for Foo {
+    fn process(&amp;self, processor : &amp;Processor) {
+      //...
+    }
+  }
+  impl Processable for Bar {
+    fn process(&amp;self, processor : &amp;Processor) {
+      //...
+    }
+  }
+}
+//...
+use crate::processor::*;
+pub fn main() {
+  let p : Processor = //...
+# Processor {};
+  let items : Vec&lt;Box&lt;dyn Processable&gt;&gt; = //...
+# vec![];
+  for item in items {
+    item.process(&amp;p);
+  }
+}
+</code></pre></pre>
+<p>In the above example you may have noticed the 'dyn’ keyword. This is similar to <code>? extends</code> in Java. It indicates there is more than one implementation. IE: the type is dynamic and the actual implementation won't be known until runtime.</p>
+<p>In Java you are probably also used to seeing things like:
 __
-And now we can invoke this like any other method:
-__
-It's worth noting that there is never any ambiguity about where the implementation of a particular trait is. This is because it is only allowed to be in one of two places, where the trait is defined or where the type is defined. Because circular dependencies are not allowed and the definition will need to depend on both, the one that depends on the other must contain the implementation. This is referred to as “the orphan rule”. It appears in couple of places, aside from making method calls unambiguous, it also ensures things work as you might intuitively expect and means that unlike some languages (<em>ahem</em> Scalla) the behavior of code can't be altered simply by adding an import statement.</p>
-<p>Java has method overloading which works like this:
-__
-This allows you to have a single method that can work for multiple different types. However Java also has what is called “single dispatch”. <Explain concept >
-This means if you want a function to work generically for all implementations of a given interface but a different function for each one, you need to use the Visitor pattern:
-__
-You’ve probably written code like that a few times, and it generally works. It's certainly better than a single function with a large switch statement. But it still involves a lot of boilerplate code because each impl needs to write the visit function.
-This is even more problematic if you don't own they types that need to implement visit() because then you can't write such a method. So your back to either writing a lot of conditional logic in a large function to sort them out, or you have to wrap the types with your own type.
-__
-In Rust none of that would be needed. You can add an implementation of an trait that is type specific.</p>
-<p>In the above examples you may have noticed the 'dyn’ keyword. This is just an indication that the implementation of the type is dynamic and won't be known until runtime. At the moment the keyword is not mandatory as it doesn't really do anything besides add clearly. But it is encouraged and it may be mandated in future Editions of Rust. So we include it.</p>
+Where the ‘? Extends’ indicates that the value could be any type as long as it implements the interface. This is different from 'T extends’ as there doesn't have to be a single type T.</p>
+<p>So in Java to make a heterogeneous list you might do this:__ That would allow each member of the list to be a different type of _. In Rust you would write it like this __. The “dyn” keyword means that the type is dynamic and won't be available until runtime.</p>
+<p>Notice here a Box is needed because “dyn” implies we don't actually know they type and hence the size which the compiler needs to correctly size the elements of vector.</p>
+<p>While that might seem like a fair number of extra characters, it actually opens up a lot of flexibility. If we wanted to call a method appropriate for each member of the list, in Java we would have to implement the Visitor pattern mentioned above __. Where as in Rust we can just write __.</p>
 <a class="header" href="#generics" id="generics"><h1>Generics</h1></a>
 <p>• Basic syntax
 ◦ Functions
@@ -1061,12 +1216,6 @@ Here the character ‘</em>’ tells the compiler “You figure out what's suppo
 • Structs containing traits -&gt; box.
 ◦ How ownership prevents generics hell
 • Arc / Rc</p>
-<p>In Java you are probably also used to seeing things like:
-__
-Where the ‘? Extends’ indicates that the value could be any type as long as it implements the interface. This is different from 'T extends’ as there doesn't have to be a single type T.</p>
-<p>So in Java to make a heterogeneous list you might do this:__ That would allow each member of the list to be a different type of _. In Rust you would write it like this __. The “dyn” keyword means that the type is dynamic and won't be available until runtime.</p>
-<p>Notice here a Box is needed because “dyn” implies we don't actually know they type and hence the size which the compiler needs to correctly size the elements of vector.</p>
-<p>While that might seem like a fair number of extra characters, it actually opens up a lot of flexibility. If we wanted to call a method appropriate for each member of the list, in Java we would have to implement the Visitor pattern mentioned above __. Where as in Rust we can just write __.</p>
 <a class="header" href="#iterators" id="iterators"><h2>Iterators</h2></a>
 <p>• Adding close to iterators (not possible in Java) (can pass around in Rust)
 • Fail fast iterators vs compiler
@@ -1093,7 +1242,38 @@ Where the ‘? Extends’ indicates that the value could be any type as long as 
 • Enums give more meaningful names to concepts without overhead, so you can name possible outcomes to improve API quality and reduce the chances of Error.
 • Enums can implement traits
 • bitflags</p>
-<p>Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example __. This will allow an i64 to be referred to as ‘Time’ like so __. Note that Time is not a separate type. So a i64 can be passed to the function. This will not allow adding any special methods to the type, but it also means all the methods of the existing type are there. Because of these limitations, aliasing is generally not used for public interfaces, but to improve readability of code. It does have another important use: renaming an imported type. In Java if you have two types with the same name you have to refer to one by its fully qualified name. __ In Rust you could just rename one of types. __.</p>
+<a class="header" href="#aliases" id="aliases"><h2>aliases</h2></a>
+<p>Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+type Time = i64;
+#}</code></pre></pre>
+<p>This will allow an i64 to be referred to as ‘Time’ like so:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Message{timestamp:i64};
+# let message = Message{timestamp:0};
+type Time = i64;
+let timestamp : Time = message.timestamp;
+#}</code></pre></pre>
+<p>Note that Time is not a separate type. So a i64 can be passed to the function. This will not allow adding any special methods to the type, but it also means all the methods of the existing type are there. Because of these limitations, aliasing is generally not used for public interfaces, but to improve readability of code. It does have another important use: renaming an imported type. In Java if you have two types with the same name you have to refer to one by its fully qualified name.</p>
+<pre><code class="language-java">import java.awt.List;
+//...
+class Example {
+  private List awtList;
+  //..
+  void method () {
+    //This is awkward...
+    java.util.List&lt;String&gt; items = Arrays.asList(awtList.getItems());
+  }
+}
+</code></pre>
+<p>In Rust you could just rename one of types.</p>
+<pre><code class="language-rust ignore">use some::value as other_value;
+</code></pre>
+<a class="header" href="#enums" id="enums"><h2>Enums</h2></a>
 <p>Enums in Rust are different from enums in Java. They aren't just constants, they can have fields and multiple instances can be instantiated. Additionally different values can have different member variables. So in Java you can do __ but in Rust you can do __. Notice the _ parameter on the _. This can be different for different instances.</p>
 <p>This is useful as it allows you to enumerate different possible return values. For example __. This would require a very awkward construction in Java.</p>
 <a class="header" href="#option-vs-null" id="option-vs-null"><h2>Option vs null</h2></a>
@@ -1102,11 +1282,41 @@ Where the ‘? Extends’ indicates that the value could be any type as long as 
 <p>In Java and variable can be assigned to null. (In fact there is no <code>null</code> in Rust) Rust uses an explicit Option type to convey when an object can be null. This was added in later versions of Java but it's not as helpful as it could be because it doesn't actually prevent assigning things to null, it just documents times when you expect that they can be null. As such it doesn't catch any NullPointerExceptions at compile time because these occur precisely when you don't expect things to be null. You might think the lack of nulls would result is very verbose code. But it's not much of a problem in Rust. Compare this __ to the equivalent Java __. The real advantage of making option explicit is not that it prevents null pointers but that it makes interfaces better. Take a look at Java's iterators. They need to have a hasNext() method because it cannot use null to differentiate “there are no more values” from a value that is null. Anyone who has implemented their own iterator will immediately recognize how annoying this can be.</p>
 <p>Rust also supports <code>destructuring</code>. This allows assignment statements to extract values from structures. For example you could write __ to split apart a structure. Here the struct is being split up and assigned to individual variables. There is an even fancier version of this where it can be used in a conditional. Here is an example of “if let” this is extracting and assigning the value ‘x’ but does so only if the surrounding pattern matches. So in this case if the option is ‘None’ this will not match, the condition will be false and the ‘if’ will execute the code in the else block. You can do the same thing with a “while let”. __ As you can see this is useful when there is a</p>
 <a class="header" href="#tuples" id="tuples"><h2>Tuples</h2></a>
-<p>Rust supports Tupples. Tupples are just like 'Pair’ in _ or Map.Entry. They are a simple wrapper of multiple objects. The syntax looks like __.</p>
-<p>They aren't full blown classes so the fields don't even have names. They are accessed by number. __. Tupples should only be used when it is very clear what the represent, because without accessor methods or named fields their meaning can be ambiguous to someone who doesn't fully understand the context.</p>
-<p>Tupples can have 0 or more values. An empty tuple is just ‘()’ this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”)</p>
-<p>Tuples with two parameters are the most common. IE __. But 3 or more is possible. __.</p>
-<p>A single element tuple might seem pointless but it does provide a way to name something. IE __. Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.
+<p>Rust supports Tupples. Tupples are just like 'Pair’ in <code>apache lang</code> in Java or Map.Entry. They are a simple wrapper of multiple objects. The syntax looks like:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let pair : (i32, String) = (5, &quot;Hello&quot;.to_string()); 
+#}</code></pre></pre>
+<p>which is a tuple of a integer and a String. Tupples aren't full blown classes so the fields don't even have names. They are accessed by number.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let pair = (10, 20);
+let ten = pair.0;
+let twenty = pair.1;
+//Tupples can also be named
+struct Position(f64, f64);
+let pos = Position(1.4, 3.2);
+#}</code></pre></pre>
+<p>Tupples should only be used when it is very clear what the represent, because without accessor methods or named fields their meaning can be ambiguous to someone who doesn't fully understand the context.</p>
+<p>Tupples can have 0 or more values. An empty tuple is just <code>()</code> this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”)</p>
+<p>Tuples with two parameters are the most common. IE . But 3 or more is possible.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let tripple = (1, 1.0, &quot;one&quot;);
+let quad = (2, 2.0, &quot;two&quot;, true);
+#}</code></pre></pre>
+<p>A single element tuple might seem pointless but it does provide a way to name something. IE:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+struct Distance(f64);
+
+let london_to_NY = Distance(3459.3,);
+#}</code></pre></pre>
+<p>Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.
 • https://medium.com/@robertgrosse/ref-patterns-destructuring-and-invisible-borrows-2f8ae6902656</p>
 <a class="header" href="#match" id="match"><h2>Match</h2></a>
 <p>• Match guards / binding</p>
@@ -1221,7 +1431,56 @@ Benchmark / criterion</p>
 <p>Java's implementation of this however isn't ideal. Part of the problem is in early versions of Java an implementation had to declare that a method throws an exception if it implemented an interface that declared such an exception. While this is no longer the case, it is the reason why ByteArrayOutputStream still throws IOException. There are also a couple of cases where Java defined things is a very awkward way, like that InputStream's and OutputStream's close method throws, or that InterruptedException is both checked and catching it resets interrupted status. Finally and more subjectivity, RuntimeExceptions and checked exceptions FEEL too similar. It's too easy to think of them as part of the same thing, and not realize the massive difference between ordinary errors and cases that truly cannot be handled, because they arise from bugs in the program itself.</p>
 <p>All of this combined with a lack of a concise way to rethrow one exception as another lead to a large backlash against checked exceptions. This is somewhat unfortunate, because similar to how the backlash against some annoying corner cases with types resulted in the popularity of dynamic typed languages, the backlash against the inconveniences of checked exceptions directly lead to C# removing them and using a strictly runtime exception model. Which while more convenient than Java's model was a step back in terms of ensuring correctness.</p>
 <p>Fortunately Rust has found a way to resolve these issues. Rust's solution is quite different from Java's. But it is similar in that there are two types of error handling. The “normal” way, which is used for expected errors provides strong guarantees that the error will be handled. Rust's error handling syntax is very lightweight. It doesn't require writing try/catch blocks all over the place, and provides a seamless way of converting between different exception types and converting to the “unrecoverable” type (analogous to Java's runtime exceptions) allowing a way to “bail out” instead of handling the error, if there isn't a way to do so. Below is an example __. (See Joe Duffy's “The error model” and use table)</p>
-<p>In Java it is common to use Preconditions. The pattern in Rust is to use assertions. So the following are idiomatically equivalent __ and __. If instead of panicking you just want to return an Error, use the 'ensure!’ macro from the Failure crate. __</p>
+<p>In Java it is common to use Preconditions. The pattern in Rust is to use assertions. So the following are idiomatically equivalent</p>
+<pre><code class="language-java">class Decoder {
+  //...
+  public Message decode(String message) {
+    Preconditions.checkNotNull(message);
+    Preconditions.checkArgument(!message.isEmpty(), &quot;Cannot decode an empty message.&quot;);
+    //...
+  }
+}
+</code></pre>
+<p>and</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Message();
+struct Decoder {
+  //...
+}
+impl Decoder {
+  //...
+  pub fn decode(&amp;self, message : &amp;str) -&gt; Message {
+    //No need for a null check because there are no NPEs in Rust.
+    assert!(!message.is_empty());
+    //...
+  # Message()
+  }
+}
+#}</code></pre></pre>
+<p>If instead of panicking you just want to return an Error, use the 'ensure!’ macro from the Failure crate.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use derive_more::Display;
+use failure::*;
+
+struct Message{/* ... */}
+
+struct Decoder {
+  //...
+}
+impl Decoder {
+  //...
+  pub fn decode(&amp;self, message : &amp;str) -&gt; Result&lt;Message, Error&gt; {
+    ensure!(!message.is_empty(), &quot;Message was empty&quot;);
+    //...
+    Ok(Message{/*...*/})
+  }
+}
+
+#}</code></pre></pre>
 <p>One problem with Java's exceptions is they don't work with things like Futures or Java Streams very well. This is because these interfaces need to be generic so the type information in the exception is lost, and they are likely running from a callback or threadpool so the stacktrace is not helpful. This eliminates two of the main benefits of using exceptions. Fortunately Rust's model overcomes both of these problems. So where in Java you would have to write something like this __ and if it failed you would get a stack traces that looked like __, whereas in Rust you could just write __ and if it failed you would get a stacktrace that looked like __.</p>
 <p>To add a new exception type on a public interface, in Java you would either have to make the new exception Runtime. (Which may or may not be desirable depending on the circumstances) Or you can subtype an existing exception. In Rust the pattern is to use an error Enum. For example __. This way all the errors are explicitly enumerated and they can either be handled all the same or individually by the caller. If you use a non-exhaustive Enum like __. Then new types of failures can be added in the future without breaking compatibility. (Because in a matching on the Enum will require a default branch)</p>
 <p>In Java there are checked exceptions such as IOException and unchecked exceptions such as Error. Rust has analogous concepts. Panic is a similar to an Error in Java. It is assumed to be unrecoverable. It is sort of a controlled crash. In the event of a panic rust will gracefully unwind the stack similar to Java. It runs destructors (which works like a finalize block in Java). However it will not release locks, as this could mean that only a part of a critical section was executed and the data is left in an inconsistent state. (Other threads trying to acquire the mutex will get error when they call lock()).</p>
@@ -1446,6 +1705,12 @@ __</p>
 
         
 
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
         
 
         
