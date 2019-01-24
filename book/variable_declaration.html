@@ -72,7 +72,7 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html" class="active"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects</a></li><li><a href="traits.html"><strong aria-hidden="true">9.</strong> Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">10.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">11.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">12.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">13.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">14.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">15.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">16.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">17.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">18.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">19.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">20.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">21.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">22.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">23.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">24.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">25.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">26.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">27.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">28.</strong> Using Rust with Java</a></li></ol>
+            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html" class="active"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -145,7 +145,7 @@ let foo : i32 = 5;
 #}</code></pre></pre>
 <pre><code class="language-java">int foo = 5;
 </code></pre>
-<p>The keyword ‘let’ is used to indicate you are declaring a variable. This is followed by the variable name, then a colon and then the type.
+<p>The keyword <code>let</code>is used to indicate you are declaring a variable. This is followed by the variable name, then a colon and then the type.
 The reason Rust puts the type one the right is because the type is optional anytime it can be inferred by the compiler. Which means that most of the time we can just write:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
@@ -173,9 +173,9 @@ let foo = 5;
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-const secondsPerMinute : i64 = 60;
+const SECONDS_PER_MINUTE : i64 = 60;
 #}</code></pre></pre>
-<pre><code class="language-java">static final long secondsPerMinute = 60;
+<pre><code class="language-java">static final long SECONDS_PER_MINUTE = 60;
 </code></pre>
 <p>By default all variables in Rust are final. So instead of a final keyword there is the <code>mut</code> keyword to indicate the variable is mutable (non-final). For example:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -186,9 +186,52 @@ let mut counter = 0;
 <p>The advantage of using <code>mut</code> rather than <code>final</code> (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java it very common to simply omit the final keyword even when a variable is final. As a result when reading Java you often don’t know if a variable is final or not.</p>
 <p>Safety monitor: Rust's default declaration actually provides an even stronger guarantee than Java's final, because we not only enforce that the variable won't be reassigned, but also that it's contents won't be changed.</p>
 <p>A ‘final-by-default’ policy makes reasoning about code a lot easier, because you know if something is going to change. This makes writing multi-threaded code easier, because if something is immutable can always be shared safely between threads. (We’ll come back to this in a later chapter).</p>
+<a class="header" href="#common-types" id="common-types"><h1>Common types</h1></a>
+<p>There are some common builtin types that appear in a lot of the examples. The details of each will be explained later.</p>
+<a class="header" href="#box" id="box"><h2>Box</h2></a>
+<p>The first and most embarassingly simple of which is <code>Box</code>. Box is a collection of exactly one item. (It can't even be empty) It's just a wrapper around a generic value. If you were to implemente Box in Java it would look like this:</p>
+<pre><code class="language-Java">class Box&lt;T&gt; implements Iterable&lt;T&gt; {
+  private final T item;
+
+  public Box(T item) {
+    this.item = item;
+  }
+
+  public Item getItem() {
+    return item;
+  }
+
+  @Override
+  public Iterator&lt;Item&gt; iterator() {
+    //...
+  }
+}
+</code></pre>
+<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restriction. These cases will be explained when they come up.</p>
+<p>Declaring a box is done like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let boxed = Box::new(1);
+// or if you want to be explicet about the type
+let boxed2 : Box&lt;i32&gt; = Box::new(2);
+#}</code></pre></pre>
+<p>The <code>::</code> operator in the example above acutally does exactly the same thing it does in Java. It is how you can refer to a static method without invoking it. IE: <code>Arrays.sort(stringArray, String::compareToIgnoreCase);</code> but in Rust, once you have a method reference instead of calling <code>method.run()</code> or <code>method.call(arg)</code> you can just invoke it: <code>method()</code> or <code>method(arg)</code>. So <code>Box::new</code> refers to the constructor of <code>Box</code> just like it would in Java, and the <code>(1)</code> following it invokes the method passing the argument <code>1</code>.</p>
 <a class="header" href="#vec" id="vec"><h2>Vec</h2></a>
-<p>Rust has a built in type called <code>vec</code> which is short for &quot;Vector&quot;. It is equivlent to Java's <code>ArrayList</code>. However because Rust does not have &quot;primitive wrapper&quot; types like Java's &quot;Integer&quot; and &quot;Byte&quot; (as opposed to &quot;int&quot; and &quot;byte&quot;) and is capable of putting primitives in collections directly without any overhead <code>Vec</code> receives a lot more use in Rust than <code>ArrayList</code> does in Java. It is often used in places where in Java you would use an array or a generic 'Collection'.</p>
-<a class="header" href="#string" id="string"><h3>String</h3></a>
+<p>Rust has a built in type called <code>Vec</code> which is short for &quot;Vector&quot;. It is equivlent to Java's <code>ArrayList</code>. However because Rust does not have &quot;primitive wrapper&quot; types like Java's &quot;Integer&quot; and &quot;Byte&quot; (as opposed to &quot;int&quot; and &quot;byte&quot;) and is capable of putting primitives in collections directly without any overhead <code>Vec</code> receives a lot more use in Rust than <code>ArrayList</code> does in Java. It is often used in places where in Java you would use an array or 'Collection'.</p>
+<p>The syntax looks like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+# fn getNumbers() -&gt; Vec&lt;i32&gt; { vec![] }
+let mut numbers : Vec&lt;i32&gt; = getNumbers();
+numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if needed)
+#}</code></pre></pre>
+<p>Because adding layer of abstraction does not add any overhead in Rust it is common to pass a <code>Vec&lt;u8&gt;</code> where you would use a byte array in Java.</p>
+<a class="header" href="#string" id="string"><h2>String</h2></a>
+<p>Rust has a string type. It's a little different from Java's. While Java's String is built out of a <code>char[]</code> where each <code>char</code> is a UTF-16 code point, Rust's String is based on a <code>Vec&lt;u8&gt;</code> where the bytes are valid UTF-8.</p>
+<p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If is declared with <code>let mut directions : String = ...</code> it is mutable, and if it is declared with <code>let name : String = ...</code> it is not.</p>
+<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the chapter on <strong>Ownership</strong>.</p>
 
                     </main>
 

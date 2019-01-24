@@ -152,7 +152,7 @@ Docs can also be hidden (If for example a feature is still being tested) like th
 
 It is common practice in Rust to write a small example for how to use each function rather than documenting all of the input and output parameters like you would in Java. So instead of __ you might write __ in Rust. These examples aren’t just for show, they also get automatically turned into unit tests. For example __. This makes sure your documentation stays up to date with the code. If you want to hide a few lines of setup at the top of an example you can use _. For example __. 
 
-## Macros (basic)
+## Macros
 Ok, let’s finally get around to writing HelloWorld:
 ```rust
 /// Prints "Hello world!".
@@ -160,7 +160,7 @@ fn main() {
     println!("Hello World!");
 }
 ```
-You may be wondering: “What is that exclamation point doing at the end of that function name?” The answer is 'println!’ is not a normal function it is what is called a “Macro”. (Don't worry these aren't the horrifyingly unsafe macros of C and C++. Like most things in Rust they are designed to be safe.)
+You may be wondering: “What is that exclamation point doing at the end of that function name?” The answer is 'println!’ is not a normal function it is what is called a “Macro”. Rust macros are "hygienic" so they don't have the horrifyingly dangerous properties of C and C++ macros, and are designed to be safe.
 
 You can think of macros as a function that does things that functions can't normally do. In this case ‘println’ supports string templates. 
 ```rust
@@ -179,3 +179,8 @@ or
 println!("Hello {}!", name1, name2);
 ```
 the mistake would actually be a compile error. (BorrowChecker: Which is great because it means you can't write incorrect code. Optimizer: and has the added bonus of not spending any CPU at runtime parsing and verifying the template.) This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.
+
+Another place you'll see macros, is for initilizing collections or places where you might find "varargs" in Java. For example you can initilaize a Vec with the `vec!` macro:
+```rust
+let number = vec![1, 2, 3, 4, 5];
+```

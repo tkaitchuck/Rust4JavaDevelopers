@@ -12,6 +12,21 @@
     ◦ How ownership prevents generics hell
   • Arc / Rc
 
+## Common collections and their equivlents
+
+|Java Type   | Rust Type | Notes |
+|============|===========|=======|
+|ArrayDeque  |VecDeque   |       |
+|ArrayList   |Vec        |       |
+|BitSet      |FixedBitSet|External crate. (Not in std lib)|
+|HashMap / HashSet     |HashMap / HashSet    |       |
+|LinkedHashMap / LinkedHashSet|IndexMap / IndexSet  |External crate. (Not in std lib)|
+|LinkedList  |LinkedList |Use discoruaged|
+|PriorityQueue|BinaryHeap|       |
+|TreeMap     |BTreeMap   |Uses BTreee rather than Binary tree (Much faster)|
+|TreeSet     |BTreeSet   |Uses BTreee rather than Binary tree (Much faster)|
+
+
 ## Iterators
   • Adding close to iterators (not possible in Java) (can pass around in Rust)
   • Fail fast iterators vs compiler
