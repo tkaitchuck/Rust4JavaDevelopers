@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>Generics - Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
+        <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -301,61 +301,47 @@ pub fn serialize_max_value&lt;T, ProcT&gt;(items : Vec&lt;T&gt;, processor : Pro
 <p>In the case of a single trait/interface. In Java you might write __ where 'T extends’ is used to indicate there is some type T but the function doesn't care about the exact type of the object, provided it implements the specified interface. In Rust there is a shorthand for this using the 'impl’ keyword. __. This is most commonly used for return values for example __ specifies that this function is returning a _ but without providing the exact type. This is especially common when a function is returning a function. (Like a callback for example) __ here the function is specifying that it is returning a function with a particular signature but without specifying exactly which function it is returning. So you can think of impl as meaning “some implementation of this trait”. (It doesn't matter which) ‘impl’ only can refer to one trait. So if you need to use multiple, you'll have to use a where clause _ or an alias _.</p>
 <p>Optimizer: I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.</p>
 <a class="header" href="#associated-types" id="associated-types"><h3>Associated Types</h3></a>
-<p>Finally there is one feature that cuts down on the burdon of generics a lot: &quot;Associated types&quot;. Too often in Java when one component uses generics it forces other components interacting with it to be generic also even though they don't care about the type they are genericized over. For example if you had the classes:</p>
-<pre><code class="language-java">abstract class Graph&lt;ItemT&gt; {
-  private final List&lt;Node&lt;ItemT&gt;&gt; nodes;
-  private final List&lt;Edge&lt;ItemT&gt;&gt; edges;
-  //...
+<p>Finally there is one feature that cuts down on the burdon of generics a lot: &quot;Associated types&quot;. In Java the Supplier interface is defined as:</p>
+<pre><code class="language-java">interface Supplier&lt;T&gt; {
+  public T get();
 }
-//Then you might define another class:
-class Pathfinder&lt;GraphT extends Graph&lt;ItemT&gt;, ItemT&gt; {
-//...
-}
-
 </code></pre>
-<p>Here the class <code>Pathfiner</code> operates on a <code>Graph</code> and perfrom operations. The thing is, it does't actually care about <code>itemT</code>. For that matter neither does <code>Edge</code>. In both cases it is generic with respect to it only because it has to be, because it refers to <code>Graph</code>. What's move if Graph were to change, by adding a new generic parameter <code>Pathfiner</code> would brea. However this doesn't really make sense. It doesn't care about how graph is implemented, so it should be able to use <code>Graph</code>s generally being generic itself with respect to the implementation.</p>
-<p>So in Rust instead of:</p>
+<p>To do the same thing in Rust, you could write:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-trait Graph&lt;ItemT&gt; {
-  //...
+trait Supplier&lt;T&gt; {
+  fn get(&amp;self) -&gt; T;
 }
 #}</code></pre></pre>
-<p>you would do this:</p>
+<p>Or you could instead write:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-trait Graph {
-  type ItemT;
-  //...
+trait Supplier {
+  type Item;
+  fn get(&amp;self) -&gt; Self::Item;
 }
 #}</code></pre></pre>
-<p>Here <code>type</code> is a keyword. This is very similar to the first version but Pathfinder can now be declared without refering to the item type.</p>
+<p>Here <code>type</code> is a keyword, and <code>Item</code> is the name of the generic type rather than <code>T</code>.
+This has a few advantages. First it allows the generics to be specified by name, rather than relying on order:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-# trait Graph{} trait Node{}
-trait Pathfinder {
-  fn is_connected(start: Node, end: Node, graph: Graph) -&gt; bool;
-  //...
+# trait Supplier {
+# type Item;
+# fn get(&amp;self) -&gt; Self::Item;
+# }
+struct StringWrapper(String);
+impl Supplier for StringWrapper {
+  type Item = String;
+
+  fn get(&amp;self) -&gt; String {
+    self.0.clone()
+  }
 }
 #}</code></pre></pre>
-<p>of course it is allowed to do so, it would look like:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-trait Graph {
-  type T;
-}
-trait Node {
-  type T;
-}
-trait PathFinder&lt;ItemT&gt; {
-  fn is_connected(start: Node&lt;T=ItemT&gt;, end: Node&lt;T=ItemT&gt;, graph: Graph&lt;T=ItemT&gt;) -&gt; bool;
-}
-#}</code></pre></pre>
-<p>In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called &quot;unicity&quot;.) For example If you were to define a concrete class <code>LinkedList</code> it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example <code>Iterator</code> in that case it should use an associated type, because each implementation of iterator is only going to have one perticularl type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. The reason having a single associated type is useful for Iterator as opposed to being generic is that it allows callers to implement functions for it that don't depend on the type. For example we can implement additional traits that don't care about the type:</p>
+<p>This can segnifigantly improve readability when there are multiple types. It also allows the type to be refered to without specifying the type. For example:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -364,15 +350,28 @@ trait Countable {
 }
 impl&lt;T&gt; Countable for T where T:Iterator {
     fn count(self) -&gt; i32 {
-        let mut counter = 0;
-        for _ in self {
-            counter += 1;
+        let mut count = 0;
+        for value in self {
+            count += 1;
         }
-        counter
+        count
     }
 }
 #}</code></pre></pre>
-<p>Similarly traits with associated types can be put into a class or passed to a method that doesn't care about the implementation:</p>
+<p>Here <code>Iterator</code> is refered to without needing to specify the generic associated with Iterator. This means that Countable does not itself have to be generic even though it operates on things that are. In the above code, they type of <code>value</code> is <code>T::Item</code>. A similar example using the supplier interface defined above would look like:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+trait Supplier {
+  type Item;
+  fn get(&amp;self) -&gt; Self::Item;
+}
+//...
+fn vec_of_value&lt;S:Supplier&gt;(supplier : &amp;S) -&gt; Vec&lt;S::Item&gt; {
+  vec![supplier.get()]
+}
+#}</code></pre></pre>
+<p>In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called &quot;unicity&quot;.) For example If you were to define a concrete class <code>LinkedList</code> it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example <code>Iterator</code> in that case it should use an associated type, because each implementation of iterator is only going to have one perticular type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. For example:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -381,30 +380,18 @@ trait Storage {
   //...
   fn insert(&amp;self, item: Self::Item);
 }
-trait Processor&lt;T&gt; {
-  type store : Storage&lt;Item=T&gt;;
-
-  fn process_item(&amp;self, item: T);
-}
-struct Message{/*...*/}
-struct MessageDispatcher {
-  processor : Processor&lt;Message&gt;,
+struct Message {/*...*/}
+struct MessageStore {
   //...
 }
-impl MessageDispatcher {
-  fn fetch_next_message(&amp;self) -&gt; Message {
-    //...
-# Message{}
-  }
-  fn run(&amp;self) {
-    loop {
-      let message = self.fetch_next_message();
-      self.processor.process_item(message);
+impl Storage for MessageStore {
+    type Item = Message;
+    fn insert(&amp;self, item: Message) {
+      //...
     }
-  }
 }
 #}</code></pre></pre>
-<p>Here we have a <code>MessageDispatcher</code> which in a loop is sending messages to a <code>Processor</code> which is inturn inserting them into <code>Storage</code>. What's interesting about this is <code>MessageDispatcher</code> holds onto a <code>Processor</code> but it knows nothing about <code>Storage</code>. So even though <code>Processsor</code> is generic with respect to which <code>Storage</code> it uses, upstream classes don't know or care about this generalization.</p>
+<p>Here we have a <code>MessageStore</code> is tied to the type <code>Message</code> so it uses an associated type.</p>
 
                     </main>
 

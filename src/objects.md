@@ -41,10 +41,7 @@
 The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked. In Rust ‘this’ is called ‘self’. In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method. So leaving it out is analogous to declaring a method ‘static’ in Java. Similar to Java such a method is invoked from the type itself. The following functions are equivalent __ and __. 
 
 
-Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code. They are broken out across multiple traits. In many cases there are internal/related structs, enums, and traits which allow for greater code reuse. For example below is a table of common traits __(ndex, intoiter, etc___. Each of these is small and easy to implement. Each one appears on a lot of types you wouldn't necessarily guess right away. For example _, and _. The advantage is each one unlocks a lot of flexibility because there is a lot of code that takes advantage of them. See __ or __ or __ as there is a lot of functions built around iterators. This pattern holds generally in Rust. Classes are not monolithic. Instead they have many small components that hook into each other to provide greater code reuse. 
-
-
-
+Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code.
 
 
 
@@ -224,23 +221,93 @@ In the above example notice the `Box<dyn Processable>`. `dyn` is equivlent to th
 
 In Java this "boxing" is done for all collections all the time, which is why primitives can't be placed in them. There is syntatic sugar for this called "autoboxing" which converts `int` into `Integer`. In Rust boxing is explicet.
 
+
+# An example
+
+Often classes are implemented with multiple traits. For example, Java's UUID class would be in a file named UUID.java and look like this:
+```java
+import java.util.Random;
+
+public final class UUID implements Serializable, Comparable<UUID> {}
+  private static final long serialVersionUID = -4856846361193249489L;
+
+  private long mostSigBits;
+
+  private long leastSigBits;
+
+  public UUID(long mostSigBits, long leastSigBits) {
+    this.mostSigBits = mostSigBits;
+    this.leastSigBits = leastSigBits;
+  }
+  
+  public int compareTo(UUID o) {
+    //...
+  }
+  public boolean equals(Object obj) {
+    //...
+  }
+  public int hashCode() {
+    //...
+  }
+  public String toString() {
+    //...
+  }
+  public static UUID fromString(String name) {
+    //...
+  }
+  public static UUID randomUUID() {
+    //...
+  }
+}
+```
+In Rust the equivlent would be in a file named UUID.rs and look like this:
+{{#playpen object_example.rs}}
+
+The major difference between the Java version and the Rust version is that instead of being in a single `class` block where as the Rust implementation is split into three a `struct` block which contains the fields, an `impl` block which contains all of the class speffic methods, and separate `impl` blocks for each of the different traits that are implemented. 
+
+In the Java case, there are two interfaces implemented `Serializable` and `Comparable`, where as `equals`, `hashCode`, and `toString` aren't interfaces, but rather are inherited from Object. Rust breaks things down a little more finely. Some of the `Serialize` and `Deserialize` are split into separate traits. In this case they appear in the `derive` "attribute". An attribute is like a Java annotation. `derive` Automatically generates boilerplate implementations of common traits. In addition to these `Eq` is the analogous trait for `equals`, `hash` provides `hashCode`. In addition to these `PartialEq` and `PartialOrd` provide the equivlent of `equals` and `Comparable` without the requirement that all instances be differentiated. IE: Unlike `eq` if two instances can have member variable that is different but they are still considered the same for the purposes of equality, or in the case of `PartialOrd` unlike `Ord` there can be instances that can't be compared such as a floating point NaN. `Debug` is a trait to print a string representation for the purposes for debugging much like Java's `toString`. The traits `From` and `Into` are common traits for converting between different types. In this case if fills the same role as `fromString` implementatation in Java.
+
 ## Patterns
 Because traits tend to be small and only have a few methods it's more common in Rust to have a parameter that implements multiple of them. To pick a simple class to see how this works in practice let's compare Java's `AtomicBoolean` to Rust's `AtomicBool`
 
-|Attribute      | Java AtomicBoolean | Rust AtomicBool |
-|===============|====================|=================|
-| Total lines   |    359             |    532          |
-| Lines of docs |    172             |    361          |
-| Lines of code |     72             |     63          |
-| Public methods|     20             |     14          |
-| Interfaces/traits implemented| 1   |      5          |
+|Attribute      |`Java's AtomicBoolean` |`Rust's AtomicBool` |
+| ------------- |--------------------:  |-----------------:  |
+| Total lines   |    359                |    532             |
+| Lines of docs |    172                |    361             |
+| Lines of code |     72                |     63             |
+| Public methods|     20                |     14             |
+| Interfaces/traits implemented| 1      |      5             |
 | Additional traits automatically implemented because they were defined elsewhere | n/a | 8 |
-| Total methods invokable| 20        |      32         |
+| Total methods invokable| 20           |      32            |
 
 So while the actual implementations are very similar (There are only so may ways to implement an atomic boolean and only so many things you can do with it), a large chunk of the Rust implementation came 'for free' to the author of `AtomicBool` bacause 18 of the 32 methods were implemented Automatically by virtue of other traits/methods that were defined. In addition to this other developers can add their own interfaces and implementations. For example, the one interface Java's `AtomicBoolean` implements is `Serializeable`. In Rust, the dependency goes in other direction. `AtomicBool` is a basic type and the author of the serialization can provide their implementation for serializing it. So any code that depends on both serialization and on atomicBoolean will see even more methods (those implemneted by the author of serialization, as well as any further traits it gets 'for free' because of the ones it now implementes).
 
 As a result, it really pays to keep your own traits small and focused, and aggressivly implement common traits for your types.
 
 ## Common Traits
-Below are some common interfaces in Java and their Rust equivalents:
-__
+
+This fine grained declaration of traits allows for greater code reuse. For example below is a table of common traits
+
+| Trait      | Similar Java method | Description            |
+|:-----------|---------------------|------------------------|
+|PartialEq   | Object.equals | Defines if two instaces are semantically equal. |
+|Eq          | Object.equals | Defines if two instance are equal and can differentiate between all instances |
+|PartialOrd  | Comparable.compareTo | Defines >, >=, <, and <= operators |
+|Ord         | Comparable.compareTo | Defines ordering, and can order all unique instances |
+|Index       | List.get or [x] operators | Defines indexing IE: [x] much like a Java array |
+|IntoIterator| Iterable.iterator | Defines a method to construct an iterator |
+|Iterator    | Iterator | Allows iterating over a collection |
+|Debug       | Object.toString | Creates a string representation of an object for debugging |
+|Display     | Object.toString | Creates a human readable representation of an object |
+|From        | N/A | A generic conversion function to instantiate one type from another |
+|Into        | N/A | A generic conversion function to convert one type into another |
+|Copy        | Java primitives | A type that is "passed by value" meaning it is copied each time it is assigned to a new value |
+|Clone       | Cloneable.clone | A function that makes a copy of an object |
+|FromStr     | N/A | Constructs an object from a string |
+|ToString    | Object.toString | Converts an object into a string |
+|Default     | A zero argument constructor | Instantiates a default version of an object |
+|Error       | Exception | An exeption |
+|Hash        | Object.hashCode | Used when storing an item in a HashMap or HashSet |
+|Optional    | Optional | Either an item or `none` indicating its absence |
+
+Each of these is small and easy to implement. Each one appears on a lot of types and is accepted in a lot of common functions. So each one a class can implement unlocks a lot of flexibility. See __ or __ or __ as there is a lot of functions built around iterators. This pattern holds generally in Rust. Classes are not monolithic. Instead they have many small components that hook into each other to provide greater code reuse. 

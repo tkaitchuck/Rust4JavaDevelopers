@@ -15,7 +15,7 @@
 ## Common collections and their equivlents
 
 |Java Type   | Rust Type | Notes |
-|============|===========|=======|
+|------------|-----------|-------|
 |ArrayDeque  |VecDeque   |       |
 |ArrayList   |Vec        |       |
 |BitSet      |FixedBitSet|External crate. (Not in std lib)|

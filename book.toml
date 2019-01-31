@@ -1,9 +1,10 @@
 [book]
 title = "Rust for Java developers"
-description = "A guiide to learning Rust for developers familiar with Java"
+description = "A guide to learning Rust for developers familiar with Java"
 authors = ["Tom Kaitchuck"]
 multilingual = false
 src = "src"
+edition = "2018"
 
 [output.html.playpen]
 editable = true

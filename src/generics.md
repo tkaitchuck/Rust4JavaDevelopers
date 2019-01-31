@@ -167,100 +167,87 @@ Optimizer: I can actually make methods invoked on an ‘impl’ parameter a lot 
 
 ### Associated Types
 
-Finally there is one feature that cuts down on the burdon of generics a lot: "Associated types". Too often in Java when one component uses generics it forces other components interacting with it to be generic also even though they don't care about the type they are genericized over. For example if you had the classes:
+Finally there is one feature that cuts down on the burdon of generics a lot: "Associated types". In Java the Supplier interface is defined as:
 ```java
-abstract class Graph<ItemT> {
-  private final List<Node<ItemT>> nodes;
-  private final List<Edge<ItemT>> edges;
-  //...
+interface Supplier<T> {
+  public T get();
 }
-//Then you might define another class:
-class Pathfinder<GraphT extends Graph<ItemT>, ItemT> {
-//...
+```
+To do the same thing in Rust, you could write:
+```rust
+trait Supplier<T> {
+  fn get(&self) -> T;
 }
+```
+Or you could instead write:
+```rust
+trait Supplier {
+  type Item;
+  fn get(&self) -> Self::Item;
+}
+```
+Here `type` is a keyword, and `Item` is the name of the generic type rather than `T`.
+This has a few advantages. First it allows the generics to be specified by name, rather than relying on order: 
+```rust
+# trait Supplier {
+# type Item;
+# fn get(&self) -> Self::Item;
+# }
+struct StringWrapper(String);
+impl Supplier for StringWrapper {
+  type Item = String;
 
-```
-Here the class `Pathfiner` operates on a `Graph` and perfrom operations. The thing is, it does't actually care about `itemT`. For that matter neither does `Edge`. In both cases it is generic with respect to it only because it has to be, because it refers to `Graph`. What's move if Graph were to change, by adding a new generic parameter `Pathfiner` would brea. However this doesn't really make sense. It doesn't care about how graph is implemented, so it should be able to use `Graph`s generally being generic itself with respect to the implementation.
-
-So in Rust instead of:
-```rust
-trait Graph<ItemT> {
-  //...
+  fn get(&self) -> String {
+    self.0.clone()
+  }
 }
 ```
-you would do this:
-```rust
-trait Graph {
-  type ItemT;
-  //...
-}
-```
-Here `type` is a keyword. This is very similar to the first version but Pathfinder can now be declared without refering to the item type.
-```rust
-# trait Graph{} trait Node{}
-trait Pathfinder {
-  fn is_connected(start: Node, end: Node, graph: Graph) -> bool;
-  //...
-}
-```
-of course it is allowed to do so, it would look like:
-```rust
-trait Graph {
-  type T;
-}
-trait Node {
-  type T;
-}
-trait PathFinder<ItemT> {
-  fn is_connected(start: Node<T=ItemT>, end: Node<T=ItemT>, graph: Graph<T=ItemT>) -> bool;
-}
-```
-In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called "unicity".) For example If you were to define a concrete class `LinkedList` it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example `Iterator` in that case it should use an associated type, because each implementation of iterator is only going to have one perticularl type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. The reason having a single associated type is useful for Iterator as opposed to being generic is that it allows callers to implement functions for it that don't depend on the type. For example we can implement additional traits that don't care about the type:
+This can segnifigantly improve readability when there are multiple types. It also allows the type to be refered to without specifying the type. For example:
 ```rust
 trait Countable {
     fn count(self) -> i32;
 }
 impl<T> Countable for T where T:Iterator {
     fn count(self) -> i32 {
-        let mut counter = 0;
-        for _ in self {
-            counter += 1;
+        let mut count = 0;
+        for value in self {
+            count += 1;
         }
-        counter
+        count
     }
 }
 ```
-Similarly traits with associated types can be put into a class or passed to a method that doesn't care about the implementation:
+Here `Iterator` is refered to without needing to specify the generic associated with Iterator. This means that Countable does not itself have to be generic even though it operates on things that are. In the above code, they type of `value` is `T::Item`. A similar example using the supplier interface defined above would look like:
+```rust
+trait Supplier {
+  type Item;
+  fn get(&self) -> Self::Item;
+}
+//...
+fn vec_of_value<S:Supplier>(supplier : &S) -> Vec<S::Item> {
+  vec![supplier.get()]
+}
+```
+
+In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called "unicity".) For example If you were to define a concrete class `LinkedList` it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example `Iterator` in that case it should use an associated type, because each implementation of iterator is only going to have one perticular type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. For example:
 ```rust
 trait Storage {
   type Item;
   //...
   fn insert(&self, item: Self::Item);
 }
-trait Processor<T> {
-  type store : Storage<Item=T>;
-
-  fn process_item(&self, item: T);
-}
-struct Message{/*...*/}
-struct MessageDispatcher {
-  processor : Processor<Message>,
+struct Message {/*...*/}
+struct MessageStore {
   //...
 }
-impl MessageDispatcher {
-  fn fetch_next_message(&self) -> Message {
-    //...
-# Message{}
-  }
-  fn run(&self) {
-    loop {
-      let message = self.fetch_next_message();
-      self.processor.process_item(message);
+impl Storage for MessageStore {
+    type Item = Message;
+    fn insert(&self, item: Message) {
+      //...
     }
-  }
 }
 ```
-Here we have a `MessageDispatcher` which in a loop is sending messages to a `Processor` which is inturn inserting them into `Storage`. What's interesting about this is `MessageDispatcher` holds onto a `Processor` but it knows nothing about `Storage`. So even though `Processsor` is generic with respect to which `Storage` it uses, upstream classes don't know or care about this generalization.
+Here we have a `MessageStore` is tied to the type `Message` so it uses an associated type.
 
 
 

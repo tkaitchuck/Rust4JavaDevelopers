@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>Collections - Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
+        <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -150,17 +150,17 @@
 ◦ How ownership prevents generics hell
 • Arc / Rc</p>
 <a class="header" href="#common-collections-and-their-equivlents" id="common-collections-and-their-equivlents"><h2>Common collections and their equivlents</h2></a>
-<p>|Java Type   | Rust Type | Notes |
-|============|===========|=======|
-|ArrayDeque  |VecDeque   |       |
-|ArrayList   |Vec        |       |
-|BitSet      |FixedBitSet|External crate. (Not in std lib)|
-|HashMap / HashSet     |HashMap / HashSet    |       |
-|LinkedHashMap / LinkedHashSet|IndexMap / IndexSet  |External crate. (Not in std lib)|
-|LinkedList  |LinkedList |Use discoruaged|
-|PriorityQueue|BinaryHeap|       |
-|TreeMap     |BTreeMap   |Uses BTreee rather than Binary tree (Much faster)|
-|TreeSet     |BTreeSet   |Uses BTreee rather than Binary tree (Much faster)|</p>
+<table><thead><tr><th>Java Type   </th><th> Rust Type </th><th> Notes </th></tr></thead><tbody>
+<tr><td>ArrayDeque  </td><td>VecDeque   </td><td>       </td></tr>
+<tr><td>ArrayList   </td><td>Vec        </td><td>       </td></tr>
+<tr><td>BitSet      </td><td>FixedBitSet</td><td>External crate. (Not in std lib)</td></tr>
+<tr><td>HashMap / HashSet     </td><td>HashMap / HashSet    </td><td>       </td></tr>
+<tr><td>LinkedHashMap / LinkedHashSet</td><td>IndexMap / IndexSet  </td><td>External crate. (Not in std lib)</td></tr>
+<tr><td>LinkedList  </td><td>LinkedList </td><td>Use discoruaged</td></tr>
+<tr><td>PriorityQueue</td><td>BinaryHeap</td><td>       </td></tr>
+<tr><td>TreeMap     </td><td>BTreeMap   </td><td>Uses BTreee rather than Binary tree (Much faster)</td></tr>
+<tr><td>TreeSet     </td><td>BTreeSet   </td><td>Uses BTreee rather than Binary tree (Much faster)</td></tr>
+</tbody></table>
 <a class="header" href="#iterators" id="iterators"><h2>Iterators</h2></a>
 <p>• Adding close to iterators (not possible in Java) (can pass around in Rust)
 • Fail fast iterators vs compiler

@@ -1,10 +1,10 @@
-use derive_more::Display;
-use failure::*;
+use failure::Fail;
 
-struct Message{/* ... */}
+struct Message {/* ... */}
 
-#[derive(Debug, Display, Fail)]
+#[derive(Debug, Fail)]
 enum DecodeFailure {
+  #[fail(display = "Failure decoding message")]
   CorruptData,
 }
 
@@ -13,7 +13,7 @@ struct Decoder {
 }
 impl Decoder {
   //...
-  pub fn decode(&self, message : &str) -> Result<Message, DecodeFailure> {
+  pub fn decode(&self, message: &str) -> Result<Message, DecodeFailure> {
     //...
     Ok(Message{/*...*/})
   }

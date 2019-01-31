@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>Rust for Java developers</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <meta name="description" content="A guiide to learning Rust for developers familiar with Java">
+        <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
@@ -1045,7 +1045,7 @@ trait Config {
 ◦ Autotraits: sync, send, sized, ?sized
 • Almost all of these are written in standard rust. Including thing like iterator which will be covered in the next chapter. These automatically add a LOT of premade functions for your custom made types that you don’t have to write. For the traits supporting #derive this is even easier, because you don’t even have to do anything besides type the name. Even more importantly because everything is just standard rust, and there are no special hooks in the compiler for any of these types. This means in your own code you can build abstractions that are just as powerful. <Even better this is all done at compile time so there is no overhead></p>
 <p>The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked. In Rust ‘this’ is called ‘self’. In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method. So leaving it out is analogous to declaring a method ‘static’ in Java. Similar to Java such a method is invoked from the type itself. The following functions are equivalent __ and __.</p>
-<p>Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code. They are broken out across multiple traits. In many cases there are internal/related structs, enums, and traits which allow for greater code reuse. For example below is a table of common traits <strong>(ndex, intoiter, etc</strong>_. Each of these is small and easy to implement. Each one appears on a lot of types you wouldn't necessarily guess right away. For example _, and _. The advantage is each one unlocks a lot of flexibility because there is a lot of code that takes advantage of them. See __ or __ or __ as there is a lot of functions built around iterators. This pattern holds generally in Rust. Classes are not monolithic. Instead they have many small components that hook into each other to provide greater code reuse.</p>
+<p>Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code.</p>
 <a class="header" href="#traits" id="traits"><h1>Traits</h1></a>
 <p>• Default methods
 • Traits can inherit
@@ -1204,22 +1204,115 @@ pub fn main() {
 </code></pre></pre>
 <p>In the above example notice the <code>Box&lt;dyn Processable&gt;</code>. <code>dyn</code> is equivlent to the <code>? extends</code> in Java example above. It indicates there is more than one implementation. IE: the type is dynamic and the actual implementation won't be known until runtime. The box is actige as a 'fixed size container' so that the itmes in <code>Vec</code> can all be the same size.</p>
 <p>In Java this &quot;boxing&quot; is done for all collections all the time, which is why primitives can't be placed in them. There is syntatic sugar for this called &quot;autoboxing&quot; which converts <code>int</code> into <code>Integer</code>. In Rust boxing is explicet.</p>
+<a class="header" href="#an-example" id="an-example"><h1>An example</h1></a>
+<p>Often classes are implemented with multiple traits. For example, Java's UUID class would be in a file named UUID.java and look like this:</p>
+<pre><code class="language-java">import java.util.Random;
+
+public final class UUID implements Serializable, Comparable&lt;UUID&gt; {}
+  private static final long serialVersionUID = -4856846361193249489L;
+
+  private long mostSigBits;
+
+  private long leastSigBits;
+
+  public UUID(long mostSigBits, long leastSigBits) {
+    this.mostSigBits = mostSigBits;
+    this.leastSigBits = leastSigBits;
+  }
+  
+  public int compareTo(UUID o) {
+    //...
+  }
+  public boolean equals(Object obj) {
+    //...
+  }
+  public int hashCode() {
+    //...
+  }
+  public String toString() {
+    //...
+  }
+  public static UUID fromString(String name) {
+    //...
+  }
+  public static UUID randomUUID() {
+    //...
+  }
+}
+</code></pre>
+<p>In Rust the equivlent would be in a file named UUID.rs and look like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::u64; 
+use std::str::FromStr;
+use failure::*;
+use serde_derive::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
+struct UUID {
+  most_sig_bits: u64,
+  least_sig_bits: u64,
+}
+impl UUID {
+  fn new(most_sig_bits: u64, least_sig_bits: u64) -&gt; UUID {
+    UUID{ most_sig_bits: most_sig_bits, least_sig_bits: least_sig_bits }
+  }
+  fn random() -&gt; UUID {
+    UUID{ most_sig_bits: rand::random(), least_sig_bits: rand::random() }
+  }
+}
+impl FromStr for UUID {
+    type Err = Error;
+    fn from_str(as_string: &amp;str) -&gt; Result&lt;UUID, Error&gt; {
+        Err(format_err!(&quot;Todo: deserialization not implemented {}&quot;, as_string))
+    }
+}
+impl ToString for UUID {
+    fn to_string(&amp;self) -&gt; String {
+      &quot;Todo: implement this&quot;.to_string()
+    }
+}
+#}</code></pre></pre>
+<p>The major difference between the Java version and the Rust version is that instead of being in a single <code>class</code> block where as the Rust implementation is split into three a <code>struct</code> block which contains the fields, an <code>impl</code> block which contains all of the class speffic methods, and separate <code>impl</code> blocks for each of the different traits that are implemented.</p>
+<p>In the Java case, there are two interfaces implemented <code>Serializable</code> and <code>Comparable</code>, where as <code>equals</code>, <code>hashCode</code>, and <code>toString</code> aren't interfaces, but rather are inherited from Object. Rust breaks things down a little more finely. Some of the <code>Serialize</code> and <code>Deserialize</code> are split into separate traits. In this case they appear in the <code>derive</code> &quot;attribute&quot;. An attribute is like a Java annotation. <code>derive</code> Automatically generates boilerplate implementations of common traits. In addition to these <code>Eq</code> is the analogous trait for <code>equals</code>, <code>hash</code> provides <code>hashCode</code>. In addition to these <code>PartialEq</code> and <code>PartialOrd</code> provide the equivlent of <code>equals</code> and <code>Comparable</code> without the requirement that all instances be differentiated. IE: Unlike <code>eq</code> if two instances can have member variable that is different but they are still considered the same for the purposes of equality, or in the case of <code>PartialOrd</code> unlike <code>Ord</code> there can be instances that can't be compared such as a floating point NaN. <code>Debug</code> is a trait to print a string representation for the purposes for debugging much like Java's <code>toString</code>. The traits <code>From</code> and <code>Into</code> are common traits for converting between different types. In this case if fills the same role as <code>fromString</code> implementatation in Java.</p>
 <a class="header" href="#patterns" id="patterns"><h2>Patterns</h2></a>
 <p>Because traits tend to be small and only have a few methods it's more common in Rust to have a parameter that implements multiple of them. To pick a simple class to see how this works in practice let's compare Java's <code>AtomicBoolean</code> to Rust's <code>AtomicBool</code></p>
-<p>|Attribute      | Java AtomicBoolean | Rust AtomicBool |
-|===============|====================|=================|
-| Total lines   |    359             |    532          |
-| Lines of docs |    172             |    361          |
-| Lines of code |     72             |     63          |
-| Public methods|     20             |     14          |
-| Interfaces/traits implemented| 1   |      5          |
-| Additional traits automatically implemented because they were defined elsewhere | n/a | 8 |
-| Total methods invokable| 20        |      32         |</p>
+<table><thead><tr><th>Attribute      </th><th align="right"><code>Java's AtomicBoolean</code> </th><th align="right"><code>Rust's AtomicBool</code> </th></tr></thead><tbody>
+<tr><td> Total lines   </td><td align="right">    359                </td><td align="right">    532             </td></tr>
+<tr><td> Lines of docs </td><td align="right">    172                </td><td align="right">    361             </td></tr>
+<tr><td> Lines of code </td><td align="right">     72                </td><td align="right">     63             </td></tr>
+<tr><td> Public methods</td><td align="right">     20                </td><td align="right">     14             </td></tr>
+<tr><td> Interfaces/traits implemented</td><td align="right"> 1      </td><td align="right">      5             </td></tr>
+<tr><td> Additional traits automatically implemented because they were defined elsewhere </td><td align="right"> n/a </td><td align="right"> 8 </td></tr>
+<tr><td> Total methods invokable</td><td align="right"> 20           </td><td align="right">      32            </td></tr>
+</tbody></table>
 <p>So while the actual implementations are very similar (There are only so may ways to implement an atomic boolean and only so many things you can do with it), a large chunk of the Rust implementation came 'for free' to the author of <code>AtomicBool</code> bacause 18 of the 32 methods were implemented Automatically by virtue of other traits/methods that were defined. In addition to this other developers can add their own interfaces and implementations. For example, the one interface Java's <code>AtomicBoolean</code> implements is <code>Serializeable</code>. In Rust, the dependency goes in other direction. <code>AtomicBool</code> is a basic type and the author of the serialization can provide their implementation for serializing it. So any code that depends on both serialization and on atomicBoolean will see even more methods (those implemneted by the author of serialization, as well as any further traits it gets 'for free' because of the ones it now implementes).</p>
 <p>As a result, it really pays to keep your own traits small and focused, and aggressivly implement common traits for your types.</p>
 <a class="header" href="#common-traits" id="common-traits"><h2>Common Traits</h2></a>
-<p>Below are some common interfaces in Java and their Rust equivalents:
-__</p>
+<p>This fine grained declaration of traits allows for greater code reuse. For example below is a table of common traits</p>
+<table><thead><tr><th> Trait      </th><th> Similar Java method </th><th> Description            </th></tr></thead><tbody>
+<tr><td align="left">PartialEq   </td><td> Object.equals </td><td> Defines if two instaces are semantically equal. </td></tr>
+<tr><td align="left">Eq          </td><td> Object.equals </td><td> Defines if two instance are equal and can differentiate between all instances </td></tr>
+<tr><td align="left">PartialOrd  </td><td> Comparable.compareTo </td><td> Defines &gt;, &gt;=, &lt;, and &lt;= operators </td></tr>
+<tr><td align="left">Ord         </td><td> Comparable.compareTo </td><td> Defines ordering, and can order all unique instances </td></tr>
+<tr><td align="left">Index       </td><td> List.get or [x] operators </td><td> Defines indexing IE: [x] much like a Java array </td></tr>
+<tr><td align="left">IntoIterator</td><td> Iterable.iterator </td><td> Defines a method to construct an iterator </td></tr>
+<tr><td align="left">Iterator    </td><td> Iterator </td><td> Allows iterating over a collection </td></tr>
+<tr><td align="left">Debug       </td><td> Object.toString </td><td> Creates a string representation of an object for debugging </td></tr>
+<tr><td align="left">Display     </td><td> Object.toString </td><td> Creates a human readable representation of an object </td></tr>
+<tr><td align="left">From        </td><td> N/A </td><td> A generic conversion function to instantiate one type from another </td></tr>
+<tr><td align="left">Into        </td><td> N/A </td><td> A generic conversion function to convert one type into another </td></tr>
+<tr><td align="left">Copy        </td><td> Java primitives </td><td> A type that is &quot;passed by value&quot; meaning it is copied each time it is assigned to a new value </td></tr>
+<tr><td align="left">Clone       </td><td> Cloneable.clone </td><td> A function that makes a copy of an object </td></tr>
+<tr><td align="left">FromStr     </td><td> N/A </td><td> Constructs an object from a string </td></tr>
+<tr><td align="left">ToString    </td><td> Object.toString </td><td> Converts an object into a string </td></tr>
+<tr><td align="left">Default     </td><td> A zero argument constructor </td><td> Instantiates a default version of an object </td></tr>
+<tr><td align="left">Error       </td><td> Exception </td><td> An exeption </td></tr>
+<tr><td align="left">Hash        </td><td> Object.hashCode </td><td> Used when storing an item in a HashMap or HashSet </td></tr>
+<tr><td align="left">Optional    </td><td> Optional </td><td> Either an item or <code>none</code> indicating its absence </td></tr>
+</tbody></table>
+<p>Each of these is small and easy to implement. Each one appears on a lot of types and is accepted in a lot of common functions. So each one a class can implement unlocks a lot of flexibility. See __ or __ or __ as there is a lot of functions built around iterators. This pattern holds generally in Rust. Classes are not monolithic. Instead they have many small components that hook into each other to provide greater code reuse. </p>
 <a class="header" href="#generics" id="generics"><h1>Generics</h1></a>
 <p>• Basic syntax
 ◦ Functions
@@ -1385,61 +1478,47 @@ pub fn serialize_max_value&lt;T, ProcT&gt;(items : Vec&lt;T&gt;, processor : Pro
 <p>In the case of a single trait/interface. In Java you might write __ where 'T extends’ is used to indicate there is some type T but the function doesn't care about the exact type of the object, provided it implements the specified interface. In Rust there is a shorthand for this using the 'impl’ keyword. __. This is most commonly used for return values for example __ specifies that this function is returning a _ but without providing the exact type. This is especially common when a function is returning a function. (Like a callback for example) __ here the function is specifying that it is returning a function with a particular signature but without specifying exactly which function it is returning. So you can think of impl as meaning “some implementation of this trait”. (It doesn't matter which) ‘impl’ only can refer to one trait. So if you need to use multiple, you'll have to use a where clause _ or an alias _.</p>
 <p>Optimizer: I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.</p>
 <a class="header" href="#associated-types" id="associated-types"><h3>Associated Types</h3></a>
-<p>Finally there is one feature that cuts down on the burdon of generics a lot: &quot;Associated types&quot;. Too often in Java when one component uses generics it forces other components interacting with it to be generic also even though they don't care about the type they are genericized over. For example if you had the classes:</p>
-<pre><code class="language-java">abstract class Graph&lt;ItemT&gt; {
-  private final List&lt;Node&lt;ItemT&gt;&gt; nodes;
-  private final List&lt;Edge&lt;ItemT&gt;&gt; edges;
-  //...
+<p>Finally there is one feature that cuts down on the burdon of generics a lot: &quot;Associated types&quot;. In Java the Supplier interface is defined as:</p>
+<pre><code class="language-java">interface Supplier&lt;T&gt; {
+  public T get();
 }
-//Then you might define another class:
-class Pathfinder&lt;GraphT extends Graph&lt;ItemT&gt;, ItemT&gt; {
-//...
-}
-
 </code></pre>
-<p>Here the class <code>Pathfiner</code> operates on a <code>Graph</code> and perfrom operations. The thing is, it does't actually care about <code>itemT</code>. For that matter neither does <code>Edge</code>. In both cases it is generic with respect to it only because it has to be, because it refers to <code>Graph</code>. What's move if Graph were to change, by adding a new generic parameter <code>Pathfiner</code> would brea. However this doesn't really make sense. It doesn't care about how graph is implemented, so it should be able to use <code>Graph</code>s generally being generic itself with respect to the implementation.</p>
-<p>So in Rust instead of:</p>
+<p>To do the same thing in Rust, you could write:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-trait Graph&lt;ItemT&gt; {
-  //...
+trait Supplier&lt;T&gt; {
+  fn get(&amp;self) -&gt; T;
 }
 #}</code></pre></pre>
-<p>you would do this:</p>
+<p>Or you could instead write:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-trait Graph {
-  type ItemT;
-  //...
+trait Supplier {
+  type Item;
+  fn get(&amp;self) -&gt; Self::Item;
 }
 #}</code></pre></pre>
-<p>Here <code>type</code> is a keyword. This is very similar to the first version but Pathfinder can now be declared without refering to the item type.</p>
+<p>Here <code>type</code> is a keyword, and <code>Item</code> is the name of the generic type rather than <code>T</code>.
+This has a few advantages. First it allows the generics to be specified by name, rather than relying on order:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-# trait Graph{} trait Node{}
-trait Pathfinder {
-  fn is_connected(start: Node, end: Node, graph: Graph) -&gt; bool;
-  //...
+# trait Supplier {
+# type Item;
+# fn get(&amp;self) -&gt; Self::Item;
+# }
+struct StringWrapper(String);
+impl Supplier for StringWrapper {
+  type Item = String;
+
+  fn get(&amp;self) -&gt; String {
+    self.0.clone()
+  }
 }
 #}</code></pre></pre>
-<p>of course it is allowed to do so, it would look like:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-trait Graph {
-  type T;
-}
-trait Node {
-  type T;
-}
-trait PathFinder&lt;ItemT&gt; {
-  fn is_connected(start: Node&lt;T=ItemT&gt;, end: Node&lt;T=ItemT&gt;, graph: Graph&lt;T=ItemT&gt;) -&gt; bool;
-}
-#}</code></pre></pre>
-<p>In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called &quot;unicity&quot;.) For example If you were to define a concrete class <code>LinkedList</code> it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example <code>Iterator</code> in that case it should use an associated type, because each implementation of iterator is only going to have one perticularl type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. The reason having a single associated type is useful for Iterator as opposed to being generic is that it allows callers to implement functions for it that don't depend on the type. For example we can implement additional traits that don't care about the type:</p>
+<p>This can segnifigantly improve readability when there are multiple types. It also allows the type to be refered to without specifying the type. For example:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -1448,15 +1527,28 @@ trait Countable {
 }
 impl&lt;T&gt; Countable for T where T:Iterator {
     fn count(self) -&gt; i32 {
-        let mut counter = 0;
-        for _ in self {
-            counter += 1;
+        let mut count = 0;
+        for value in self {
+            count += 1;
         }
-        counter
+        count
     }
 }
 #}</code></pre></pre>
-<p>Similarly traits with associated types can be put into a class or passed to a method that doesn't care about the implementation:</p>
+<p>Here <code>Iterator</code> is refered to without needing to specify the generic associated with Iterator. This means that Countable does not itself have to be generic even though it operates on things that are. In the above code, they type of <code>value</code> is <code>T::Item</code>. A similar example using the supplier interface defined above would look like:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+trait Supplier {
+  type Item;
+  fn get(&amp;self) -&gt; Self::Item;
+}
+//...
+fn vec_of_value&lt;S:Supplier&gt;(supplier : &amp;S) -&gt; Vec&lt;S::Item&gt; {
+  vec![supplier.get()]
+}
+#}</code></pre></pre>
+<p>In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called &quot;unicity&quot;.) For example If you were to define a concrete class <code>LinkedList</code> it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example <code>Iterator</code> in that case it should use an associated type, because each implementation of iterator is only going to have one perticular type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. For example:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -1465,30 +1557,18 @@ trait Storage {
   //...
   fn insert(&amp;self, item: Self::Item);
 }
-trait Processor&lt;T&gt; {
-  type store : Storage&lt;Item=T&gt;;
-
-  fn process_item(&amp;self, item: T);
-}
-struct Message{/*...*/}
-struct MessageDispatcher {
-  processor : Processor&lt;Message&gt;,
+struct Message {/*...*/}
+struct MessageStore {
   //...
 }
-impl MessageDispatcher {
-  fn fetch_next_message(&amp;self) -&gt; Message {
-    //...
-# Message{}
-  }
-  fn run(&amp;self) {
-    loop {
-      let message = self.fetch_next_message();
-      self.processor.process_item(message);
+impl Storage for MessageStore {
+    type Item = Message;
+    fn insert(&amp;self, item: Message) {
+      //...
     }
-  }
 }
 #}</code></pre></pre>
-<p>Here we have a <code>MessageDispatcher</code> which in a loop is sending messages to a <code>Processor</code> which is inturn inserting them into <code>Storage</code>. What's interesting about this is <code>MessageDispatcher</code> holds onto a <code>Processor</code> but it knows nothing about <code>Storage</code>. So even though <code>Processsor</code> is generic with respect to which <code>Storage</code> it uses, upstream classes don't know or care about this generalization.</p>
+<p>Here we have a <code>MessageStore</code> is tied to the type <code>Message</code> so it uses an associated type.</p>
 <a class="header" href="#collections" id="collections"><h1>Collections</h1></a>
 <p>• Vec
 • HashMap
@@ -1503,17 +1583,17 @@ impl MessageDispatcher {
 ◦ How ownership prevents generics hell
 • Arc / Rc</p>
 <a class="header" href="#common-collections-and-their-equivlents" id="common-collections-and-their-equivlents"><h2>Common collections and their equivlents</h2></a>
-<p>|Java Type   | Rust Type | Notes |
-|============|===========|=======|
-|ArrayDeque  |VecDeque   |       |
-|ArrayList   |Vec        |       |
-|BitSet      |FixedBitSet|External crate. (Not in std lib)|
-|HashMap / HashSet     |HashMap / HashSet    |       |
-|LinkedHashMap / LinkedHashSet|IndexMap / IndexSet  |External crate. (Not in std lib)|
-|LinkedList  |LinkedList |Use discoruaged|
-|PriorityQueue|BinaryHeap|       |
-|TreeMap     |BTreeMap   |Uses BTreee rather than Binary tree (Much faster)|
-|TreeSet     |BTreeSet   |Uses BTreee rather than Binary tree (Much faster)|</p>
+<table><thead><tr><th>Java Type   </th><th> Rust Type </th><th> Notes </th></tr></thead><tbody>
+<tr><td>ArrayDeque  </td><td>VecDeque   </td><td>       </td></tr>
+<tr><td>ArrayList   </td><td>Vec        </td><td>       </td></tr>
+<tr><td>BitSet      </td><td>FixedBitSet</td><td>External crate. (Not in std lib)</td></tr>
+<tr><td>HashMap / HashSet     </td><td>HashMap / HashSet    </td><td>       </td></tr>
+<tr><td>LinkedHashMap / LinkedHashSet</td><td>IndexMap / IndexSet  </td><td>External crate. (Not in std lib)</td></tr>
+<tr><td>LinkedList  </td><td>LinkedList </td><td>Use discoruaged</td></tr>
+<tr><td>PriorityQueue</td><td>BinaryHeap</td><td>       </td></tr>
+<tr><td>TreeMap     </td><td>BTreeMap   </td><td>Uses BTreee rather than Binary tree (Much faster)</td></tr>
+<tr><td>TreeSet     </td><td>BTreeSet   </td><td>Uses BTreee rather than Binary tree (Much faster)</td></tr>
+</tbody></table>
 <a class="header" href="#iterators" id="iterators"><h2>Iterators</h2></a>
 <p>• Adding close to iterators (not possible in Java) (can pass around in Rust)
 • Fail fast iterators vs compiler
@@ -1763,14 +1843,14 @@ impl Decoder {
 #fn main() {
 use failure::*;
 
-struct Message{/* ... */}
+struct Message {/* ... */}
 
 struct Decoder {
   //...
 }
 impl Decoder {
   //...
-  pub fn decode(&amp;self, message : &amp;str) -&gt; Result&lt;Message, Error&gt; {
+  pub fn decode(&amp;self, message: &amp;str) -&gt; Result&lt;Message, Error&gt; {
     ensure!(!message.is_empty(), &quot;Message was empty&quot;);
     //...
     Ok(Message{/*...*/})
@@ -1783,13 +1863,13 @@ impl Decoder {
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-use derive_more::Display;
-use failure::*;
+use failure::Fail;
 
-struct Message{/* ... */}
+struct Message {/* ... */}
 
-#[derive(Debug, Display, Fail)]
+#[derive(Debug, Fail)]
 enum DecodeFailure {
+  #[fail(display = &quot;Failure decoding message&quot;)]
   CorruptData,
 }
 
@@ -1798,7 +1878,7 @@ struct Decoder {
 }
 impl Decoder {
   //...
-  pub fn decode(&amp;self, message : &amp;str) -&gt; Result&lt;Message, DecodeFailure&gt; {
+  pub fn decode(&amp;self, message: &amp;str) -&gt; Result&lt;Message, DecodeFailure&gt; {
     //...
     Ok(Message{/*...*/})
   }
@@ -1837,7 +1917,7 @@ match failing_function() {
 <p>In addition Rust has error types these work like a return value but with some special syntax surrounding them. This ends up working a bit like checked exceptions in Java.</p>
 <p>Exceptions like many things in Rust are a crate that is imported, rather than built into the syntax itself. The preferred implementation is one called “Failure”. much like Java it allows you to create your own exception types chain exceptions together when one causes another, and provides stack traces. However exceptions in Rust work differently than they do in Java. In fact the exceptions isn't really the right word they work somewhere between a return value at an exception. They do however have a very compact syntax which is helpful.</p>
 <p>In Java you might write:</p>
-<pre><code class="language-java">private String readFileIntoString(String filePath) throw IOException;
+<pre><code class="language-java">private String readToString(String filePath) throw IOException;
 </code></pre>
 <p>The equivalent Rust would be:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -1845,16 +1925,80 @@ match failing_function() {
 #fn main() {
 # use std::io;
 # pub trait Example { 
-fn read_file_into_string(path: String) -&gt; Result&lt;String, io::Error&gt;;
+fn read_to_string(path: String) -&gt; Result&lt;String, io::Error&gt;;
 # }
 #}</code></pre></pre>
 <p>Notice that the exception is actually part of the return value. Specifically the function either returns a <code>String</code> or an Exception. If that was all there was, it still would be a step up from languages like c or go in that you cannot forget to check the value. But having to manually unwrap each return value and usually re-throw the exception at every stack frame would be very tedious and seem down right primitive compared to Java. Fortunately this is not the case. You can use a special operator the question mark. If you have code like the following:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
-
 #fn main() {
+# use std::io;
+# use std::io::Read;
+# use std::fs::*;
+# fn initial_buffer_size(file: &amp;File) -&gt; usize { 0 }
+# pub trait Example { 
+// Copied from std::fs
+fn read_to_string(path: &amp;str) -&gt; io::Result&lt;String&gt; {
+    let mut file = File::open(path)?;
+    let mut string = String::with_capacity(initial_buffer_size(&amp;file));
+    file.read_to_string(&amp;mut string)?;
+    Ok(string)
+}
+# }
 #}</code></pre></pre>
-<p>The <code>?</code> Was simply rethrow the exception. But that's not all, you can also convert between exception types automatically changing the new exception to the old one. For example you might write the following code in Java: __. This is very verbose and not very clear in terms of its flow. However it is equivalent to the following Rest code: __. as you can see this is both very explicit and compact it shows the flow control very nicely you can see the points where function can exit, and it does so without any extraneous indentation Constructors or unnecessary blocks. Just to show a more sophisticated example the following are equivalent: __ and __. The exception generated will look like __ and __. but notice the rest code didn't have nice line numbers in backtrace is for the intermediate functions. fortunately to enable this is quite simple you just set the environmental variable RUST_BAKTRACE=1. Then it will print the following __. Because this doesn't add any overhead in the non-failure case (and is fairly cheap even in the error case), and increases debuggability I simply leave this on all the time.</p>
+<p>Notice the <code>?</code>. This will rethrow the exception. But that's not all, you can also convert between exception types automatically changing the new exception to the old one. For example you might write the following code in Java:</p>
+<pre><code class="language-java">public class PublicException extends Exception {
+  PublicException(String message) {
+    super(message);
+  }
+  PublicException(Throwable t) {
+    super(t);
+  }
+  PublicException(String message, Throwable t) {
+    super(message, t);
+  }
+}
+//Then elsewhere: 
+public void publicFunction() throws PublicException {
+  String value;
+  try {
+    value = doSomeStuff();
+  } catch (InternalException e) {
+    throw new PublicException(e);
+  }
+  try {
+    doSomeOtherStuff(value);
+  } catch (OtherInternalException e)
+    throw new PublicException(e);
+  }
+}
+</code></pre>
+<p>This is not only very verbose, it is not very clear in terms of its flow. However it is equivalent to the following Rest code:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use failure::*;
+#[derive(Debug, Fail)]
+#[fail(display = &quot;Human readable error message&quot;)]
+struct PublicError {
+  #[fail(cause)]
+  cause: Error,
+}
+impl From&lt;Error&gt; for PublicError {
+  fn from(err: Error) -&gt; Self {
+    PublicError { cause: err }
+  }
+}
+//Then elsewhere: 
+pub fn public_function() -&gt; Result&lt;(), PublicError&gt; {
+  let value : String = do_some_stuff()?;
+  do_some_other_stuff(value)?;
+  Ok(())
+}
+# fn do_some_stuff() -&gt; String { &quot;Hello&quot;.to_string() }
+# fn do_some_other_stuff(value : String) {}
+#}</code></pre></pre>
+<p>as you can see this is both very explicit and compact it shows the flow control very nicely you can see the points where function can exit, and it does so without any extraneous indentation Constructors or unnecessary blocks. Just to show a more sophisticated example the following are equivalent: __ and __. The exception generated will look like __ and __. but notice the rest code didn't have nice line numbers in backtrace is for the intermediate functions. fortunately to enable this is quite simple you just set the environmental variable RUST_BAKTRACE=1. Then it will print the following __. Because this doesn't add any overhead in the non-failure case (and is fairly cheap even in the error case), and increases debuggability I simply leave this on all the time.</p>
 <p>In Java a common approach is to have use multiple subclasses of a common exception. In Rust the pattern is to use an enum. So this Java function <em>(io)</em>, would be written like this in Rust. __. So in Java a caller handling these together would just catch _ or would handle them separately with multiple catch blocks __. In Rust they can be handled collectively __ or via a Match statement __. However this code is messy and verbose. So Rust allows you to instead write __. This is exactly the same as the above code. The ? Operator unwraps the result object if the call was successful, otherwise it returns an error, and if the method’s error type is different it will automatically call __ to wrap or convert the error. This pattern is commonly used in conjunction with a crate called Failure which automatically generates a lot of the boilerplate code for you and provides backtraces that can we accessed just like in Java 10. __. The advantage of Failure backtraces as opposed to Java's is they automatically work across threads. __</p>
 <p>Another common pattern in Rust that gets exceptions even further out of the way is to Alias error. For example __. Then all the methods can just have __ in their signature and not have to type the exception signature over and over.</p>
 <a class="header" href="#destructors" id="destructors"><h2>Destructors</h2></a>
