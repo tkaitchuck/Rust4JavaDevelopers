@@ -1,20 +1,20 @@
 # Concurrency
 
-  • Futures_cpupool
-    ◦ Futures chaining
-    ◦ Async / await.
-    ◦ Futex
-  • Async example w/ futures
-    ◦ Select and join compared to and and or in Java 
-    ◦ Futures with streams (.buffered)
-    ◦ Performance
-  • Async! Macro
-  • Arc
-  • Queue example / channels
-    ◦ Send attribute
-    ◦ Select
-    ◦ using channels doesn't prevent race conditions because Go lacks immutability. In Java the same problem exists. In Rust it ownership is explicit so it’s safe
-  • Turn a sync API into an async one
+  * Futures_cpupool
+    * Futures chaining
+    * Async / await.
+    * Futex
+  * Async example w/ futures
+    * Select and join compared to and and or in Java 
+    * Futures with streams (.buffered)
+    * Performance
+  * Async! Macro
+  * Arc
+  * Queue example / channels
+    * Send attribute
+    * Select
+    * using channels doesn't prevent race conditions because Go lacks immutability. In Java the same problem exists. In Rust it ownership is explicit so it’s safe
+  * Turn a sync API into an async one
 
 In Java you would synchronize the code like this.__ In Rust you synchronize it like this.__  In both cases the lock is guaranteed to be released at the end of the scope. In Java’s case it is because a special scope is being introduced. In the case of Rust, there is no special language feature it just uses the normal destructor to release the lock. This means a new scope does not need to be introduced. Of course you can add one line this __ if you want to reduce the scope a lock is held. (This could also be done with a private method). Another common pattern is to use a loop conditional expression __ as this has a very small scope.
 

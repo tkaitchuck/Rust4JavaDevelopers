@@ -1,6 +1,6 @@
 # Writing Mactos
 
-  • Vs reflection
+  * Vs reflection
 
 In Rust you will find yourself using macros in a lot of the same places you would use reflection in Java. Which is to say in a normal program, almost never. But they are often a core component of any sort of framework or library that automates writing a bunch of boilerplate code.
 

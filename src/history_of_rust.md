@@ -1,7 +1,7 @@
 # History of Rust
 
 > **“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”**  
-> -- The Book of Mozilla, 11:14
+> *-- The Book of Mozilla, 11:14*
 
 In the early days of computer programming, all programs were what today we would call proceederal. Which gave rise to various ways to organize code. However it was quickly realized that mutable shared state was the root of most bugs.
 

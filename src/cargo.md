@@ -1,15 +1,15 @@
 # Cargo
 
-  • https://blog.rust-lang.org/2016/05/05/cargo-pillars.html
-  • Toml format
-  • Dependencies
-    ◦ Dev-Dependencies
-  • Cargo tools
-    ◦ Audit
-    ◦ Test
-    ◦ Doc test
+  * https://blog.rust-lang.org/2016/05/05/cargo-pillars.html
+  * Toml format
+  * Dependencies
+    * Dev-Dependencies
+  * Cargo tools
+    * Audit
+    * Test
+    * Doc test
 ## Versions
-  • Depreciation warning
+  * Depreciation warning
 
 One old idea that Rust embraces is versioning. Unlike Java (or most other programming languages) in Rust when creating a new project you explicitly specify which edition of the language you wish use. This Book is written to the 2018 edition of the language. This edition has different syntax than the 2015 edition, and future editions will change things as well. But backwards compatibility is maintained because the compiler can check which edition is being used and compile to that standard. Because regardless of which edition is being used the code is compiled to native code, code written in any edition can depend on code written in any other edition. This frees the language to evolve and change overtime without being tied down to legacy.
 
@@ -24,39 +24,39 @@ Unlike Java, Rust has a very small standard library. Instead it provides powerfu
 Cargo is very will integrated into the language. You can think of Cargo as being similar to Gradle and Maven in Java. Each project has a `Cargo.toml` file. This is where ….
 
 ## Common dependencies
-  • Logging of events for metrics
-  • Slotmap
-    ◦ Provides a map where the map generates the key. Efficient useful for ECS.
-    ◦ Slotmap vs slab?
-  • Rtfm for embedded systems. Also Singleton. And svd2rust
-  • Bindgen
-  • Rust-simple-signal
-  • Fuzzers
-    ◦ Cargo fuzz uses an address checker to verify uninitialized memory is not being read.
-  • Command line arg library - clap
-  • Serde
-    ◦ Versioning with Enum and option
-  • Serde_json json Macro
-  • Itertools crate adds more functions
-    ◦ Rayon, faster, etc.
-  • anymap - as a component registry
-  • Instead of rolling your own graph: Petgraph or an ECS 
-  • Rocket
-    ◦ Prevents: directory traversal, csrf, SQL injection, css, remote code execution, authentication, authorization, input validation, misconfiguration.
-  • Habitat
-  • Serdie
-  • Servo
-  • redox
-  • Tokio
-  • Ripgrep
-  • Rustfmt/racer/rustfix
-  • Rustup
-  • Cargo
-  • Rr
-  • Quick check
-  • Crossbeam
-  • Rayon
-  • Diesel
+  * Logging of events for metrics
+  * Slotmap
+    * Provides a map where the map generates the key. Efficient useful for ECS.
+    * Slotmap vs slab?
+  * Rtfm for embedded systems. Also Singleton. And svd2rust
+  * Bindgen
+  * Rust-simple-signal
+  * Fuzzers
+    * Cargo fuzz uses an address checker to verify uninitialized memory is not being read.
+  * Command line arg library - clap
+  * Serde
+    * Versioning with Enum and option
+  * Serde_json json Macro
+  * Itertools crate adds more functions
+    * Rayon, faster, etc.
+  * anymap - as a component registry
+  * Instead of rolling your own graph: Petgraph or an ECS 
+  * Rocket
+    * Prevents: directory traversal, csrf, SQL injection, css, remote code execution, authentication, authorization, input validation, misconfiguration.
+  * Habitat
+  * Serdie
+  * Servo
+  * redox
+  * Tokio
+  * Ripgrep
+  * Rustfmt/racer/rustfix
+  * Rustup
+  * Cargo
+  * Rr
+  * Quick check
+  * Crossbeam
+  * Rayon
+  * Diesel
 
 Below are some common dependencies and a brief description of what they do:
 

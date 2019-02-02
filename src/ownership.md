@@ -56,11 +56,11 @@ This might seems like it doesn’t allow cycles. There are ways to create cycles
 However the main tool that used is borrowing.
 
 # Borrows
-  • Output to be populated
-  • Sort example
-  • Also called reference (Not the same as a C++ ref, more like a smart pointer)
-  • Primitive (copy by value) vs pointer
-  • Copy vs move (is similar)
+  * Output to be populated
+  * Sort example
+  * Also called reference (Not the same as a C++ ref, more like a smart pointer)
+  * Primitive (copy by value) vs pointer
+  * Copy vs move (is similar)
 
 In addition to compile time memory management and guaranteed thread safety (more on this in the concurrency chapter), explicit ownership opens up a lot of useful patterns.
 
@@ -159,7 +159,7 @@ trait Config {
 ```
 here the `set_attributes` function is making explicit that when called it is now the owner of the provided `attributes` and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood that you should not modify the object afterwards. But nothing actually prevents this. 
 
-  • Similar pattern getting an entry by key and doing .or_insert() += 1. 
+  * Similar pattern getting an entry by key and doing .or_insert() += 1. 
 
 The rules for ownership and borrowing are straight forward: __
 
@@ -169,25 +169,25 @@ There are more exotic ways to handle objects then in general aren't really neede
 
 
 All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that component where you need it. There are many such components publically available, and we’ll cover some of them in depth in this book. A short list of common ones is below __
-  • SplitAtMut
-  • Cell
-  • RefCell
-  • Rc/Arc
+  * SplitAtMut
+  * Cell
+  * RefCell
+  * Rc/Arc
 
-  • Cell provides internal mutability. Ie you can change data when immutable, but only behind an interface.
-    ◦ Can't violate normal immutability rules, because cell requires ownership.
-    ◦ Can't violate normal borrowing rules either.
-    ◦ Cell forbids references to its contents.
-    ◦ Things containing cells are not allowed to cross thread boundaries
-    ◦ When you see realize the field is mutable, and can change between times you use it.
-  • RefCell allows in stead or replacing a value to change it like cell the ability to borrow and mutable borrow the contents.
-    ◦  like cell, can't use to violate normal parameter guarantees
-    ◦ Can't cross thread boundaries.
-    ◦ Still safe. Single writer of multiple readers enforced at runtime.
+  * Cell provides internal mutability. Ie you can change data when immutable, but only behind an interface.
+    * Can't violate normal immutability rules, because cell requires ownership.
+    * Can't violate normal borrowing rules either.
+    * Cell forbids references to its contents.
+    * Things containing cells are not allowed to cross thread boundaries
+    * When you see realize the field is mutable, and can change between times you use it.
+  * RefCell allows in stead or replacing a value to change it like cell the ability to borrow and mutable borrow the contents.
+    *  like cell, can't use to violate normal parameter guarantees
+    * Can't cross thread boundaries.
+    * Still safe. Single writer of multiple readers enforced at runtime.
 
 
 ‘Cell’ is a class included in the standard library. It allows the value it is wrapping to be replaced. So you can write a struct like this __ and then modify that field it in a function that only has an immutable borrow like this __. This circumvents the normal mutability rules, and as such the compiler will not allow types using ‘Cells’ to cross thread boundaries. Similarly there a type ‘RefCell’ that allows the value to be modified (as opposed to replaced). __ Here a hashmap is being defined that can be updated by a function that only has a _. ‘RefCell’ does not actually abandon safety all together. While you can get a mutable reference out of an immutable object like so __ it actually just moves the safety check from compile time to runtime. So if your code actually does something bad, like attempts to get two mutable references at the same time, it will panic. <It is still correct if you have full unit test coverage>
-  • Ref and RefMut are returned. These act as a lifetime tracker which allows the enforcement of one writer at a time.  
+  * Ref and RefMut are returned. These act as a lifetime tracker which allows the enforcement of one writer at a time.  
 
 In general using ‘cell’ or ‘RefCell’ a lot is considered bad design. ‘Cell’ and ‘RefCell’ should be reserved for special cases that don’t impact the externally visible functionality. For example they provide a easy way to add things like counters, metrics, debugging information to an existing object without having to refactor all the code that is accessing it. Similarly they are frequently used when constructing Mock objects for test purposes. (The actual code may be accessing the object in a ‘read-only’ way, but the mock still may want to record what calls have occured) 
 
@@ -214,18 +214,18 @@ Similar to Java, Rust's function calls are normally “pass by reference” mean
 In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)
 
 # TODO
-  • String types (mutability, borrowing, assignment as move)
-    ◦ String concatenation
-      ▪ Format! In example
-    ◦ Stringbuilder
-    ◦ In Java Strings are Immutable, and a primitive. You might not think about it too much but this is an essential language feature. If Java hadn’t provided a single standard String implementation in the standard library, or if they had chosen to make it mutable it would be very difficult to work in the language. Imagine if every time you passed a string into a method you had to make a defensive copy or carefully check the method’s Javadocs to make sure it doesn’t modify the string. So it might seem surprising that Rust went into a different direction. However there is a very simple reason for this, Rust’s methods always declare if they need to modify the value being passed. __. Similarly the caller has to explicitly pass either a mutable or immutable reference or slice of the string. So there is no ambiguity. A function can never pass a string somewhere and have it unexpectedly modified. 
-  • Fixed size arrays
-  • Byte array and ByteBuffer
-  • Vec and arraylist
-    ◦ Strings are actually Vecs of UTF-8 characters/bytes
-  • Raw strings for multi line constants
-  • Slices
-    ◦ Str is a slice of a String (get it?)
-    ◦ Should be after indexes and range traits are introduced (Operator overloading)
-    ◦ A slice of a vec is an array
-      ▪ Made possible by ownership
+  * String types (mutability, borrowing, assignment as move)
+    * String concatenation
+      * Format! In example
+    * Stringbuilder
+    * In Java Strings are Immutable, and a primitive. You might not think about it too much but this is an essential language feature. If Java hadn’t provided a single standard String implementation in the standard library, or if they had chosen to make it mutable it would be very difficult to work in the language. Imagine if every time you passed a string into a method you had to make a defensive copy or carefully check the method’s Javadocs to make sure it doesn’t modify the string. So it might seem surprising that Rust went into a different direction. However there is a very simple reason for this, Rust’s methods always declare if they need to modify the value being passed. __. Similarly the caller has to explicitly pass either a mutable or immutable reference or slice of the string. So there is no ambiguity. A function can never pass a string somewhere and have it unexpectedly modified. 
+  * Fixed size arrays
+  * Byte array and ByteBuffer
+  * Vec and arraylist
+    * Strings are actually Vecs of UTF-8 characters/bytes
+  * Raw strings for multi line constants
+  * Slices
+    * Str is a slice of a String (get it?)
+    * Should be after indexes and range traits are introduced (Operator overloading)
+    * A slice of a vec is an array
+      * Made possible by ownership

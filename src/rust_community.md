@@ -7,12 +7,12 @@ Another aspect it the language itself. Rust’s learning curve is both initially
 
 So in some languages, you might be mocked for asking for help, or be unable to find it, or write what you think is right only to have things break at Runtime. With Rust, you might have to ask for help more or work harder to get things to compiler. But you’ll find lots of people will be happy to help. And once your code does compile, you can be fairly confident it is correct.
 ## RFC process
-  • Discuss
-  • Pre-rfc
-  • RFC
-  • Impl
-  • Nightly
-  • Crater to rebuild to world
-  • Beta - through release
-  • No new reasoning
-  • Committees and many perspectives. 
+  * Discuss
+  * Pre-rfc
+  * RFC
+  * Impl
+  * Nightly
+  * Crater to rebuild to world
+  * Beta - through release
+  * No new reasoning
+  * Committees and many perspectives. 

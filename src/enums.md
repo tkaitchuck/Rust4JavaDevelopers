@@ -1,10 +1,10 @@
 # Enums, tuples, and aliases
 
-  • Range operator. Range on struct to destructure.
-  • Enums in Java are way better than constants in other languages like C or Go. - You know they won’t get misassigned as numbers and you can use switch statements
-  • Enums give more meaningful names to concepts without overhead, so you can name possible outcomes to improve API quality and reduce the chances of Error.
-  • Enums can implement traits
-  • bitflags
+  * Range operator. Range on struct to destructure.
+  * Enums in Java are way better than constants in other languages like C or Go. - You know they won’t get misassigned as numbers and you can use switch statements
+  * Enums give more meaningful names to concepts without overhead, so you can name possible outcomes to improve API quality and reduce the chances of Error.
+  * Enums can implement traits
+  * bitflags
 
 ## aliases
 Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example:
@@ -43,8 +43,8 @@ Enums in Rust are different from enums in Java. They aren't just constants, they
 This is useful as it allows you to enumerate different possible return values. For example __. This would require a very awkward construction in Java.
 
 ## Option vs null
-  • Option implements traits
-    ◦ Take method
+  * Option implements traits
+    * Take method
 
 In Java and variable can be assigned to null. (In fact there is no `null` in Rust) Rust uses an explicit Option type to convey when an object can be null. This was added in later versions of Java but it's not as helpful as it could be because it doesn't actually prevent assigning things to null, it just documents times when you expect that they can be null. As such it doesn't catch any NullPointerExceptions at compile time because these occur precisely when you don't expect things to be null. You might think the lack of nulls would result is very verbose code. But it's not much of a problem in Rust. Compare this __ to the equivalent Java __. The real advantage of making option explicit is not that it prevents null pointers but that it makes interfaces better. Take a look at Java's iterators. They need to have a hasNext() method because it cannot use null to differentiate “there are no more values” from a value that is null. Anyone who has implemented their own iterator will immediately recognize how annoying this can be.
 
@@ -81,10 +81,10 @@ struct Distance(f64);
 let london_to_NY = Distance(3459.3,);
 ```
 Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.
-  • https://medium.com/@robertgrosse/ref-patterns-destructuring-and-invisible-borrows-2f8ae6902656
+  * https://medium.com/@robertgrosse/ref-patterns-destructuring-and-invisible-borrows-2f8ae6902656
 
 ## Match
-  • Match guards / binding
+  * Match guards / binding
 
 In the above example we introduced a new construct `match`. Match works like a souped up version of Java’s switch statement. It differs in a few important ways: It must be exhaustive, There is no fallthrough (and hence no break), it is an expression so it can return a value, It has pattern matching which lets you define what to match against, it can capture variables so the right hand side can use them. Here is a match statement that shows off all of these __ compared to the equivalent Java __. 
 

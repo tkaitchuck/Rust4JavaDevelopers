@@ -1,6 +1,6 @@
 # Operator Overloading
 
-  • Size() length, get(), []
+  * Size() length, get(), []
 
 Traits are also used to what in other languages is called “operator overloading”. For each operator like ‘+’ for example there is an associated trait, which has a method that can be implemented. If an object has an implementation of the trait, you can use the operator as a shorthand for invoking that method. For example in Java it is very common to implement Compairable. However only primitive types can use the ‘<’ and ‘>’ operators. So you have to write:
 __

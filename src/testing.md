@@ -1,7 +1,7 @@
 # Testing
 
-  • Assert and derived macros (dbc and hoare)
-    ◦ Used as preconditions and for tests
+  * Assert and derived macros (dbc and hoare)
+    * Used as preconditions and for tests
 
 Rust has a strong culture of testing. Testing is built into cargo. They are run by invoking 'cargo test’. Tests are declared like this __. This is very similar to Junit in Java. Assertions can be made like __ or __.
 
@@ -13,9 +13,9 @@ Rust also supports randomized testing. Two popular libraries for this are _ and 
 
 Cargo also has built in support for microbenchmarking. This is done by writing a test like __. The _ does all the timing for you. All you have to do is implement the function to be benchmarked. You can run benchmarks via _. This shows output and allows you to track changes across versions by __.
 
-  • Tools for profiling: perf
+  * Tools for profiling: perf
 Visible for testing and Mocks
-  • Mocking example
-  • Yup-hyper-mock
+  * Mocking example
+  * Yup-hyper-mock
 
   

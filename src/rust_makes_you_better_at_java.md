@@ -1,56 +1,56 @@
 # How Rust makes you a better Java programmer
 
-  • “Data structures make it easy to add new functions without changing the structure. Where as objects allow adding new classes without changing the functions.” Oo makes it hard to add new functions, but traits allow this.
-  • Shared mutable state is the source of most bugs.
-    ◦ Oo languages limit sharing by hiding an impl behind the interface of an object. This is vastly better than the alternative. But doesn't fully hide things because … 
-      ▪ Indirection allows hidden changes
-    ◦ Functional languages remove mutable state. That prevents many problems, but it makes it much harder to do certain things. Which introduces its own bugs. Or you end up writing a lot of code to make immutable state look like mutable state. Which ends reintroducing some of the problems that were prevented.
-    ◦ Rust allows mutability without sharing, or sharing without mutation, but never both at the same time.
-  • The expression problem: The goal is to define a datatype by cases, where one can add new cases to the datatype and new functions over the datatype, without recompiling existing code, and while retaining static type safety (e.g., no casts)
-  • How rust makes you better at Java
-    ◦ Ownership
-      ▪ Nested sync
-      ▪ Modifying an object after passing.
-      ▪ Graphs
-    ◦ Composition over inheritance
-    ◦ Circular references
-      ▪ Are a problem, for c..
-      ▪ Are not needed most of the time. 
-      ▪ Usually for a callback. That is better handled via 
-        • FUtures 
-        • …
-      ▪ Don’t fear copies. (10x java copy speed)
-        • to_owned() from a ref 
-    ◦ Solid principles
+  * “Data structures make it easy to add new functions without changing the structure. Where as objects allow adding new classes without changing the functions.” Oo makes it hard to add new functions, but traits allow this.
+  * Shared mutable state is the source of most bugs.
+    * Oo languages limit sharing by hiding an impl behind the interface of an object. This is vastly better than the alternative. But doesn't fully hide things because … 
+      * Indirection allows hidden changes
+    * Functional languages remove mutable state. That prevents many problems, but it makes it much harder to do certain things. Which introduces its own bugs. Or you end up writing a lot of code to make immutable state look like mutable state. Which ends reintroducing some of the problems that were prevented.
+    * Rust allows mutability without sharing, or sharing without mutation, but never both at the same time.
+  * The expression problem: The goal is to define a datatype by cases, where one can add new cases to the datatype and new functions over the datatype, without recompiling existing code, and while retaining static type safety (e.g., no casts)
+  * How rust makes you better at Java
+    * Ownership
+      * Nested sync
+      * Modifying an object after passing.
+      * Graphs
+    * Composition over inheritance
+    * Circular references
+      * Are a problem, for c..
+      * Are not needed most of the time. 
+      * Usually for a callback. That is better handled via 
+        * FUtures 
+        * …
+      * Don’t fear copies. (10x java copy speed)
+        * to_owned() from a ref 
+    * Solid principles
 
 Rust’s strict enforcement of rules makes a lot of bad patterns particularly hard to write. This can be a good thing if you recognise when something is going wrong, because it stops you from making a design mistake. <Insert don’t fight the borrow checker>
 For an example of this see the article “Too many linked lists” or the Rustconf 2018 closing keynote “__”.
 
 ## Thread safety provided by ownership
-  • Race conditions and ownership.
-    ◦ Race by releasing lock
-    ◦ Compare java and rust
-  • Deadlock
-    ◦ In one class (obvious)
-    ◦ Cyclic dependency
-      ▪ Final initialization prevents
-        • Not always practiced in Java
-        • Often people do realize memory model implications
-        • Rust pattern is really akward and discouraged.
-        • Rust compiler correctly identifies memory model problem and forces you to grapple with it.
-    ◦ Object passed in during call
-      ▪ Java rules should prevent
-        • Often not practiced.
-        • Not as easy to spot because you can't tell at the call site. If code not always following rules and classes are mixed.
-      ▪ In Rust still possible. Example: a owns b, c. B holds c. A passes B to C by reference. B and C both have inner objects guarded by a mutex. The scope of the guard extends over calls to each other.
-        • Could be prevented by the old fashioned advice to keep the scope of locks small.
-        • Should be aware of such cycles. Not always obvious. Rule of thumb is not to invoke methods on some other argument while holding a lock. For example __
-        • In general in Rust if you are using a mutex over two objects you are doing it wrong. It is reasonable to make updates atomic, but the lock is in the wrong place. It should just wrap the thing that needs to be made atomic. So instead just hold onto the inner objects directly and make the method take a &mut self. Then wrap the object in mutex one level up.
-    ◦ Call back
-      ▪ Never invoke a callback or complete a future while holding a lock. (In any language)
-        • Really blatant violation of invoking a method on a passed object while holding a lock.
-      ▪ This is the ultimate narrow the scope of a lock. Who knows what a callback includes!
-      ▪ In Rust this is not a problem for futures as, unlike Java's they don't work as a callback. They get run by the executor. It's like if in Java you invoked __ every time instead of __. This is a safe way to avoid holding a lock in Java. Unfortunately it does have some overhead, so most codebases can't afford to simply have the rule that it should be used every time. Fortunately Rust have found a way to use their ownership model to make their futures Radically more efficient. For example __benchmark__.
+  * Race conditions and ownership.
+    * Race by releasing lock
+    * Compare java and rust
+  * Deadlock
+    * In one class (obvious)
+    * Cyclic dependency
+      * Final initialization prevents
+        * Not always practiced in Java
+        * Often people do realize memory model implications
+        * Rust pattern is really akward and discouraged.
+        * Rust compiler correctly identifies memory model problem and forces you to grapple with it.
+    * Object passed in during call
+      * Java rules should prevent
+        * Often not practiced.
+        * Not as easy to spot because you can't tell at the call site. If code not always following rules and classes are mixed.
+      * In Rust still possible. Example: a owns b, c. B holds c. A passes B to C by reference. B and C both have inner objects guarded by a mutex. The scope of the guard extends over calls to each other.
+        * Could be prevented by the old fashioned advice to keep the scope of locks small.
+        * Should be aware of such cycles. Not always obvious. Rule of thumb is not to invoke methods on some other argument while holding a lock. For example __
+        * In general in Rust if you are using a mutex over two objects you are doing it wrong. It is reasonable to make updates atomic, but the lock is in the wrong place. It should just wrap the thing that needs to be made atomic. So instead just hold onto the inner objects directly and make the method take a &mut self. Then wrap the object in mutex one level up.
+    * Call back
+      * Never invoke a callback or complete a future while holding a lock. (In any language)
+        * Really blatant violation of invoking a method on a passed object while holding a lock.
+      * This is the ultimate narrow the scope of a lock. Who knows what a callback includes!
+      * In Rust this is not a problem for futures as, unlike Java's they don't work as a callback. They get run by the executor. It's like if in Java you invoked __ every time instead of __. This is a safe way to avoid holding a lock in Java. Unfortunately it does have some overhead, so most codebases can't afford to simply have the rule that it should be used every time. Fortunately Rust have found a way to use their ownership model to make their futures Radically more efficient. For example __benchmark__.
 
 
 How to write thread safe code in Java….
