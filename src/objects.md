@@ -270,7 +270,7 @@ In the Java case, there are two interfaces implemented `Serializable` and `Compa
 ## Patterns
 Because traits tend to be small and only have a few methods it's more common in Rust to have a parameter that implements multiple of them. To pick a simple class to see how this works in practice let's compare Java's `AtomicBoolean` to Rust's `AtomicBool`
 
-|Attribute      |`Java's AtomicBoolean` |`Rust's AtomicBool` |
+|Attribute      | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Java's AtomicBoolean | &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Rust's AtomicBool |
 | ------------- |--------------------:  |-----------------:  |
 | Total lines   |    359                |    532             |
 | Lines of docs |    172                |    361             |

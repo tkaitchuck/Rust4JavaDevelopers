@@ -64,7 +64,7 @@ However the main tool that used is borrowing.
 
 In addition to compile time memory management and guaranteed thread safety (more on this in the concurrency chapter), explicit ownership opens up a lot of useful patterns.
 
-In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see `java.io.OutputStream.write(byte[] b, int off, int len)` or `java.io.FileInputStream.read(byte[] b, int off, int len)`. In Rust you can use slices. So you can write 
+In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code class="java">java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code class="java"> java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write 
 ```rust
 # use std::io;
 # use std::io::prelude::*;
