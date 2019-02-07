@@ -148,11 +148,11 @@ So in Java a caller handling these together would just catch _ or would handle t
 Another common pattern in Rust that gets exceptions even further out of the way is to Alias error. For example __. Then all the methods can just have __ in their signature and not have to type the exception signature over and over. 
 
 ## Destructors
-  • Destructors
-    ◦ Drop trait
-    ◦ Mutex
-    ◦ Refcell
-    ◦ Can't fail to close socket or file
+  * Destructors
+    * Drop trait
+    * Mutex
+    * Refcell
+    * Can't fail to close socket or file
 
 Programming in Rust means never having to close a Socket…. ...
 

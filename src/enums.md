@@ -1,4 +1,4 @@
-# Enums, tuples, and aliases
+# Enums, Tuples, and Aliases
 
   * Range operator. Range on struct to destructure.
   * Enums in Java are way better than constants in other languages like C or Go. - You know they won’t get misassigned as numbers and you can use switch statements
@@ -6,7 +6,7 @@
   * Enums can implement traits
   * bitflags
 
-## aliases
+## Aliases
 Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example:
 ```rust ,skt-main
 type Time = i64;
