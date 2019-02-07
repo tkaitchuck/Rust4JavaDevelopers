@@ -36,11 +36,11 @@ Non-trivial example to show assignment + use
     * https://doc.rust-lang.org/nomicon/subtyping.html 
 
 Rust generics look a lot like Javas. When declared on a type:
-```rust
+```rust ,skt-default
 # use std::marker::PhantomData;
 pub struct LinkedList<T> {
   //...
-# notImplemented : PhantomData<T>,
+# not_implemented : PhantomData<T>,
 }
 ```
 When instantiated:
@@ -48,7 +48,7 @@ When instantiated:
 let connection : HashMap<String, TcpStream> = //...
 ```
 When in a function signature:
-```rust
+```rust ,skt-default
 use std::collections::HashMap;
 pub fn lookup_emojis(characters : Vec<&str>) -> HashMap<&str, &str> {
   //...
@@ -59,11 +59,11 @@ pub fn lookup_emojis(characters : Vec<&str>) -> HashMap<&str, &str> {
 ## Type Inference
 
 Rust also has some shortcuts to make things easier. For example a type can be declared like this:
-```rust 
+```rust ,skt-main
 fn get_items() -> Vec<String> {
   vec!["Hello".to_string()] 
 }
-let toPrint : Vec<_> = get_items();
+let to_print : Vec<_> = get_items();
 ```
 Here the character ‘_’ tells the compiler “You figure out what's supposed to go here, I'm not going to bother to type it.”. This allows you to specify a type, while still allowing the generics to be infered. This works and can be used any place where the compiler has enough content to work out the generic value.
 
@@ -77,8 +77,8 @@ public static void <T extends Comparable<T>> sort(List<T> toSort) {
 ```
 Here the `entends` keyword is used to specify that the geric type `T` is must satisfy the "bounds" of Implementing `Comparable<T>`.
 The same function in Rust would look like this:
-```rust
-pub fn sort<T : Ord>(toSort : &mut Vec<T>) {
+```rust ,skt-default
+pub fn sort<T : Ord>(to_sort : &mut Vec<T>) {
   //...
 }
 ```
@@ -87,7 +87,7 @@ The `:` takes the place of "extends". `Ord` is a trait that allows items to be o
 You may be wondering, "Why doesn't Ord take a generic parameter?". After all `Comparable` in Java needs one because the interface is not specific to one implementation, and needs to refer to the same type. This is due to another feature, the "Self" type. 
 
 If you'll recall, when we define a method on an object we write:
-```rust
+```rust ,skt-default
 struct Foo;
 impl Foo {
   fn bar(&self) {
@@ -96,7 +96,7 @@ impl Foo {
 }
 ```
 Where the 'self' variable is a way to pass the equivlent of "this" in Java. Well that's actually just shorthand for:
-```rust
+```rust ,skt-default
 struct Foo;
 impl Foo {
   fn bar(self : &Self) {
@@ -105,11 +105,11 @@ impl Foo {
 }
 ```
 Where `Self` is the type of the object. This isn't useful on an impl because you know the type, but on an interface it can be. For example you can define something like this:
-```rust
-trait doubleable {
+```rust ,skt-main
+trait Doubleable {
   fn double(self) -> Self;
 }
-impl doubleable for i32 {
+impl Doubleable for i32 {
   fn double(self) -> Self {
     self * 2
   }
@@ -129,21 +129,21 @@ A simple one is "where" clauses. Suppose you had an interface like this:
 public <T extends Comparable<T>, ProcT extends Serializable, Processor<T>> byte[] serializeMaximumValue(List<T>, ProcT processor);
 ```
 You could just do the same thing in Rust:
-```rust
+```rust ,skt-default
 # //Normally Serialize is imported as: use serde::Serialize;
-# trait Serialize {}
+# pub trait Serialize {}
 pub fn serialize_max_value<T : Ord, ProcT : Proc<T> + Serialize>(items : Vec<T>, processor : ProcT) -> Vec<u8> {
   //...
 # vec![]
 }
 # pub trait Proc<T> {
-#  fn doSomething(item : T);
+#  fn do_something(item : T);
 # }
 ```
 The problem with this in both Rust and java is the generics really get in the way and make the function signature hard to read. So it's easier to use the `where` keyword to move these bounds over to the right, so they can be wrapped onto the following lines:
-```rust
+```rust ,skt-default
 # //Normally Serialize is imported as: use serde::Serialize;
-# trait Serialize {}
+# pub trait Serialize {}
 pub fn serialize_max_value<T, ProcT>(items : Vec<T>, processor : ProcT) -> Vec<u8> where
  T : Ord,
  ProcT : Proc<T> + Serialize {
@@ -151,7 +151,7 @@ pub fn serialize_max_value<T, ProcT>(items : Vec<T>, processor : ProcT) -> Vec<u
 # vec![]
 }
 # pub trait Proc<T> {
-#  fn doSomething(item : T);
+#  fn do_something(item : T);
 # }
 ```
 This is strictly equivlent, but hopefully easier to read.
@@ -174,13 +174,13 @@ interface Supplier<T> {
 }
 ```
 To do the same thing in Rust, you could write:
-```rust
+```rust ,skt-default
 trait Supplier<T> {
   fn get(&self) -> T;
 }
 ```
 Or you could instead write:
-```rust
+```rust ,skt-default
 trait Supplier {
   type Item;
   fn get(&self) -> Self::Item;
@@ -188,7 +188,7 @@ trait Supplier {
 ```
 Here `type` is a keyword, and `Item` is the name of the generic type rather than `T`.
 This has a few advantages. First it allows the generics to be specified by name, rather than relying on order: 
-```rust
+```rust ,skt-default
 # trait Supplier {
 # type Item;
 # fn get(&self) -> Self::Item;
@@ -203,7 +203,7 @@ impl Supplier for StringWrapper {
 }
 ```
 This can segnifigantly improve readability when there are multiple types. It also allows the type to be refered to without specifying the type. For example:
-```rust
+```rust ,skt-default
 trait Countable {
     fn count(self) -> i32;
 }
@@ -218,7 +218,7 @@ impl<T> Countable for T where T:Iterator {
 }
 ```
 Here `Iterator` is refered to without needing to specify the generic associated with Iterator. This means that Countable does not itself have to be generic even though it operates on things that are. In the above code, they type of `value` is `T::Item`. A similar example using the supplier interface defined above would look like:
-```rust
+```rust ,skt-main
 trait Supplier {
   type Item;
   fn get(&self) -> Self::Item;
@@ -230,7 +230,7 @@ fn vec_of_value<S:Supplier>(supplier : &S) -> Vec<S::Item> {
 ```
 
 In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called "unicity".) For example If you were to define a concrete class `LinkedList` it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example `Iterator` in that case it should use an associated type, because each implementation of iterator is only going to have one perticular type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. For example:
-```rust
+```rust ,skt-default
 trait Storage {
   type Item;
   //...

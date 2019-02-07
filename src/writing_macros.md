@@ -19,8 +19,9 @@ The other common use for Macros is to validate things at compile time. We've alr
 A side benifit to doing work at compile time rather than at runtime, is a [boot to perfromance](https://lambda.xyz/blog/maud-is-fast/).  
 
 Macros work by running code at compilation time. The code that is run is pure Rust code, which means that it can also use Macros. So macros can even be used to write other macros. One example of this which is useful for very simple macros is [defmac](https://crates.io/crates/defmac) which is a macro, that allows you to write what looks like an anonymous function but the parameters can be anything, like a function name for example. This is useful for reducing repitition in unit tests. The more general way to write a macro is to define a function for example:
-```rust
+```rust ,ignore
 use proc_macro;
+use proc_macro::TokenStream;
 
 /// Macro for HTML templating ...
 #[proc_macro]
@@ -31,8 +32,9 @@ pub fn html(input: TokenStream) -> TokenStream {
 }
 ```
 Similarly to define an attribute that is associated with a function: 
-```rust
+```rust ,ignore
 use proc_macro;
+use proc_macro::TokenStream;
 
 /// Macro for logging all calls to a function.
 #[log_calls]
@@ -42,8 +44,9 @@ pub fn implementation_of_log_calls(input: TokenStream) -> TokenStream {
 }
 ```
 Or you can have a function extend `derive`:
-```rust
+```rust ,ignore
 use proc_macro;
+use proc_macro::TokenStream;
 
 /// Automatically generate the implementation of `SomeTrait` for your type.
 #[proc_macro_derive(SomeTrait)]

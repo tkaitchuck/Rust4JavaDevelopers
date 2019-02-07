@@ -8,11 +8,11 @@
 
 ## aliases
 Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example:
-```rust 
+```rust ,skt-main
 type Time = i64;
 ```
 This will allow an i64 to be referred to as ‘Time’ like so:
-```rust
+```rust ,skt-main
 # struct Message{timestamp:i64};
 # let message = Message{timestamp:0};
 type Time = i64;
@@ -32,7 +32,7 @@ class Example {
 }
 ```
 In Rust you could just rename one of types.
-```rust,ignore
+```rust ,ignore
 use some::value as other_value;
 ```
 
@@ -53,11 +53,11 @@ Rust also supports `destructuring`. This allows assignment statements to extract
 ## Tuples
 
 Rust supports Tupples. Tupples are just like 'Pair’ in `apache lang` in Java or Map.Entry. They are a simple wrapper of multiple objects. The syntax looks like:
-```rust
+```rust ,skt-main
 let pair : (i32, String) = (5, "Hello".to_string()); 
 ```
 which is a tuple of a integer and a String. Tupples aren't full blown classes so the fields don't even have names. They are accessed by number. 
-```rust
+```rust ,skt-main
 let pair = (10, 20);
 let ten = pair.0;
 let twenty = pair.1;
@@ -70,15 +70,15 @@ Tupples should only be used when it is very clear what the represent, because wi
 Tupples can have 0 or more values. An empty tuple is just `()` this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”) 
 
 Tuples with two parameters are the most common. IE . But 3 or more is possible. 
-```rust 
+```rust ,skt-main
 let tripple = (1, 1.0, "one");
 let quad = (2, 2.0, "two", true);
 ```
 A single element tuple might seem pointless but it does provide a way to name something. IE: 
-```rust
+```rust ,skt-main
 struct Distance(f64);
 
-let london_to_NY = Distance(3459.3,);
+let london_to_ny = Distance(3459.3,);
 ```
 Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.
   * https://medium.com/@robertgrosse/ref-patterns-destructuring-and-invisible-borrows-2f8ae6902656
@@ -91,4 +91,3 @@ In the above example we introduced a new construct `match`. Match works like a s
 Match works with destructuring __. It works on Options and Enums __. If all cases are covered, there does not need to be a default branch. It also works with ranges __. (The ‘_’ means “you figure it out” and is a default branch.) If the paths are not mutually exclusive for example __. The first one that applies will be taken. IE __.
 
 Sometimes in a destructuring expression you will see the word 'ref’. This is equivalent to a ‘&’ in the corresponding place on the other side. IE __ is equivalent to __.
-

@@ -68,21 +68,20 @@ Traits are a concept in Rust that are very similar to an interface in Java. The 
 In Rust the implementation of traits is declared in a separate block from the declaration of the member variables. While this might seem strange coming from Java, it is actually a very important feature. Because methods are not located in the object itself the language doesn't need to distinguish between 'primitives’ and 'objects’ like Java. This is why Java needs Integer and int, Long and long, and Double and double. 
 
 So in Rust an i32 can be a key in a map without needing to be wrapped. This is also useful because they don't have to be in the same file. So you can for example declare a trait and the supply an implementation for an existing type. For example here is a trait for objects that can be doubled:
-```rust
-trait doubleable {
+```rust ,skt-main
+trait Doubleable {
   fn double(self : Self) -> Self;
 }
 
 // And we can implement this for i32:
 
-impl doubleable for i32 {
+impl Doubleable for i32 {
   fn double(self : i32) -> i32 {
     2 * self
   }
 }
 
 // And now we can invoke this like any other method:
-
 assert_eq!(10, 5.double());
 ```
 It's worth noting that there is never any ambiguity about where the implementation of a particular trait is. This is because it is only allowed to be in one of two places, where the trait is defined or where the type is defined. Because circular dependencies are not allowed and the definition will need to depend on both, the one that depends on the other must contain the implementation. This is referred to as “the orphan rule”. It appears in couple of places, aside from making method calls unambiguous, it also ensures things work as you might intuitively expect and means that unlike some languages (*ahem* Scalla) the behavior of code can't be altered simply by adding an import statement.
@@ -101,7 +100,7 @@ class Processor {
 }
 ```
 in Rust the equivlent would be:
-```rust
+```rust ,skt-default
 mod processor {
 # struct Foo; struct Bar;
   struct Processor;
@@ -128,7 +127,7 @@ class Processor {
 }
 ```
 Where as rust can just add:
-```rust,ignore
+```rust ,ignore
 impl Process<Vec<Bar> for Processor {
   fn process(&self, item : Vec<Bar>) {
     //...
@@ -186,6 +185,7 @@ This is even more problematic if you don't own they types that need to implement
 
 In Rust none of that would be needed. You can add an implementation of an trait that is type specific. 
 ```rust
+# #![allow(unused)]
 mod processor {
 # pub struct Foo; pub struct Bar;
   pub struct Processor {

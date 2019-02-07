@@ -1,6 +1,6 @@
 # Variable declaration
 Below is an example of a variable being declared in Java and the equivalent expression in rust.
-```rust
+```rust ,skt-main
 let foo : i32 = 5;
 ```
 ```java
@@ -8,7 +8,7 @@ int foo = 5;
 ```
 The keyword `let`is used to indicate you are declaring a variable. This is followed by the variable name, then a colon and then the type. 
 The reason Rust puts the type one the right is because the type is optional anytime it can be inferred by the compiler. Which means that most of the time we can just write:
-```rust
+```rust ,skt-main
 let foo = 5;
 ```
 The equals sign for assignment works the same way it does in Java. Primitives also work the same way but they have different names. Below is a table to help:
@@ -33,7 +33,7 @@ Rust also supports unsigned integers these cannot be negative and use their high
 | u128 | 0   |2^128-1|
 
 Constants can also explicitly specify their type. (Similar to Java) The examples below are equivalent.
-```rust
+```rust ,skt-main
 const SECONDS_PER_MINUTE : i64 = 60;
 ```
 ```java
@@ -41,7 +41,7 @@ static final long SECONDS_PER_MINUTE = 60;
 ```
 
 By default all variables in Rust are final. So instead of a final keyword there is the `mut` keyword to indicate the variable is mutable (non-final). For example:
-```rust
+```rust ,skt-main
 let mut counter = 0;
 ``` 
 The advantage of using `mut` rather than `final` (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java it very common to simply omit the final keyword even when a variable is final. As a result when reading Java you often don’t know if a variable is final or not. 
@@ -77,7 +77,7 @@ class Box<T> implements Iterable<T> {
 You may be wondering: "Why would I ever need such a useless class?". Usually you don't. But it comes up as a to work around some restriction. These cases will be explained when they come up.
 
 Declaring a box is done like this:
-```rust
+```rust ,skt-main
 let boxed = Box::new(1);
 // or if you want to be explicet about the type
 let boxed2 : Box<i32> = Box::new(2);
@@ -88,9 +88,9 @@ The `::` operator in the example above acutally does exactly the same thing it d
 Rust has a built in type called `Vec` which is short for "Vector". It is equivlent to Java's `ArrayList`. However because Rust does not have "primitive wrapper" types like Java's "Integer" and "Byte" (as opposed to "int" and "byte") and is capable of putting primitives in collections directly without any overhead `Vec` receives a lot more use in Rust than `ArrayList` does in Java. It is often used in places where in Java you would use an array or 'Collection'.
 
 The syntax looks like this:
-```rust
-# fn getNumbers() -> Vec<i32> { vec![] }
-let mut numbers : Vec<i32> = getNumbers();
+```rust ,skt-main
+# fn get_numbers() -> Vec<i32> { vec![] }
+let mut numbers : Vec<i32> = get_numbers();
 numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if needed)
 ```
 Because adding layer of abstraction does not add any overhead in Rust it is common to pass a `Vec<u8>` where you would use a byte array in Java.

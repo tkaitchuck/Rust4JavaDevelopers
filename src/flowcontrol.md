@@ -1,6 +1,6 @@
 # Flowcontrol
 Similar to Java in Rust variables are defined to exist in the scope where they are declared. So you can do this 
-```rust
+```rust ,skt-main
 let mut i = 0;
 while i < 10 {
     println!("Counter: {} ", i);
@@ -8,7 +8,7 @@ while i < 10 {
 }
 ```
 but not this
-```rust, ignore
+```rust ,ignore
 for i in 1..10 {
     let x = i;
 }
@@ -22,20 +22,20 @@ int square(int x) {
     return x * x;
 }
 ```
-```rust
+```rust ,skt-default
 fn square(x: i32) -> i32 {
     return x * x;
 }
 ```
 However in Rust expressions will return the last value in them if it is not followed by a `;` so you can just write:
- ```rust
+```rust ,skt-default
 fn square(x: i32) -> i32 {
     x * x
 }
 ```
 
 This also holds true for things like if statements 
-```rust
+```rust ,skt-main
 # fn something() -> bool {true};
 let x = if something() { 1 } else { 0 };
 ```
@@ -79,14 +79,14 @@ for (String item : collection) {
 }
 
 ```
-```rust
+```rust ,skt-main
 # let collection = vec![1,2,3];
 for item in collection { //Item's type is infered
     //...
 }
 ```
 If you want to write a pattern like that, you can use a “range” operator instead. 
-```rust
+```rust ,skt-main
 for i in 0..10 {
     //...
 }
@@ -98,7 +98,7 @@ while(true) {
     break;
 }
 ```
-```rust
+```rust ,skt-main
 loop {
     //...
     break;
@@ -106,7 +106,7 @@ loop {
 ```
 
 Notice that the if, while, and for conditional arguments are just normal expressions that return a boolean. (As opposed to Java where it is a special construct surrounded by parenthesis). And because anything surrounded by curly braces is an expression which returns the last expression inside of it, it is possible to write a loop like conditional like this:
-```rust
+```rust ,skt-main
 let mut i = 1;
 while { i = i*2; i < 65536 } {
     //...

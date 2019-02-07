@@ -3,9 +3,9 @@ Below is a Java method signature and the equivalent rust signature.
 ```java
 void printNum(int num);
 ```
-```rust
+```rust ,skt-default
 # trait Example {
-fn printNum(num: i32);
+fn print_num(num: i32);
 # }
 ```
 Things to notice: 
@@ -15,7 +15,7 @@ If the function had a return value it would be declared on the right hand side l
 ```java
 int add(int a, int b);
 ```
-```rust
+```rust ,skt-default
 # trait Example {
 fn add(a: i32, b: i32) -> i32;
 # }
@@ -28,7 +28,7 @@ int add(int a, int b) {
     return a + b;
 }
 ```
-```rust
+```rust ,skt-default
 fn add(a: i32, b: i32) -> i32 {
     return a + b;
 }
@@ -47,18 +47,18 @@ As an example, in Java you might define a method 'isSorted’ like this
 boolean isSorted(List<Integer> values);
 ```
 that returns a boolean indicating if a list is sorted. In Rust you would add an ‘&’ in front of the type in the method signature to indicate that it will not retain any references to the list or it's contents when the method returns.
-```rust
+```rust ,skt-default
 # trait Example {
-fn isSorted(values: & Vec<i32>) -> bool;
+fn is_sorted(values: & Vec<i32>) -> bool;
 # }
 ```
 It is helpful to think of 'borrowed’ as being part of the type. IE “The method takes a borrowed list.” 
 
 This declaration provides a strong and useful guarantee to the callers of a method. But it would be worthless if in a newer version, the method just deleted the ‘&’ from it's signature and removed the guarantee. To prevent this, and to make the guarantee explicit in the caller's code, when a method is being invoked; When a method that borrows a parameter is invoked, the caller puts an ‘&’ in front of the variable name being passed in. For example 
-```rust
-# fn isSorted(values: & Vec<i32>) -> bool { true }
+```rust ,skt-main
+# fn is_sorted(values: & Vec<i32>) -> bool { true }
 # let values = vec![1, 2, 3];
-if (isSorted(&values)) {
+if (is_sorted(&values)) {
     //...
 }
 ```
@@ -72,16 +72,16 @@ Similar to variable declaration, if you want to modify a borrowed parameter, you
 ```java
 void populateCounts(HashMap<String, int> itemCounts);
 ```
-```rust
+```rust ,skt-default
 # use std::collections::HashMap;
 # trait Example {
-fn populateCounts(itemCounts: &mut HashMap<String, i32>);
+fn populate_counts(item_counts: &mut HashMap<String, i32>);
 # }
 ```
 `mut` can be thought of a part of the type. IE “a borrowed mutable Hashmap” as opposed to “a Hashmap".
 
 When 'Borrowed’ is combined with 'mut’ the ‘&’ goes first. If you wanted to write a method to sort a list, it would take a borrowed mutable list.
-```rust
+```rust ,skt-default
 # trait Example { 
 fn sort(names: &mut Vec<String>);
 # }
@@ -100,7 +100,7 @@ Documentation is an area where Rust and Java are very similar. In Java you might
 public double fastInvSqrt(double a);
 ```
 which can be automatically translated into HTML documentation. Rust has rustdocs which work similarly. You could write the following:
-```rust,ignore
+```rust ,ignore
 /**
  * Computes an approximation of `1/a.sqrt()` segnifigantly faster.
  * However compared to using [`sqrt`] the result is much less accurate.
@@ -114,7 +114,7 @@ which can be automatically translated into HTML documentation. Rust has rustdocs
  */
 ```
 Or instead of “/**” and a block comment, you can use “///” and line comments. So the following is equivalent:
-```rust,ignore
+```rust ,ignore
 /// Computes an approximation of `1/a.sqrt()` segnifigantly faster.
 /// However compared to using [`sqrt`] the result is much less accurate.
 /// # Examples
@@ -181,6 +181,6 @@ println!("Hello {}!", name1, name2);
 the mistake would actually be a compile error. (BorrowChecker: Which is great because it means you can't write incorrect code. Optimizer: and has the added bonus of not spending any CPU at runtime parsing and verifying the template.) This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.
 
 Another place you'll see macros, is for initilizing collections or places where you might find "varargs" in Java. For example you can initilaize a Vec with the `vec!` macro:
-```rust
+```rust ,skt-main
 let number = vec![1, 2, 3, 4, 5];
 ```

@@ -27,7 +27,7 @@ public static void sort(List<Integer> list) {
 }
 ```
 in Rust an equivlent method are declared as:
-```rust
+```rust ,skt-default
 pub trait MySet {
   //...
   fn add_all(list: Vec<i32>);
@@ -44,7 +44,7 @@ fn sort(list: &mut Vec<i32>) {
 Notice that the type of the argument changed. When it is just 'Vec<i32>’ the method is taking ownership of the value. But when it is ‘&Vec<i32>’ it is a borrowed vector, meaning the caller still retains ownership. And a ‘&mut Vec<i32>’ is a borrowed mutable vector meaning that even though the function is not taking ownership, it may modify the provided vector.
 
 For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped. This applies transitively. So for example in the function:
-```rust
+```rust ,skt-default
 fn process(items: Vec<String>) {
   //...
 }
@@ -65,7 +65,7 @@ However the main tool that used is borrowing.
 In addition to compile time memory management and guaranteed thread safety (more on this in the concurrency chapter), explicit ownership opens up a lot of useful patterns.
 
 In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code class="java">java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code class="java"> java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write 
-```rust
+```rust ,skt-main
 # use std::io;
 # use std::io::prelude::*;
 # let mut output = io::stdout();
@@ -73,23 +73,23 @@ let buffer = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 output.write(&buffer[2 .. 8]);
 ```
 which passes a segment of a byte array to the `write` function. In addition to convince and performance, it allows you specify if the slice is being passed can be written to or just read from have this enforced by the compiler. So if you have a function that looks like this:
-```rust
-# struct MyConfig(i32);
-pub fn applyConfig(config : &MyConfig) {
+```rust ,skt-default
+# pub struct MyConfig(i32);
+pub fn apply_config(config : &MyConfig) {
   //...
 }
 ```
 you can be sure that the `config` object won’t be changed by passing it to the function. No defensive copies required. Similarly, above the caller is guaranteed that `output.write(&buffer)` won’t modify the contents of the buffer.
 
 Borrowing also works with loops. When using a for loop to iterate over a collection, you can either pass the for loop the collection itself 
-```rust
+```rust ,skt-main
 let strings = vec!["foo", "bar", "baz", "bat"];
 for value in strings {
   println!("Hello {}", value);
 }
 ```
 consuming the collection in the process, much a like a stream in Java. Or you can let it borrow the collection
-```rust
+```rust ,skt-main
 let strings = vec!["foo", "bar", "baz", "bat"];
 for &value in &strings {
   println!("Hello {}", value);
@@ -121,7 +121,7 @@ foos.stream().filter(f -> meetsCriteria(f)).forEach(f->process(f));
 
 ```
 but you can’t mix these ways of coding. In Rust this can be conveyed by either passing or lending the collection to the for loop. This allows the concepts of stream and iterator to be unified into a single simple interface and work with for loops without the risk of accidentally reusing the consumed stream allowing you to write:
-```rust
+```rust ,skt-main
 # struct Foo(i32);
 # fn get_foos() -> Vec<Foo> { vec![Foo(1), Foo(2)] }
 # fn meets_criteria(f : &Foo) -> bool { true }
@@ -133,13 +133,13 @@ for f in foos.into_iter().filter(|f| meets_criteria(f)) {
 ```
 
 In addition to these there are a bunch of other common patterns.
-```rust
+```rust ,skt-default
 # trait Example {
 fn read_from_buffer(&self, buffer : &[u8]);
 # }
 ```
 Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. 
-```rust
+```rust ,skt-default
 use std::path::Path;
 trait Config {
   //...
@@ -148,7 +148,7 @@ trait Config {
 }
 ```
 Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed)
-```rust
+```rust ,skt-default
 use std::collections::HashMap;
 
 trait Config {

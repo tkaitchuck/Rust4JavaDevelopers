@@ -19,7 +19,7 @@ class Decoder {
 }
 ```
 and
-```rust
+```rust ,skt-default
 # struct Message();
 struct Decoder {
   //...
@@ -42,7 +42,7 @@ One problem with Java's exceptions is they don't work with things like Futures o
 To add a new exception type on a public interface, in Java you would either have to make the new exception Runtime. (Which may or may not be desirable depending on the circumstances) Or you can subtype an existing exception. In Rust the pattern is to use an error Enum. For example:
 {{#playpen failure_example_2.rs}}
 This way all the errors are explicitly enumerated and they can either be handled all the same or individually by the caller. If you use a non-exhaustive Enum like
-```rust,ignore
+```rust ,ignore
 #[derive(Debug, Display, Fail)]
 #[non_exhaustive]
 enum Unprocessable {
@@ -52,7 +52,7 @@ enum Unprocessable {
 }
 ```
 Then new types of failures can be added in the future without breaking compatibility. (Because in a matching on the Enum will require a default branch) Ie:
-```rust
+```rust ,skt-main
 # enum Unprocessable {
 #   MalformedInput,
 #   BackendUnavailable,
@@ -63,9 +63,11 @@ fn failing_function() -> Result<(), Unprocessable> {
   return Err(Unprocessable::MalformedInput);
   //...
 }
-match failing_function() {
-  MalformedInput => println!("Bad input"),
-  _ => println!("Unexpected error"),
+if let Err(error) = failing_function() {
+  match error {
+    Unprocessable::MalformedInput => println!("Bad input."),
+    _ => println!("Unexpected error"),
+  }
 }
 ```
 
@@ -82,14 +84,14 @@ In Java you might write:
 private String readToString(String filePath) throw IOException;
 ```
 The equivalent Rust would be:
-```rust
+```rust ,skt-default
 # use std::io;
 # pub trait Example { 
 fn read_to_string(path: String) -> Result<String, io::Error>;
 # }
 ```
 Notice that the exception is actually part of the return value. Specifically the function either returns a `String` or an Exception. If that was all there was, it still would be a step up from languages like c or go in that you cannot forget to check the value. But having to manually unwrap each return value and usually re-throw the exception at every stack frame would be very tedious and seem down right primitive compared to Java. Fortunately this is not the case. You can use a special operator the question mark. If you have code like the following: 
-```rust
+```rust ,skt-default
 # use std::io;
 # use std::io::Read;
 # use std::fs::*;
@@ -133,31 +135,15 @@ public void publicFunction() throws PublicException {
 }
 ```
 This is not only very verbose, it is not very clear in terms of its flow. However it is equivalent to the following Rest code:
-```rust
-use failure::*;
-#[derive(Debug, Fail)]
-#[fail(display = "Human readable error message")]
-struct PublicError {
-  #[fail(cause)]
-  cause: Error,
-}
-impl From<Error> for PublicError {
-  fn from(err: Error) -> Self {
-    PublicError { cause: err }
-  }
-}
-//Then elsewhere: 
-pub fn public_function() -> Result<(), PublicError> {
-  let value : String = do_some_stuff()?;
-  do_some_other_stuff(value)?;
-  Ok(())
-}
-# fn do_some_stuff() -> String { "Hello".to_string() }
-# fn do_some_other_stuff(value : String) {}
-```
-as you can see this is both very explicit and compact it shows the flow control very nicely you can see the points where function can exit, and it does so without any extraneous indentation Constructors or unnecessary blocks. Just to show a more sophisticated example the following are equivalent: __ and __. The exception generated will look like __ and __. but notice the rest code didn't have nice line numbers in backtrace is for the intermediate functions. fortunately to enable this is quite simple you just set the environmental variable RUST_BAKTRACE=1. Then it will print the following __. Because this doesn't add any overhead in the non-failure case (and is fairly cheap even in the error case), and increases debuggability I simply leave this on all the time.
 
-In Java a common approach is to have use multiple subclasses of a common exception. In Rust the pattern is to use an enum. So this Java function _(io)_, would be written like this in Rust. __. So in Java a caller handling these together would just catch _ or would handle them separately with multiple catch blocks __. In Rust they can be handled collectively __ or via a Match statement __. However this code is messy and verbose. So Rust allows you to instead write __. This is exactly the same as the above code. The ? Operator unwraps the result object if the call was successful, otherwise it returns an error, and if the method’s error type is different it will automatically call __ to wrap or convert the error. This pattern is commonly used in conjunction with a crate called Failure which automatically generates a lot of the boilerplate code for you and provides backtraces that can we accessed just like in Java 10. __. The advantage of Failure backtraces as opposed to Java's is they automatically work across threads. __ 
+{{#playpen failure_example_3.rs}}
+
+If you compare the two `publicFunction` methods, you can see this is both very explicit and compact it shows the flow control very nicely you can see the points where function can exit, and it does so without any extraneous indentation Constructors or unnecessary blocks. Just to show a more sophisticated example the following are equivalent: __ and __. The exception generated will look like __ and __. but notice the rest code didn't have nice line numbers in backtrace is for the intermediate functions. fortunately to enable this is quite simple you just set the environmental variable RUST_BAKTRACE=1. Then it will print the following __. Because this doesn't add any overhead in the non-failure case (and is fairly cheap even in the error case), and increases debuggability I simply leave this on all the time.
+
+In Java a common approach is to have use multiple subclasses of a common exception. In Rust the pattern is to use an enum. So this Java function __(load config), would be written like this in Rust.
+{{#playpen failure_example_4.rs}}
+
+So in Java a caller handling these together would just catch _ or would handle them separately with multiple catch blocks __. In Rust they can be handled collectively __ or via a Match statement __. However this code is messy and verbose. So Rust allows you to instead write __. This is exactly the same as the above code. The ? Operator unwraps the result object if the call was successful, otherwise it returns an error, and if the method’s error type is different it will automatically call __ to wrap or convert the error. This pattern is commonly used in conjunction with a crate called Failure which automatically generates a lot of the boilerplate code for you and provides backtraces that can we accessed just like in Java 10. __. The advantage of Failure backtraces as opposed to Java's is they automatically work across threads. __ 
 
 Another common pattern in Rust that gets exceptions even further out of the way is to Alias error. For example __. Then all the methods can just have __ in their signature and not have to type the exception signature over and over. 
 
