@@ -63,16 +63,14 @@ Below is a chart of what languages influenced which other languages. Arrows go f
 
 ![Geneology of Rust](images/history.png)
 
-While it might not be immediately obvious from looking a random code sample. As can be seen in the genealogy above, that Rust and Java are actually closely related. Rust draws heavily from Java's immediate parent C++ as well as C# which was very heavily influenced by Java. Java's philosophy is also present throughout Rust.
-Goals of Rust
-Safety
-Java was the first popular language to embrace the idea of safety. Unlike lower level languages Java prohibits users from directly manipulating memory or doing other dangerous operations, and unlike a lot of other high-level language is it has a strong type system which ensures that you don't get errors at runtime that could be caught earlier. Rust takes this idea of safety and really runs with it. It aims to prevent as many bugs as possible from reaching production by making incorrect code impossible to write. It not only has a strong type system that integrates generics, it expands on this idea and prevents null pointers and thread safety issues at compile time.
+While it might not be immediately obvious from looking a random code sample. As can be seen in the genealogy above, that Rust and Java are actually closely related. Rust draws heavily from Java's most influential predicessor C++ as well as C# which was very heavily influenced by Java. Java's philosophy of safety is also present throughout Rust.
+
+Java was the first popular language to embrace the idea of safety. Unlike lower level languages Java prohibits users from directly manipulating memory or doing other dangerous operations, and unlike a lot of other high-level language is it has a strong type system which ensures that you don't get errors at runtime that could be caught earlier. Rust takes this idea of safety and really runs with it. It aims to prevent as many bugs as possible from reaching production by making incorrect code impossible to write. So like Java it prevents use of uninitialized memory, dangling pointers, use after free, memory leaks. Similarly Rust also provides exception safety, and prevents type errors through static type checking with generics. But Rust goes further and also prevents iterator invalidation / ConcurrentModificationExceptions, null pointers, resource leaks, ordering bugs due to static initialization or partial initialization, and data races in multi threaded code.
 
 Rust’s primary goal is to prevent errors. If it is possible errors should be prevented at compile time. 
 
 Safety monitory: “The safest program is the program that doesn't compile”
 
-Like Java, Rust prevents use of uninitialized memory, dangling pointers, use after free, memory leaks, type errors, and provides exception safety. But Rust goes further and also prevents iterator invalidation / ConcurrentModificationExceptions, null pointers, resource leaks, ordering bugs due to static initialization, partial initialization and data races in multi threaded code.
 Portability
 Java has a goal that you should build your code once and be able to run anywhere Rust doesn't quite have the same goal: it has the goal that you should be able to write your code once, compiler it many times, and have it run almost anywhere. Rust compiles to native code on each platform it supports which as of today is 23 CPU architectures, Windows, MacOS, Linux, Bsd, all major web browsers, Android, iOS, and even several different micro controllers. Part of the reason that Rust is able to be ond so many architectures is that it is self-hosting. The Rust compiler is written in Rust. The standard library is also written in Rust and it depends on very little native code. Rust even brings its own memory allocator. Because Rust compiles using llvm, as long as there is an llvm target available for a system, Rust can target it.
 
@@ -114,7 +112,6 @@ Usability
   * Rust itself if a somewhat complicated language. It has a lot of features, more than Java (Though not as many a c++). But this is everything. The standard library is built using just these primitives, and compared to most languages (Especially Java) it’s standard library is small. Most of the features are developed externally to the language itself. Even things you wouldn’t necessarily expect, like Non-blocking IO, Concurrency support, and even Exceptions. 
     * This allows these components to be versioned independently and evolve more quickly than the language itself. It also allows competing libraries to replace them when they have a superior design.
     * Key to making this work is a built in dependency management system: Cargo. There will be a full chapter on it later.
-    * ….
   * Culture of documentation
   * Culture of testing
   * Culture of inclusivity
