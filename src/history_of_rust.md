@@ -3,6 +3,8 @@
 > **“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”**  
 > *-- The Book of Mozilla, 11:14*
 
+## Prehistory
+
 The history of programming is one of ever increassing levels of abstraction. Electrial signals were abstracted into instructions. CPU instructions were abstracted by assembly languages. The next innovation was proceedural programming. This provided a layer of abstraction helps avoid errors in flow control. Soon after their creation soon almost all programing was done in proceederal languages. 
 
 Proceedural programming is great for reasoning about flow control, but the introduction of variables which provide a useful name and abstract over registers and memory addresses intruduces a source of potential problems: It is often desireable or nessicary to have two variables refer to the same thing, and it is possible to forget that is the case. This seems subtle at first, but this problem of shared state, speffically shared *mutable* state, has become the root of most bugs.
@@ -30,6 +32,8 @@ The most important idea in Rust is to go beyond this dichotomy. By allowing stat
 * Compile time prevention of all NPEs, CMEs, Resource leaks, and Race conditions.
 More importantly Rust opens the door to future paradigms and design patterns that just wouldn't be practical in other languages because they would be too error prone.
 
+## History of Rust 
+
 Work on Rust began in earnest in 2009 at Mozilla based on a prototype that Graydon Hoare had been working on for a few years previously. After three years of development the first pre-alpha version of the compiler was released in 2012. 
 
 Shortly after the first release Graydon stepped back from the project. This change was a hugely important milestone, because it allowed other people step up. This allowed the project to move to a open governance model, with many people providing different perspectives. Over the next three years the language changed, a lot. New features were added and more importantly several features were removed or moved into third party libraries. These changes dramatically improved the language, because it turns out a lot of ideas that sound great don’t turn out so well in practice. 
@@ -54,9 +58,12 @@ As of this writing the latest version is the 2018 release which contains a lot o
 
 As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected. 
 
+## Geneology of Rust
+Below is a chart of what languages influenced which other languages. Arrows go from the influencing language to the one influenced. Time moves from top to bottom. The left-right axis represents how abstract vs concrete the language is. Finally the languages are color coated by their type.
+
 ![Geneology of Rust](images/history.png)
 
-While it might not be immediately obvious from looking at the language, you can see in the genealogy ___ that Rust and Java are actually closely related. Rust draws heavily from Java's immediate parent C++ as well as C# which was very heavily influenced by Java. Java's philosophy is also present throughout Rust.
+While it might not be immediately obvious from looking a random code sample. As can be seen in the genealogy above, that Rust and Java are actually closely related. Rust draws heavily from Java's immediate parent C++ as well as C# which was very heavily influenced by Java. Java's philosophy is also present throughout Rust.
 Goals of Rust
 Safety
 Java was the first popular language to embrace the idea of safety. Unlike lower level languages Java prohibits users from directly manipulating memory or doing other dangerous operations, and unlike a lot of other high-level language is it has a strong type system which ensures that you don't get errors at runtime that could be caught earlier. Rust takes this idea of safety and really runs with it. It aims to prevent as many bugs as possible from reaching production by making incorrect code impossible to write. It not only has a strong type system that integrates generics, it expands on this idea and prevents null pointers and thread safety issues at compile time.
