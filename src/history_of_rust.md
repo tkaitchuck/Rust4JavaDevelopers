@@ -3,13 +3,32 @@
 > **“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”**  
 > *-- The Book of Mozilla, 11:14*
 
-In the early days of computer programming, all programs were what today we would call proceederal. Which gave rise to various ways to organize code. However it was quickly realized that mutable shared state was the root of most bugs.
+The history of programming is one of ever increassing levels of abstraction. Electrial signals were abstracted into instructions. CPU instructions were abstracted by assembly languages. The next innovation was proceedural programming. This provided a layer of abstraction helps avoid errors in flow control. Soon after their creation soon almost all programing was done in proceederal languages. 
 
-So two divergent sets of practices arose. Functional programming which sought to remove the mutability, and write code using only immutable data. And object oriented programming which sought to use encapsulation to prevent state from being shared.
+Proceedural programming is great for reasoning about flow control, but the introduction of variables which provide a useful name and abstract over registers and memory addresses intruduces a source of potential problems: It is often desireable or nessicary to have two variables refer to the same thing, and it is possible to forget that is the case. This seems subtle at first, but this problem of shared state, speffically shared *mutable* state, has become the root of most bugs.
 
-Both approaches have been developed over the course of decades. Now they both work quite well. However they usually don't work together. This is because it is very easy to combine ideas from the two and end up with shared mutable state, which loses the benefit of both approaches. So while there have been many ideas that have crossed over from OO languages to Functional languages and vice versa, the have been limited and adapted to the language they are in, and in general don't achieve the same effect they do in the language they came from.
+It might not seem obvious that this is the case, after all it's usually simple enough to keep things strait. But shared mutable state manifests in a lot of different ways. In C++ these show up as:
+* Dangling pointers
+* Use after free bugs
+* Segfaults
+* Iterator invalidation
+In Java you see:
+* Null pointer exceptions
+* Concurrent modification exceptions
+* Race conditions
+* The need for synchronized blocks
+* The need for a garbage collector
+* The need for a JIT compiler because many optimizations can't be reasoned about from the code
 
-The most important idea in Rust is to go beyond this dichotomy. By allowing state to be mutable and shared, but not at the same time Rust can bring the full power of Object Orientation and Functional programming to bare in the same language at the same time. It also opens the door to future paradigms that just aren't practical in other languages.
+There were two major responses to dealing with the problem of shared mutable state. Functional programming which sought to remove the mutability, and write code using only immutable shared data. Object oriented programming which sought to use encapsulation to prevent state from being shared, while maintaining mutability.
+
+Both approaches have been developed over the course of decades. Now they both work quite well. However they usually don't work together. Because if nieevly combining ideas from the two results in shared mutable state, which loses the benefit of either approach. So while there have been many ideas that have crossed over from OO languages to Functional languages and vice versa, the have been limited and adapted to the language they are in, and in general don't achieve the same effect they do in the language they came from.
+
+The most important idea in Rust is to go beyond this dichotomy. By allowing state to be mutable and shared, but not at the same time Rust can bring the full power of Object Orientation and Functional programming to bare in the same language at the same time. This allows for:
+* Memory safety without Garbage collection
+* High level abstraction without overhead
+* Compile time prevention of all NPEs, CMEs, Resource leaks, and Race conditions.
+More importantly Rust opens the door to future paradigms and design patterns that just wouldn't be practical in other languages because they would be too error prone.
 
 Work on Rust began in earnest in 2009 at Mozilla based on a prototype that Graydon Hoare had been working on for a few years previously. After three years of development the first pre-alpha version of the compiler was released in 2012. 
 
@@ -27,13 +46,13 @@ As of this writing the latest version is the 2018 release which contains a lot o
   * Rust community
   * Rust rfc process
     * Pluralism and positive sum game (multiple sources of authority working together)
-    * DIfferent perspectives reach a better solution
+    * Different perspectives reach a better solution
       * Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight
       * https://aturon.github.io/2018/06/02/listening-part-2/
       * Humility, empathy, and introspection
   * https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html
 
-As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well.. 
+As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected. 
 
 
 
@@ -49,10 +68,10 @@ Safety monitory: “The safest program is the program that doesn't compile”
 
 Like Java, Rust prevents use of uninitialized memory, dangling pointers, use after free, memory leaks, type errors, and provides exception safety. But Rust goes further and also prevents iterator invalidation / ConcurrentModificationExceptions, null pointers, resource leaks, ordering bugs due to static initialization, partial initialization and data races in multi threaded code.
 Portability
-Java has a goal that you should build your code once and be able to run anywhere Rust doesn't quite have the same goal: it has the goal that you should be able to write your code once, compiler it many times, and have it run almost anywhere. Rust compiles to native code on each platform it supports which as of today is _ CPU architectures, Windows, MacOS, Linux, Bsd, all major web browsers, Android, iOS, and even _ different micro controllers. Part of the reason that Rust is able to be ond so many architectures is that it is self-hosting. The Rust compiler is written in Rust. The standard library is also written in Rust and it depends on very little native code. Rust even brings its own memory allocator. Because Rust compiles using llvm, as long as there is an llvm target available for a system, Rust can target it.
+Java has a goal that you should build your code once and be able to run anywhere Rust doesn't quite have the same goal: it has the goal that you should be able to write your code once, compiler it many times, and have it run almost anywhere. Rust compiles to native code on each platform it supports which as of today is 23 CPU architectures, Windows, MacOS, Linux, Bsd, all major web browsers, Android, iOS, and even several different micro controllers. Part of the reason that Rust is able to be ond so many architectures is that it is self-hosting. The Rust compiler is written in Rust. The standard library is also written in Rust and it depends on very little native code. Rust even brings its own memory allocator. Because Rust compiles using llvm, as long as there is an llvm target available for a system, Rust can target it.
+
 Performance
 Usability
-
   * Be a Good language
     * Safe, concurrent, practical
     * We can have nice things
