@@ -54,8 +54,7 @@ As of this writing the latest version is the 2018 release which contains a lot o
 
 As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected. 
 
-
-
+![Geneology of Rust](images/history.png)
 
 While it might not be immediately obvious from looking at the language, you can see in the genealogy ___ that Rust and Java are actually closely related. Rust draws heavily from Java's immediate parent C++ as well as C# which was very heavily influenced by Java. Java's philosophy is also present throughout Rust.
 Goals of Rust
