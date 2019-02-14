@@ -1,5 +1,4 @@
 # Cargo
-
   * https://blog.rust-lang.org/2016/05/05/cargo-pillars.html
   * Toml format
   * Dependencies
@@ -24,74 +23,62 @@ Unlike Java, Rust has a very small standard library. Instead it provides powerfu
 Cargo is very will integrated into the language. You can think of Cargo as being similar to Gradle and Maven in Java. Each project has a `Cargo.toml` file. This is where ….
 
 ## Common dependencies
+
+Below is a list of common dependencies and their function.
+
+|  Crate    |   Function   |
+|-----------|--------------|
+| [Serde](https://serde.rs/) | Serialization and Deserialization |
+| [Clap](https://clap.rs/) | Command line argument parsing. (See also [structopt](https://crates.io/crates/structopt) which automates even more |
+| [Simple-signal](https://crates.io/crates/simple-signal) | Unix signal handling |  
+| [Bindgen](https://rust-lang.github.io/rust-bindgen/) | Automatically generates Rust FFI bindings to C |
+| [Itertools](https://crates.io/crates/itertools) | Extra iterator adaptors and methods |
+| [Rayon](https://crates.io/crates/rayon) | Simple lightweight data-parallelism library |
+| [Faster](https://crates.io/crates/faster) | SMID made safe and simple using iterators |
+| [Packed-simd](https://rust-lang-nursery.github.io/packed_simd/packed_simd/) | Architecture independent SIMD |
+| [Crossbeam](https://github.com/crossbeam-rs/crossbeam) | Tools for concurrent programming |
+| [Tokio](https://tokio.rs/) | A non-blocking IO framework |
+| [Diesel](https://diesel.rs/) | A compile time validated ORM query buider |
+| [Rocket](https://rocket.rs/) | A web server that uses compile time checks to prevent vunribilites (directory traversal, SQL injection, csrf, css, remote code execution, misconfiguration) and verifies authentication, authorization, and input validation logic. |
+| [Maud](https://maud.lambda.xyz/) | Compile time validated HTML templates |
+
+
   * Logging of events for metrics
-  * Slotmap
-    * Provides a map where the map generates the key. Efficient useful for ECS.
-    * Slotmap vs slab?
   * Rtfm for embedded systems. Also Singleton. And svd2rust
-  * Bindgen
-  * Rust-simple-signal
-  * Fuzzers
-    * Cargo fuzz uses an address checker to verify uninitialized memory is not being read.
-  * Command line arg library - clap
-  * Serde
-    * Versioning with Enum and option
-  * Serde_json json Macro
-  * Itertools crate adds more functions
-    * Rayon, faster, etc.
-  * anymap - as a component registry
   * Instead of rolling your own graph: Petgraph or an ECS 
-  * Rocket
-    * Prevents: directory traversal, csrf, SQL injection, css, remote code execution, authentication, authorization, input validation, misconfiguration.
-  * Habitat
-  * Serdie
-  * Servo
-  * redox
-  * Tokio
-  * Ripgrep
+
+
   * Rustfmt/racer/rustfix
   * Rustup
   * Cargo
   * Rr
   * Quick check
-  * Crossbeam
-  * Rayon
-  * Diesel
+  * Fuzzers
+    * Cargo fuzz uses an address checker to verify uninitialized memory is not being read.
+    * Angora - Still a work in progress, but should eventually be the best fuzzer.
+  * Habitat
+  * Servo
+  * redox
+  * Ripgrep
+
 
 Below are some common dependencies and a brief description of what they do:
-
 Cargo
-
 Rustup
-
 Rustc
-
 Random
-
-
 High precision math and units
 IoUtils
-
-
 Builder equals, hash, and serializable
 Log
-
 slog
-
-
 Similar to Junit
 Benchmark / criterion
-
 Example testing
-
 Quick check / propcheck
-
 Checksyle
-
 Findbugs
-
 Lint (clippy)
-
 Fuzzers: afl / hongfuzz / cargo fuzz
 
 ## Rustc
