@@ -22,7 +22,7 @@ You can find more information about cargo in the [cargo book](https://doc.rust-l
 
 Some common commands are listed below:
 |  Command                 |  Effect   |
-|==========================|===========|
+| ------------------------ | --------- |
 | `cargo new --bin foo`    | Create a new program named "foo" |
 | `cargo new --lib foo`    | Create a new library named "foo" |
 | `cargo build`            | Build the current project |
@@ -64,7 +64,7 @@ and "version conflicts" are not an issue, because multiple versions can be in th
 
 Below is a list of common dependencies and their function.
 |  Crate    |   Function   |
-|-----------|--------------|
+| --------- | ------------ |
 | [Serde](https://serde.rs/) | Serialization and Deserialization |
 | [Clap](https://clap.rs/) | Command line argument parsing. (See also [structopt](https://crates.io/crates/structopt) which automates even more |
 | [Simple-signal](https://crates.io/crates/simple-signal) | Unix signal handling |  
