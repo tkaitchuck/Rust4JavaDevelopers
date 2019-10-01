@@ -1,11 +1,4 @@
-# Generics
-
-  * Basic syntax
-    * Functions
-    * In structs
-    * In traits
-    * Defaults
-    * Associated types - FromStr provides a good example. 
+# Generics (aka Type parameters)
 Non-trivial example to show assignment + use
   * Strongly Prefer associated types on traits
     * Better declaration syntax with multiple values
@@ -19,8 +12,6 @@ Non-trivial example to show assignment + use
     * Can also have default.
     * Does not work for things like Add where you want many impls depending on both Lhs and rhs
     * Only case for normal generic is for overloading
-  * In Rust Generics are called “Type Parameters” because that’s sortof what they are. They are parameters to the function that are types, as opposed to objects. Rust actually handles them this way as opposed to just using them to generate an error if type don’t match. For example in Rust you can define an interface with a ‘new’ method on it. __ Notice that this method does not take a ‘self’ parameter. This means you can’t invoke it on an object. It is what Java would call a static method. However unlike Java you can still invoke this function from inside of a static method. For example __. Here we have a struct that implemented out trait _ and then later when we invoked the generic method _. It used the Type Parameter to invoke the function on the correct type. In this case that parameter did not come from any of the input arguments because there weren’t any. It was inferred from the return type which the compiler obtained by looking at the type of the value we were assigning the call to. 
-    * https://bluejekyll.github.io/blog/rust/2017/08/06/type-parameters.html 
   * Conditional trait implementation
   * Traits with methods contingent of a generic implementing a specific trait.
     * IE: cell has take if T is default or get if T is copy. Or a wrapper implements order if the thing it wraps does.
@@ -31,9 +22,7 @@ Non-trivial example to show assignment + use
   * Generics and dyn
   * static vs dynamic dispatch
     * Dyn keyword
-  * Rust avoids generics hell
-    * Ownership and borrowing save the day
-    * https://doc.rust-lang.org/nomicon/subtyping.html 
+
 
 Rust generics look a lot like Javas. When declared on a type:
 ```rust ,skt-default
@@ -55,6 +44,16 @@ pub fn lookup_emojis(characters : Vec<&str>) -> HashMap<&str, &str> {
 # HashMap::new()
 }
 ```
+The biggest difference is that Rust calls them "Type Parameters". [Just as a function may take various parameters, it can
+also take a parameter which is a type.](https://bluejekyll.github.io/blog/rust/2017/08/06/type-parameters.html )
+
+Below are some additional examples:
+TODO:
+* Functions
+* In structs
+* In traits
+* Defaults
+* Associated types - FromStr provides a good example. 
 
 ## Type Inference
 
@@ -122,6 +121,11 @@ So the `Self` type allows the trait to refer to whatever is implementing the int
 ## Features unique to Rust
 
 Rust also has a few other features that help avoid so called "generics hell" that sometimes crops up in Java. 
+
+
+  * Rust avoids generics hell
+    * Ownership and borrowing save the day
+    * https://doc.rust-lang.org/nomicon/subtyping.html 
 
 ### Where clauses
 A simple one is "where" clauses. Suppose you had an interface like this:

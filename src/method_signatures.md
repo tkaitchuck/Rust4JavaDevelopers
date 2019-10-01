@@ -99,7 +99,10 @@ Documentation is an area where Rust and Java are very similar. In Java you might
  */
 public double fastInvSqrt(double a);
 ```
-which can be automatically translated into HTML documentation. Rust has rustdocs which work similarly. You could write the following:
+which can be automatically translated into HTML documentation. 
+
+## Rustdocs
+Rust has rustdocs which work similarly. You could write the following:
 ```rust ,ignore
 /**
  * Computes an approximation of `1/a.sqrt()` segnifigantly faster.

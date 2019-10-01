@@ -1,6 +1,4 @@
 # Collections
-  * Vec 
-  * HashMap
   * Statically constructed collection
   * Collections of primitives
     * optimizer

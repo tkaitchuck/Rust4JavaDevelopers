@@ -154,10 +154,13 @@ Another common pattern in Rust that gets exceptions even further out of the way 
     * Refcell
     * Can't fail to close socket or file
 
-Programming in Rust means never having to close a Socket…. ...
+Programming in Rust means never having to close a Socket. This is acheived through the `Drop` trait. 
+This is in some ways similar to Java's `AutoClosable` which can be used to make "try-with" resources that have their close method called at the end of a try block.
+Drop is different in that the that the cleanup method `drop` is always called
+when the object goes out of scope. So there is no need for a special block or syntax required. It also makes it impossible to forget
+to use the method/syntax.
 
-
-Another good example of where destructors are used is Mutexes, these are used for synchronization and will be discussed more in the next chapter. The mutex returns a mutexguard object. This is a wrapper object that holds the lock while it is in scope. The mutexguard locks the mutex when it is created and unlocks it when it goes out of scope. This works similarly to a try-with resource in Java. IE:__ Because he only to access the value is though the mutexguard it is impossible to misuse the interface. If you have access to the variable you must be holding a lock. There is no way to forget to either acquire or release the lock.
+A good example of where this is used is Mutexes, these are used for synchronization and will be discussed more in the next chapter. The mutex returns a mutexguard object. This is a wrapper object that holds the lock while it is in scope. The mutexguard locks the mutex when it is created and unlocks it when it goes out of scope. IE:__ Because he only to access the value is though the mutexguard it is impossible to misuse the interface. If you have access to the variable you must be holding a lock. There is no way to forget to either acquire or release the lock.
 
 If in Java an exception is thrown from inside of a synchronized block, (assuming it is not caught inside) the lock will be released and the exception will propagate up the stack. Certainly this is desirable in the case where the exception is being deliberately thrown. But in the event of an Error this might be undesirable. The lock will be released and other threads will proceed to use it even though it only completed half of the critical section. This might be harmless or it might leave the object in a bad state and trigger weird problems in other threads. This is an example of why treating unexpected and expected errors in the same way is not a great idea. 
 

@@ -1,5 +1,6 @@
 # Enums, Tuples, and Aliases
 
+TODO:
   * Range operator. Range on struct to destructure.
   * Enums in Java are way better than constants in other languages like C or Go. - You know they won’t get misassigned as numbers and you can use switch statements
   * Enums give more meaningful names to concepts without overhead, so you can name possible outcomes to improve API quality and reduce the chances of Error.
