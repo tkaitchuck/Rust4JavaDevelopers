@@ -5,6 +5,9 @@ authors = ["Tom Kaitchuck"]
 multilingual = false
 src = "src"
 
+[build]
+build-dir = "docs"
+
 [output.html.playpen]
 editable = true
 

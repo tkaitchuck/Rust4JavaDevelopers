@@ -1,0 +1,471 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>History of Rust - Rust for Java developers</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A guide to learning Rust for developers familiar with Java">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html" class="active"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Rust for Java developers</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#history-of-rust" id="history-of-rust"><h1>History of Rust</h1></a>
+<blockquote>
+<p><strong>“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”</strong><br />
+<em>-- The Book of Mozilla, 11:14</em></p>
+</blockquote>
+<a class="header" href="#prehistory" id="prehistory"><h2>Prehistory</h2></a>
+<p>The history of programming is one of ever increassing levels of abstraction. Electrial signals were abstracted into instructions. CPU instructions were abstracted by assembly languages. The next innovation was proceedural programming. This provided a layer of abstraction helps avoid errors in flow control. Soon after their creation soon almost all programing was done in proceederal languages.</p>
+<p>Proceedural programming is great for reasoning about flow control, but the introduction of variables which provide a useful name and abstract over registers and memory addresses intruduces a source of potential problems: It is often desireable or nessicary to have two variables refer to the same thing, and it is possible to forget that is the case. This seems subtle at first, but this problem of shared state, speffically shared <em>mutable</em> state, has become the root of most bugs.</p>
+<p>It might not seem obvious that this is the case, after all it's usually simple enough to keep things strait. But shared mutable state manifests in a lot of different ways. In C++ these show up as:</p>
+<ul>
+<li>Dangling pointers</li>
+<li>Use after free bugs</li>
+<li>Segfaults</li>
+<li>Iterator invalidation
+In Java you see:</li>
+<li>Null pointer exceptions</li>
+<li>Concurrent modification exceptions</li>
+<li>Race conditions</li>
+<li>The need for synchronized blocks</li>
+<li>The need for a garbage collector</li>
+<li>The need for a JIT compiler because many optimizations can't be reasoned about from the code</li>
+</ul>
+<p>There were two major responses to dealing with the problem of shared mutable state. Functional programming which sought to remove the mutability, and write code using only immutable shared data. Object oriented programming which sought to use encapsulation to prevent state from being shared, while maintaining mutability.</p>
+<p>Both approaches have been developed over the course of decades. Now they both work quite well. However they usually don't work together. Because if nieevly combining ideas from the two results in shared mutable state, which loses the benefit of either approach. So while there have been many ideas that have crossed over from OO languages to Functional languages and vice versa, the have been limited and adapted to the language they are in, and in general don't achieve the same effect they do in the language they came from.</p>
+<p>The most important idea in Rust is to go beyond this dichotomy. By allowing state to be mutable and shared, but not at the same time Rust can bring the full power of Object Orientation and Functional programming to bare in the same language at the same time. This allows for:</p>
+<ul>
+<li>Memory safety without Garbage collection</li>
+<li>High level abstraction without overhead</li>
+<li>Compile time prevention of all NPEs, CMEs, Resource leaks, and Race conditions.
+More importantly Rust opens the door to future paradigms and design patterns that just wouldn't be practical in other languages because they would be too error prone.</li>
+</ul>
+<a class="header" href="#history-of-rust-1" id="history-of-rust-1"><h2>History of Rust</h2></a>
+<p>Work on Rust began in earnest in 2009 at Mozilla based on a prototype that Graydon Hoare had been working on for a few years previously. After three years of development the first pre-alpha version of the compiler was released in 2012.</p>
+<p>Shortly after the first release Graydon stepped back from the project. This change was a hugely important milestone, because it allowed other people step up. This allowed the project to move to a open governance model, with many people providing different perspectives. Over the next three years the language changed, a lot. New features were added and more importantly several features were removed or moved into third party libraries. These changes dramatically improved the language, because it turns out a lot of ideas that sound great don’t turn out so well in practice.</p>
+<p>Rust’s evolution because changes were always anchored in very practical concerns as the core team spent most of their time working on Firefox. (a 4.4 million line C++ code base.) Eventually, in 2015 Rust 1.0 was released. This marked the first point where code could be written and still compile later. This marked a major change from pre-1.0 where if code that was more than 6 months old, you might as well rewrite it because the language was changing so quickly.</p>
+<p>Since 2015 many features were added or modified, or moved out into libraries, but compatibility was always maintained. However overtime, things arose that would be better if compatibility could be broken. So to maintain their release frequency, and to avoid getting stuck in the compatibility trap that a lot of languages find themselves in, the Rust project team settled on a release system, where compatibility would with old versions would be maintained, but every three years a backwards incompatible changes would be introduced in a new ‘epoch’. The ‘epoch’ is specified explicitly and multiple different ones can co-exist in the same program. So the language can be stable, but without stagnating.</p>
+<p>As of this writing the latest version is the 2018 release which contains a lot of improvements over Rust 1.0. It has been a rare pleasure to watch Rust continue to make rapid and significant improvements even as it’s usage grows. I believe this is a big part of why it was voted the “Most Loved Language” in the StackOverflow developer survey in 2016, 2017, and 2018. The percent of developers who have used it has grown each year, and the percentage of those who ‘love it’ has grown each year also.</p>
+<ul>
+<li>Genealogy of rust
+<ul>
+<li>Add Haskell ocammel and cyclone</li>
+<li>Add a note about newsqueek</li>
+</ul>
+</li>
+<li>Rust community</li>
+<li>Rust rfc process
+<ul>
+<li>Pluralism and positive sum game (multiple sources of authority working together)</li>
+<li>Different perspectives reach a better solution
+<ul>
+<li>Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight</li>
+<li>https://aturon.github.io/2018/06/02/listening-part-2/</li>
+<li>Humility, empathy, and introspection</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html</li>
+</ul>
+<p>As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected.</p>
+<a class="header" href="#geneology-of-rust" id="geneology-of-rust"><h2>Geneology of Rust</h2></a>
+<p>Below is a chart of what languages influenced which other languages. Arrows go from the influencing language to the one influenced. Time moves from top to bottom. The left-right axis represents how abstract vs concrete the language is. Finally the languages are color coated by their type.</p>
+<p><img src="images/history.png" alt="Geneology of Rust" /></p>
+<p>While it might not be immediately obvious from looking a random code sample. As can be seen in the genealogy above, that Rust and Java are actually closely related. Rust draws heavily from Java's most influential predicessor C++ as well as C# which was very heavily influenced by Java. Java's philosophy of safety is also present throughout Rust.</p>
+<p>Java was the first popular language to embrace the idea of safety. Unlike lower level languages Java prohibits users from directly manipulating memory or doing other dangerous operations, and unlike a lot of other high-level language is it has a strong type system which ensures that you don't get errors at runtime that could be caught earlier. Rust takes this idea of safety and really runs with it. It aims to prevent as many bugs as possible from reaching production by making incorrect code impossible to write. So like Java it prevents use of uninitialized memory, dangling pointers, use after free, memory leaks. Similarly Rust also provides exception safety, and prevents type errors through static type checking with generics. But Rust goes further and also prevents iterator invalidation / ConcurrentModificationExceptions, null pointers, resource leaks, ordering bugs due to static initialization or partial initialization, and data races in multi threaded code.</p>
+<p>Rust’s primary goal is to prevent errors. If it is possible errors should be prevented at compile time.</p>
+<p>Safety monitory: “The safest program is the program that doesn't compile”</p>
+<p>Portability
+Java has a goal that you should build your code once and be able to run anywhere Rust doesn't quite have the same goal: it has the goal that you should be able to write your code once, compiler it many times, and have it run almost anywhere. Rust compiles to native code on each platform it supports which as of today is 23 CPU architectures, Windows, MacOS, Linux, Bsd, all major web browsers, Android, iOS, and even several different micro controllers. Part of the reason that Rust is able to be ond so many architectures is that it is self-hosting. The Rust compiler is written in Rust. The standard library is also written in Rust and it depends on very little native code. Rust even brings its own memory allocator. Because Rust compiles using llvm, as long as there is an llvm target available for a system, Rust can target it.</p>
+<p>Performance
+Usability</p>
+<ul>
+<li>Be a Good language
+<ul>
+<li>Safe, concurrent, practical</li>
+<li>We can have nice things</li>
+</ul>
+</li>
+<li>Be usable
+<ul>
+<li>Many platforms</li>
+<li>Package management</li>
+<li>Build system and test harness</li>
+<li>Fast enough that you won't need anything else.</li>
+</ul>
+</li>
+<li>Pillars of rust
+<ul>
+<li>Speed without wizardry
+<ul>
+<li>http://fitzgeraldnick.com/2018/02/26/speed-without-wizardry.html</li>
+</ul>
+</li>
+<li>Memory safety without garbage collection</li>
+<li>Concurrency without data races</li>
+<li>Abstraction without overhead</li>
+<li>Stability without stagnation
+<ul>
+<li>No unexpected changes to language and functionality
+<ul>
+<li>Across versions</li>
+<li>By depending on something</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Hack without fear.
+<ul>
+<li>Confident systems programming</li>
+</ul>
+</li>
+<li>Rust: fast, reliable, productive—pick three.</li>
+<li>Zero cost abstractions
+<ul>
+<li>4 compiler optimization phases.</li>
+<li>Normal code is just as fast as unsafe if you can explain to the compiler why it is safe</li>
+<li>Zero size types mean hashMap&lt;k,()&gt; == set&lt;&gt; with not overhead.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>API guidelines https://rust-lang-nursery.github.io/api-guidelines/
+<ul>
+<li>https://deterministic.space/elegant-apis-in-rust.html</li>
+<li>Don't use booleans in API use named enums. It is more readable at the call site.</li>
+</ul>
+</li>
+<li>Rust is implemented in Rust.
+<ul>
+<li>Look at String, or Vec, or Exceptions, or Channels or anything else, it’s written in pure rust.</li>
+<li>THere are a number of primitives but all of the standard library is built on just these primitives. It doesn’t break out into some other language or ‘native’ code.</li>
+<li>For example, you can perform a lot of fancy operations on Strings. But a lot of those actually just come from iterator, which automatically provides a lot of functionality for types that implement it. But Strings implementation of iterator isn’t some special native code, in fact String itself is just a Vec of UTF-8 characters. Vec is itself is a struct.</li>
+<li>This allows Rust to be compiled and built in Rust, but more importantly it has forced those primitives on which the language is build to be sufficiently robust and flexible to support everything above them. And when one of those basic building blocks improves, everything above them benefits.</li>
+</ul>
+</li>
+<li>Rust itself if a somewhat complicated language. It has a lot of features, more than Java (Though not as many a c++). But this is everything. The standard library is built using just these primitives, and compared to most languages (Especially Java) it’s standard library is small. Most of the features are developed externally to the language itself. Even things you wouldn’t necessarily expect, like Non-blocking IO, Concurrency support, and even Exceptions.
+<ul>
+<li>This allows these components to be versioned independently and evolve more quickly than the language itself. It also allows competing libraries to replace them when they have a superior design.</li>
+<li>Key to making this work is a built in dependency management system: Cargo. There will be a full chapter on it later.</li>
+</ul>
+</li>
+<li>Culture of documentation</li>
+<li>Culture of testing</li>
+<li>Culture of inclusivity</li>
+<li>Clippy</li>
+</ul>
+<a class="header" href="#what-makes-a-good-language" id="what-makes-a-good-language"><h2>What makes a good language?</h2></a>
+<ul>
+<li>Code can be imagined as shapes
+<ul>
+<li>Width is interface complexity</li>
+<li>Depth is complexity of problem</li>
+<li>Volume is proportional to code volume
+<ul>
+<li>Some languages are more concise and others more verbose, but this doesn't matter</li>
+</ul>
+</li>
+<li>Narrow and Deep is better</li>
+<li>Too shallow is worse than useless</li>
+</ul>
+</li>
+<li>The best language is the one in which you write the best code.
+<ul>
+<li>Code can have problems:</li>
+<li>Redundant</li>
+<li>Interface covers things the impl doesn't</li>
+<li>Interface is complicated</li>
+<li>Poorly factored</li>
+</ul>
+</li>
+<li>It is better if a language allows you to make three transformations
+<ul>
+<li>Factor out code</li>
+<li>Generalize</li>
+<li>Refine interface (eliminate unsupported features)</li>
+<li>Shrink width (reducing impl)</li>
+<li>Shrink interface preserving volume.</li>
+</ul>
+</li>
+<li>A language feature is good if it let's you do these things.
+<ul>
+<li>It is bad if it causes the reverse
+<ul>
+<li>Example: exceptions and futures together.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Some languages enable all the things, others say none of them</li>
+<li>To decide which are good think in terms of a standard library.
+<ul>
+<li>Where to draw the line?</li>
+<li>To the left slows discourages improvement by impeding replacement and slowing development</li>
+<li>To the right causes distribution issues.</li>
+<li>For Java including a large stdlib was great… at first</li>
+<li>Today we have deps management tools. So j2ee and similar things are now out. If this were the norm in 1995 java would be different.</li>
+<li>This refactoring visualized
+<ul>
+<li>From the perspective of any given developer</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Language features and the stdlib and the languages interface.</li>
+<li>A language is just like any other program, it's just more important to get right.
+<ul>
+<li>It is bad if It has coupling with other features, causing the interface of the language, or worse application code to expand. (For this reason it is important that features be orthogonal and well factored) this is true of all interfaces but for a language it is more important because they have a lot of dependant code.</li>
+<li>Causes ambiguity about what something does</li>
+<li>Is easily confused with another feature/behaviour in the same language</li>
+<li>Introduces inconsistency: An internal library can do something but a user library can’t copy that code and have it work</li>
+<li>Forces additional complexity anywhere it isn’t used</li>
+<li>Introduces a source of potential bugs</li>
+<li>Causes a runtime failure, in the event that the user’s code is using it incorrectly</li>
+<li>Makes errors go undetected</li>
+<li>Forces repetition that can’t be factored out</li>
+</ul>
+</li>
+<li>So a feature is good in a language if adding it:
+<ul>
+<li>Hide a lot of complexity behind a simple interface (ie: is just good code)</li>
+<li>If it can't be implemented in application code and be effective. (Note this may be a red flag, as we want the minimal set)</li>
+<li>Shrinks the overall interface by allowing code to be moved out. (As in the above example)</li>
+<li>If it allows external code to shrink their interfaces</li>
+<li>If it allows for external code to refine their interfaces</li>
+<li>Serves can’t be met by normal library or application code</li>
+<li>Moves bugs from latent to explicit, or from runtime to compile time</li>
+</ul>
+</li>
+<li>Great features:
+<ul>
+<li>Interfaces and polymorphism</li>
+<li>Generics
+<ul>
+<li>Constraint Based Generics and Parametric Polymorphism</li>
+</ul>
+</li>
+<li>Symbols for complex but well defined tasks that can be plugged into
+<ul>
+<li>enhanced for loop</li>
+<li>Try / with resources</li>
+<li>Functional interfaces</li>
+</ul>
+</li>
+<li>Exceptions
+<ul>
+<li>Algebraic Types and Type-safe Failure Modes</li>
+</ul>
+</li>
+<li>Rust feature: Algebraic Types and Type-safe Failure Modes (more on this later)</li>
+<li>Type Inference
+<ul>
+<li>Rust uses the Hindley-Milner type system, which is considered the best at this.</li>
+</ul>
+</li>
+<li>Immutability
+<ul>
+<li>Better: Immutable by default.</li>
+<li>Even better: Marking when data is modified.</li>
+</ul>
+</li>
+<li>Pattern Matching and Compound Expressions</li>
+<li>Isolating dangerous / low level operations</li>
+<li>https://yager.io/programming/go.html</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="why_rust.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="rust_community.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="why_rust.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="rust_community.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

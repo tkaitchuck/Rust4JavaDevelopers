@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Flowcontrol - Rust for Java developers</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A guide to learning Rust for developers familiar with Java">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html" class="active"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Rust for Java developers</h1> 
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#flowcontrol" id="flowcontrol"><h1>Flowcontrol</h1></a>
+<p>Similar to Java in Rust variables are defined to exist in the scope where they are declared. So you can do this</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+let mut i = 0;
+while i &lt; 10 {
+    println!(&quot;Counter: {} &quot;, i);
+    i += 1;
+}
+#}</code></pre></pre>
+<p>but not this</p>
+<pre><code class="language-rust ignore">for i in 1..10 {
+    let x = i;
+}
+println!(&quot;You can't do this: {}&quot;, x);
+</code></pre>
+<p>(SafetyMonitor: This is a bug, don’t do that.)</p>
+<p>Rust has <code>return</code> keyword, which works exactly like java:</p>
+<pre><code class="language-java">int square(int x) {
+    return x * x;
+}
+</code></pre>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+fn square(x: i32) -&gt; i32 {
+    return x * x;
+}
+#}</code></pre></pre>
+<p>However in Rust expressions will return the last value in them if it is not followed by a <code>;</code> so you can just write:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+fn square(x: i32) -&gt; i32 {
+    x * x
+}
+#}</code></pre></pre>
+<p>This also holds true for things like if statements</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# fn something() -&gt; bool {true};
+let x = if something() { 1 } else { 0 };
+#}</code></pre></pre>
+<p>is equivalent to</p>
+<pre><code class="language-java">int x;
+if (something()) {
+    x = 1;
+} else {
+    x = 0;
+}
+</code></pre>
+<p>or</p>
+<pre><code class="language-java">int x = something() ? 1 : 0;
+</code></pre>
+<p>in Java.</p>
+<p>Note that the parenthesis around an <code>if</code> or <code>while</code> conditional are totally optional. Because in Rust the conditional is just an expression in Rust, just like any other.</p>
+<p>Below are examples of If, for, and while loops compared to their java equivalents. __ and __.</p>
+<table><thead><tr><th>Rust                   </th><th>Java   </th></tr></thead><tbody>
+<tr><td><code>if _ { _ } else { _ }</code></td><td><code>if (_) { _ } else { _ }</code></td></tr>
+<tr><td><code>match _ { _ =&gt; _ }</code></td><td><code>switch (_) { case _ : _ break; }</code></td></tr>
+<tr><td><code>while _ { _ }</code></td><td><code>while (_) { _ }</code></td></tr>
+<tr><td><code>loop { _ }</code></td><td><code>while (true) { _ }</code></td></tr>
+<tr><td><code>for i in _ { _ }</code></td><td><code>for (X i : _) { _ }</code></td></tr>
+<tr><td><code>for i in 0..n { _ }</code></td><td><code>for (int i = 0; i &lt; n; i++) { _ }</code></td></tr>
+<tr><td><code>break</code> / <code>break 'label</code>   </td><td><code>break</code> / <code>break label</code> </td></tr>
+<tr><td><code>continue</code> / <code>continue 'label</code></td><td><code>continue</code> / <code>continue label</code></td></tr>
+<tr><td><code>return _;</code></td><td><code>return _;</code></td></tr>
+</tbody></table>
+<p>There are a few differences: Rust does not have <code>do/while</code> loops. In Rust the <code>match</code> statement can use pattern matching and the cases do not &quot;fallthrough&quot; like <code>switch</code> in Java, so there is no need for a <code>break</code>.</p>
+<p>The Rust <code>for</code> loop works like java’s “new” for loop, and doesn’t have the C style 3 part condition version.</p>
+<pre><code class="language-java">for (String item : collection) {
+    //...
+}
+
+</code></pre>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# let collection = vec![1,2,3];
+for item in collection { //Item's type is infered
+    //...
+}
+#}</code></pre></pre>
+<p>If you want to write a pattern like that, you can use a “range” operator instead.</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+for i in 0..10 {
+    //...
+}
+#}</code></pre></pre>
+<p>The &quot;..&quot; operator produces an iterator between the value on the left and the one on the right (inclusive and exclusive). Rust also has a “loop” loop which is equivalent to <code>while (true)</code> in Java. The keywords <code>break</code> and <code>continue</code> work the same way they do in Java.</p>
+<pre><code class="language-java">while(true) {
+    //...
+    break;
+}
+</code></pre>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+loop {
+    //...
+    break;
+}
+#}</code></pre></pre>
+<p>Notice that the if, while, and for conditional arguments are just normal expressions that return a boolean. (As opposed to Java where it is a special construct surrounded by parenthesis). And because anything surrounded by curly braces is an expression which returns the last expression inside of it, it is possible to write a loop like conditional like this:</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+let mut i = 1;
+while { i = i*2; i &lt; 65536 } {
+    //...
+}
+#}</code></pre></pre>
+<p>here the code is iterating over the powers of 2, but the code to update the variable <code>i</code> has been put in the top as part of the loop conditional. (The purpose of showing this is not to encourage doing this all over the place, but rather to show how the compiler sees things)</p>
+<a class="header" href="#functions-as-arguments" id="functions-as-arguments"><h2>Functions as arguments</h2></a>
+<p>In Java sometimes you pass functions as arguments. With a named function this is doen like this <strong>. The Rust equivalent would be do this</strong>. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="method_signatures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="ownership.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="method_signatures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="ownership.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+        <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
