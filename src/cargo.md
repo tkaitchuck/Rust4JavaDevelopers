@@ -21,6 +21,7 @@ serde = "1.0"
 You can find more information about cargo in the [cargo book](https://doc.rust-lang.org/cargo/index.html)
 
 Some common commands are listed below:
+
 |  Command                 |  Effect   |
 | ------------------------ | --------- |
 | `cargo new --bin foo`    | Create a new program named "foo" |
@@ -63,6 +64,7 @@ Unlike Java, you don't need to worry about transitive dependencies, it is not po
 and "version conflicts" are not an issue, because multiple versions can be in the same application at the same time without ambiguity. 
 
 Below is a list of common dependencies and their function.
+
 |  Crate    |   Function   |
 | --------- | ------------ |
 | [Serde](https://serde.rs/) | Serialization and Deserialization |
