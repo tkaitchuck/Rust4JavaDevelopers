@@ -9,7 +9,7 @@ In Java code is distributed in **Jars**, there is a directory hierarchy which or
 In Rust the situation is similar, code is distributed in **crates** inside of which there is a directory hierarchy which orginizes the code in them into multiple **modules**. In Rust modules are hierarchial, so a module could have a submodule that is a whole directory tree of sub modules, on just a single file which contains the module. Inside of the file, there can be member variables declared in a struct and methods defined to operate on them.
 
 As an example a crate might have the following structure:
-```
+```markdown
 src/lib.rs
 src/image_processor.rs
 src/image_processor/jpeg_decoder.rs

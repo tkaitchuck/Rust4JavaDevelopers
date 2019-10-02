@@ -146,9 +146,10 @@
 }
 </code></pre>
 <p>Where as in rust if your type implements the <code>Ord</code> or <code>PartialOrd</code> traits you can just write:</p>
-<pre><pre class="playpen"><code class="language-rust">
+<pre><pre class="playpen"><code class="language-rust skt-main">
 # #![allow(unused_variables)]
 #fn main() {
+# let a = 1; let b = 2;
 if a &lt; b {
     //...
 }
@@ -188,7 +189,7 @@ if a &lt; b {
 <tr><td> <code>|=</code> </td><td> <code>var |= expr</code> </td><td> Bitwise OR and assignment </td><td> <code>BitOrAssign</code> </td></tr>
 </tbody></table>
 <p>One common operator is known as the “deref” operator. It's trait is defined as:</p>
-<pre><pre class="playpen"><code class="language-rust">
+<pre><pre class="playpen"><code class="language-rust skt-default">
 # #![allow(unused_variables)]
 #fn main() {
 pub trait Deref {
@@ -199,14 +200,18 @@ pub trait Deref {
 }
 #}</code></pre></pre>
 <p>The idea of deref is to allow access to a wrapped inner object. You may have heard invoking a method on a member variable is: “this.foo.bar()” refered to as “dereferencing” the member variable. This is where the name comes from. ‘Box’ implements 'deref’. This allows you to write</p>
-<pre><pre class="playpen"><code class="language-rust">
+<pre><pre class="playpen"><code class="language-rust skt-main">
 # #![allow(unused_variables)]
 #fn main() {
+# struct Foo();
 let b : Box&lt;Foo&gt; = //...
+# Box::new(Foo());
 let f : Foo = *b;
 #}</code></pre></pre>
 <p>or even more simply:</p>
-<pre><pre class="playpen"><code class="language-rust">struct Foo { 
+<pre><pre class="playpen"><code class="language-rust"># #![allow(dead_code)]
+# #![allow(unused)]
+struct Foo { 
     a : u32,
 }
 fn function(foo: &amp;Foo) {
@@ -219,7 +224,7 @@ pub fn main () {
 </code></pre></pre>
 <p>This allows you to treat a 'Box<T>’ as though it was a T most of the time, which makes working with Box a lot more convenient.</p>
 <p>Similarly <code>MutexGuard</code> implements deref. So you can just write an method like:</p>
-<pre><pre class="playpen"><code class="language-rust">
+<pre><pre class="playpen"><code class="language-rust skt-default">
 # #![allow(unused_variables)]
 #fn main() {
 use std::sync::Mutex;
@@ -236,7 +241,7 @@ impl MyObject {
 #}</code></pre></pre>
 <p>Here <code>data</code> is a <code>MutexGuard</code>, and it will automatically release the lock when it goes out of scope, but <code>data</code> can use the methods on the guarded object directly without having to unwrap it.</p>
 <p>Deref can be used with assignment. So with MutexGard you could write:</p>
-<pre><pre class="playpen"><code class="language-rust">
+<pre><pre class="playpen"><code class="language-rust skt-default">
 # #![allow(unused_variables)]
 #fn main() {
 use std::sync::Mutex;

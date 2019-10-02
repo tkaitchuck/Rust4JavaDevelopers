@@ -4,6 +4,8 @@ This means that unlike in Java, [if you add a wrapping layer or extra traits, th
 
 So you can define: 
 ```rust
+# #![allow(dead_code)]
+# #![allow(unused)]
 struct AppendOnlyVec<T> {
     inner: Vec<T>,
 }
@@ -18,6 +20,7 @@ impl<T> AppendOnlyVec<T> {
         self.inner
     }
 }
+# fn main() {}
 ```
 This type wraps a vec (by taking ownership of it so that it cannot be modified elsewhere).
 At compile time this struct will get inlined, as will all of the method implementations.

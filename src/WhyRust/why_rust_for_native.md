@@ -64,11 +64,11 @@ Many people in the Python, Ruby, and JS community have
 that can be invoked as part of high level libraries. 
 
 Compare the a above to a signature in Rust:
-```rust
+```rust ,skt-default
 pub trait Writer: Sync {
   fn write(&self, buf: &[u8]) -> Result<(), WriteErr>;
 }
-enum WriteErr {
+pub enum WriteErr {
     NoSuchStream(),
     CouldNotContactServer(),
     //...

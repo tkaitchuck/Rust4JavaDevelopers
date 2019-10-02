@@ -140,9 +140,8 @@
 <p>Rust is built on the idea of &quot;Zero Cost Abstractions&quot;.
 This means that unlike in Java, <a href="https://www.youtube.com/watch?v=Sn3JklPAVLk">if you add a wrapping layer or extra traits, this won't add any overhead</a></p>
 <p>So you can define:</p>
-<pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
+<pre><pre class="playpen"><code class="language-rust"># #![allow(dead_code)]
+# #![allow(unused)]
 struct AppendOnlyVec&lt;T&gt; {
     inner: Vec&lt;T&gt;,
 }
@@ -157,7 +156,8 @@ impl&lt;T&gt; AppendOnlyVec&lt;T&gt; {
         self.inner
     }
 }
-#}</code></pre></pre>
+# fn main() {}
+</code></pre></pre>
 <p>This type wraps a vec (by taking ownership of it so that it cannot be modified elsewhere).
 At compile time this struct will get inlined, as will all of the method implementations.
 After complication the only thing left is primitives and gotos. Exactly as though everything were written in hand optimized assembly.</p>

@@ -171,6 +171,54 @@
 <tr><td>TreeSet     </td><td>BTreeSet   </td><td>Uses BTreee rather than Binary tree (Much faster)</td></tr>
 </tbody></table>
 <a class="header" href="#iterators" id="iterators"><h2>Iterators</h2></a>
+<p>Rust's iterators are a bit different from Java's:</p>
+<pre><code class="language-java">public interface Iterator&lt;E&gt; {
+      /**
+        * Returns {@code true} if the iteration has more elements.
+        * (In other words, returns {@code true} if {@link #next} would
+        * return an element rather than throwing an exception.)
+        *
+        * @return {@code true} if the iteration has more elements
+        */
+       boolean hasNext();
+   
+       /**
+        * Returns the next element in the iteration.
+        *
+        * @return the next element in the iteration
+        * @throws NoSuchElementException if the iteration has no more elements
+        */
+        E next();
+}
+</code></pre>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+pub trait Iterator {
+    type Item;
+    /// Advances the iterator and returns the next value.
+    ///
+    /// Returns [`None`] when iteration is finished. Individual iterator
+    /// implementations may choose to resume iteration, and so calling `next()`
+    /// again may or may not eventually start returning [`Some(Item)`] again at some
+    /// point.
+    ///
+    /// [`None`]: ../../std/option/enum.Option.html#variant.None
+    /// [`Some(Item)`]: ../../std/option/enum.Option.html#variant.Some
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+}
+#}</code></pre></pre>
+<p>This is both more continent for to implement, because the implementation does not need to know in advance if there is another item.
+<code>Iterator</code> is also a very good example of the power of Rust's trait system. Implementing <code>Iterator</code> only requires writing one method
+but it provides callers with over 60. This allows you to do things like:</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# use std::collections::HashMap;
+# use std::vec;
+let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let map: HashMap&lt;i32, i32&gt; = (0..8).filter(|&amp;x| x%2 == 0).map(|x| (x, x * x)).collect();
+#}</code></pre></pre>
 <ul>
 <li>Adding close to iterators (not possible in Java) (can pass around in Rust)</li>
 <li>Fail fast iterators vs compiler

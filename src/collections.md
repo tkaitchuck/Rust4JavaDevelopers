@@ -26,6 +26,56 @@
 
 
 ## Iterators
+Rust's iterators are a bit different from Java's:
+
+```java
+public interface Iterator<E> {
+      /**
+        * Returns {@code true} if the iteration has more elements.
+        * (In other words, returns {@code true} if {@link #next} would
+        * return an element rather than throwing an exception.)
+        *
+        * @return {@code true} if the iteration has more elements
+        */
+       boolean hasNext();
+   
+       /**
+        * Returns the next element in the iteration.
+        *
+        * @return the next element in the iteration
+        * @throws NoSuchElementException if the iteration has no more elements
+        */
+        E next();
+}
+```
+```rust ,skt-default
+pub trait Iterator {
+    type Item;
+    /// Advances the iterator and returns the next value.
+    ///
+    /// Returns [`None`] when iteration is finished. Individual iterator
+    /// implementations may choose to resume iteration, and so calling `next()`
+    /// again may or may not eventually start returning [`Some(Item)`] again at some
+    /// point.
+    ///
+    /// [`None`]: ../../std/option/enum.Option.html#variant.None
+    /// [`Some(Item)`]: ../../std/option/enum.Option.html#variant.Some
+    fn next(&mut self) -> Option<Self::Item>;
+}
+```
+
+This is both more continent for to implement, because the implementation does not need to know in advance if there is another item.
+`Iterator` is also a very good example of the power of Rust's trait system. Implementing `Iterator` only requires writing one method
+but it provides callers with over 60. This allows you to do things like:
+
+```rust ,skt-main
+# use std::collections::HashMap;
+# use std::vec;
+let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let map: HashMap<i32, i32> = (0..8).filter(|&x| x%2 == 0).map(|x| (x, x * x)).collect();
+```
+
+
   * Adding close to iterators (not possible in Java) (can pass around in Rust)
   * Fail fast iterators vs compiler
     * Map.entry() example

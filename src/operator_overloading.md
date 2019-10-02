@@ -9,7 +9,8 @@ if (a.compareTo(b) < 0) {
 }
 ```
 Where as in rust if your type implements the `Ord` or `PartialOrd` traits you can just write:
-```rust
+```rust ,skt-main
+# let a = 1; let b = 2;
 if a < b {
     //...
 }
@@ -54,7 +55,7 @@ Below is a table of operators and the corresponding trait that allows you to imp
 | <code>\|=</code> | <code>var \|= expr</code> | Bitwise OR and assignment | `BitOrAssign` |
 
 One common operator is known as the “deref” operator. It's trait is defined as:
-```rust
+```rust ,skt-default
 pub trait Deref {
     /// The resulting type after dereferencing.]
     type Target;
@@ -63,12 +64,16 @@ pub trait Deref {
 }
 ```
 The idea of deref is to allow access to a wrapped inner object. You may have heard invoking a method on a member variable is: “this.foo.bar()” refered to as “dereferencing” the member variable. This is where the name comes from. ‘Box’ implements 'deref’. This allows you to write 
-```rust 
+```rust ,skt-main
+# struct Foo();
 let b : Box<Foo> = //...
+# Box::new(Foo());
 let f : Foo = *b;
 ``` 
 or even more simply:
 ```rust
+# #![allow(dead_code)]
+# #![allow(unused)]
 struct Foo { 
     a : u32,
 }
@@ -83,7 +88,7 @@ pub fn main () {
 This allows you to treat a 'Box<T>’ as though it was a T most of the time, which makes working with Box a lot more convenient.
 
 Similarly `MutexGuard` implements deref. So you can just write an method like:
-```rust
+```rust ,skt-default
 use std::sync::Mutex;
 
 struct MyObject {
@@ -99,7 +104,7 @@ impl MyObject {
 Here `data` is a `MutexGuard`, and it will automatically release the lock when it goes out of scope, but `data` can use the methods on the guarded object directly without having to unwrap it. 
 
 Deref can be used with assignment. So with MutexGard you could write:
-```rust
+```rust ,skt-default
 use std::sync::Mutex;
 
 struct MyObject {
