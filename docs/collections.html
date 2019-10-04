@@ -219,6 +219,16 @@ but it provides callers with over 60. This allows you to do things like:</p>
 let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 let map: HashMap&lt;i32, i32&gt; = (0..8).filter(|&amp;x| x%2 == 0).map(|x| (x, x * x)).collect();
 #}</code></pre></pre>
+<p>(The <code>&amp;</code> in front of the <code>x</code> in the closure is an example of <a href="./enums.html#match">destructuring</a>, which is covered in the next chapter.)</p>
+<p>In Java Streams and Iterators are different concepts defined by different interfaces. In the case of a stream the data is consumed
+and it can not be re-read once it has been iterated over. Where as an iterator can always be re-created so the data can be read many times.
+In Rust both of these concepts are unified into Iterator, with a different generic type. (Owned vs borrowed vales)</p>
+<p>If the values being iterated over are borrowed then iterator works just like a java iterator. And the collection the was used to create
+iterators over and over. However if instead of invoking <code>iter()</code> the method <code>into_iter()</code> is called, it will then return
+an iterator over owned values.</p>
+<p>Because ownership is being transferred by definition the caller cannot hold onto to the collection or the values.
+This means by in the iteration the collection will be consumed and there will be no way to iterator over the items again.</p>
+<p>TODO:</p>
 <ul>
 <li>Adding close to iterators (not possible in Java) (can pass around in Rust)</li>
 <li>Fail fast iterators vs compiler
@@ -243,6 +253,7 @@ let map: HashMap&lt;i32, i32&gt; = (0..8).filter(|&amp;x| x%2 == 0).map(|x| (x, 
 </li>
 </ul>
 <a class="header" href="#closures" id="closures"><h2>Closures</h2></a>
+<p>TODO:</p>
 <ul>
 <li>syntax</li>
 <li>Map on iterator / option</li>

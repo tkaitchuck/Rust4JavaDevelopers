@@ -173,28 +173,6 @@ More importantly Rust opens the door to future paradigms and design patterns tha
 <p>Rust’s evolution because changes were always anchored in very practical concerns as the core team spent most of their time working on Firefox. (a 4.4 million line C++ code base.) Eventually, in 2015 Rust 1.0 was released. This marked the first point where code could be written and still compile later. This marked a major change from pre-1.0 where if code that was more than 6 months old, you might as well rewrite it because the language was changing so quickly.</p>
 <p>Since 2015 many features were added or modified, or moved out into libraries, but compatibility was always maintained. However overtime, things arose that would be better if compatibility could be broken. So to maintain their release frequency, and to avoid getting stuck in the compatibility trap that a lot of languages find themselves in, the Rust project team settled on a release system, where compatibility would with old versions would be maintained, but every three years a backwards incompatible changes would be introduced in a new ‘epoch’. The ‘epoch’ is specified explicitly and multiple different ones can co-exist in the same program. So the language can be stable, but without stagnating.</p>
 <p>As of this writing the latest version is the 2018 release which contains a lot of improvements over Rust 1.0. It has been a rare pleasure to watch Rust continue to make rapid and significant improvements even as it’s usage grows. I believe this is a big part of why it was voted the “Most Loved Language” in the StackOverflow developer survey in 2016, 2017, and 2018. The percent of developers who have used it has grown each year, and the percentage of those who ‘love it’ has grown each year also.</p>
-<ul>
-<li>Genealogy of rust
-<ul>
-<li>Add Haskell ocammel and cyclone</li>
-<li>Add a note about newsqueek</li>
-</ul>
-</li>
-<li>Rust community</li>
-<li>Rust rfc process
-<ul>
-<li>Pluralism and positive sum game (multiple sources of authority working together)</li>
-<li>Different perspectives reach a better solution
-<ul>
-<li>Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight</li>
-<li>https://aturon.github.io/2018/06/02/listening-part-2/</li>
-<li>Humility, empathy, and introspection</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html</li>
-</ul>
 <p>As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected.</p>
 <a class="header" href="#geneology-of-rust" id="geneology-of-rust"><h2>Geneology of Rust</h2></a>
 <p>Below is a chart of what languages influenced which other languages. Arrows go from the influencing language to the one influenced. Time moves from top to bottom. The left-right axis represents how abstract vs concrete the language is. Finally the languages are color coated by their type.</p>
@@ -211,7 +189,7 @@ Usability</p>
 <li>Be a Good language
 <ul>
 <li>Safe, concurrent, practical</li>
-<li>We can have nice things</li>
+<li>We can have nice things:  https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html</li>
 </ul>
 </li>
 <li>Be usable

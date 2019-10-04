@@ -38,8 +38,32 @@
     * Autotraits: sync, send, sized, ?sized
   * Almost all of these are written in standard rust. Including thing like iterator which will be covered in the next chapter. These automatically add a LOT of premade functions for your custom made types that you don’t have to write. For the traits supporting #derive this is even easier, because you don’t even have to do anything besides type the name. Even more importantly because everything is just standard rust, and there are no special hooks in the compiler for any of these types. This means in your own code you can build abstractions that are just as powerful. <Even better this is all done at compile time so there is no overhead>
 
-The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked. In Rust ‘this’ is called ‘self’. In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method. So leaving it out is analogous to declaring a method ‘static’ in Java. Similar to Java such a method is invoked from the type itself. The following functions are equivalent __ and __. 
+The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked. 
+In Rust ‘this’ is called ‘self’ and is explicetly declared. 
+```rust ,skt-main
+# trait Dummy {
+fn run(self: Self);
+# }
+```
+`self` is always of the type `Self` which is an alias for the name of the object's type. However because `self` cannot have any other type
+this can be abriviated as:
+```rust ,skt-default
+# trait Dummy {
+fn run(self);
+# }
+```
 
+In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any 
+particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method. 
+Leaving it out is analogous to declaring a method ‘static’ in Java. 
+Similar to Java such a method is invoked from the type itself. The following functions are equivalent 
+```java
+    public static void println(String s) { /*...*/ }
+```
+and
+```rust ,skt-default
+    pub fn println(s: &String) { /*...*/ }
+```
 
 Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code.
 

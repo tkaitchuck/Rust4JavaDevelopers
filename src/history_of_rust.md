@@ -44,18 +44,6 @@ Since 2015 many features were added or modified, or moved out into libraries, bu
 
 As of this writing the latest version is the 2018 release which contains a lot of improvements over Rust 1.0. It has been a rare pleasure to watch Rust continue to make rapid and significant improvements even as it’s usage grows. I believe this is a big part of why it was voted the “Most Loved Language” in the StackOverflow developer survey in 2016, 2017, and 2018. The percent of developers who have used it has grown each year, and the percentage of those who ‘love it’ has grown each year also. 
 
-  * Genealogy of rust
-    * Add Haskell ocammel and cyclone
-    * Add a note about newsqueek
-  * Rust community
-  * Rust rfc process
-    * Pluralism and positive sum game (multiple sources of authority working together)
-    * Different perspectives reach a better solution
-      * Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight
-      * https://aturon.github.io/2018/06/02/listening-part-2/
-      * Humility, empathy, and introspection
-  * https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html
-
 As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected. 
 
 ## Geneology of Rust
@@ -78,7 +66,7 @@ Performance
 Usability
   * Be a Good language
     * Safe, concurrent, practical
-    * We can have nice things
+    * We can have nice things:  https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html
   * Be usable
     * Many platforms
     * Package management

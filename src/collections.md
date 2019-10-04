@@ -74,8 +74,20 @@ but it provides callers with over 60. This allows you to do things like:
 let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 let map: HashMap<i32, i32> = (0..8).filter(|&x| x%2 == 0).map(|x| (x, x * x)).collect();
 ```
+(The `&` in front of the `x` in the closure is an example of [destructuring](./enums.html#match), which is covered in the next chapter.)
 
+In Java Streams and Iterators are different concepts defined by different interfaces. In the case of a stream the data is consumed
+and it can not be re-read once it has been iterated over. Where as an iterator can always be re-created so the data can be read many times.
+In Rust both of these concepts are unified into Iterator, with a different generic type. (Owned vs borrowed vales)
+ 
+If the values being iterated over are borrowed then iterator works just like a java iterator. And the collection the was used to create
+iterators over and over. However if instead of invoking `iter()` the method `into_iter()` is called, it will then return 
+an iterator over owned values. 
 
+Because ownership is being transferred by definition the caller cannot hold onto to the collection or the values.
+This means by in the iteration the collection will be consumed and there will be no way to iterator over the items again.
+
+TODO:
   * Adding close to iterators (not possible in Java) (can pass around in Rust)
   * Fail fast iterators vs compiler
     * Map.entry() example
@@ -90,10 +102,14 @@ let map: HashMap<i32, i32> = (0..8).filter(|&x| x%2 == 0).map(|x| (x, x * x)).co
     * Collect invers return type or via turbofish
 
 ## Closures
+TODO:
   * syntax
   * Map on iterator / option
   * foreach
   * Move
   * Pass functions directly
   * Alias allows equivalent of functional interface in Java.
+  
+  
+
 

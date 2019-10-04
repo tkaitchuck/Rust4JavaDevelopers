@@ -116,7 +116,45 @@ here the code is iterating over the powers of 2, but the code to update the vari
 
 ## Functions as arguments
 
-In Java sometimes you pass functions as arguments. With a named function this is doen like this __. The Rust equivalent would be do this__. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The `|` characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __. 
+In Java sometimes you pass functions as arguments. With a named function this is doen like this:
+
+```java
+Stream printableElements = stream.filter(Element::shouldPrint);
+``` 
+
+The Rust equivalent would be do this:
+```rust ,skt-main
+# struct Element();
+# impl Element {
+#    fn should_print(&self) -> bool { true }
+# }
+# let stream = vec![Element()].into_iter(); 
+let printableElements = stream.filter(Element::should_print);
+```
+Which usses the same `::` syntax. 
 
 
+Java can also create an “Anonymous function” (So called because it don’t have a function name) or “Closure” (so called because they can refer to local variables in the surrounding function) like this:
 
+```java
+Stream printableElements = stream.filter(e -> e.shouldPrint());
+// or
+Stream printableElements = stream.filter((e) -> { 
+    e.shouldPrint(); 
+});
+```
+In Rust the syntax is:
+```rust ,skt-main
+# struct Element();
+# impl Element {
+#    fn should_print(&self) -> bool { true }
+# }
+# let stream = vec![Element()].into_iter(); 
+let printableElements = stream.filter(|e| e.should_print());
+// or 
+# let stream = vec![Element()].into_iter();
+let printableElements = stream.filter(|e| { 
+    e.should_print()
+});
+```
+Here the `|` characters replace the parentheses and the curly braces are optional if there is only a single statement.

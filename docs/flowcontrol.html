@@ -254,7 +254,45 @@ while { i = i*2; i &lt; 65536 } {
 #}</code></pre></pre>
 <p>here the code is iterating over the powers of 2, but the code to update the variable <code>i</code> has been put in the top as part of the loop conditional. (The purpose of showing this is not to encourage doing this all over the place, but rather to show how the compiler sees things)</p>
 <a class="header" href="#functions-as-arguments" id="functions-as-arguments"><h2>Functions as arguments</h2></a>
-<p>In Java sometimes you pass functions as arguments. With a named function this is doen like this <strong>. The Rust equivalent would be do this</strong>. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __.</p>
+<p>In Java sometimes you pass functions as arguments. With a named function this is doen like this:</p>
+<pre><code class="language-java">Stream printableElements = stream.filter(Element::shouldPrint);
+</code></pre>
+<p>The Rust equivalent would be do this:</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Element();
+# impl Element {
+#    fn should_print(&amp;self) -&gt; bool { true }
+# }
+# let stream = vec![Element()].into_iter(); 
+let printableElements = stream.filter(Element::should_print);
+#}</code></pre></pre>
+<p>Which usses the same <code>::</code> syntax.</p>
+<p>Java can also create an “Anonymous function” (So called because it don’t have a function name) or “Closure” (so called because they can refer to local variables in the surrounding function) like this:</p>
+<pre><code class="language-java">Stream printableElements = stream.filter(e -&gt; e.shouldPrint());
+// or
+Stream printableElements = stream.filter((e) -&gt; { 
+    e.shouldPrint(); 
+});
+</code></pre>
+<p>In Rust the syntax is:</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Element();
+# impl Element {
+#    fn should_print(&amp;self) -&gt; bool { true }
+# }
+# let stream = vec![Element()].into_iter(); 
+let printableElements = stream.filter(|e| e.should_print());
+// or 
+# let stream = vec![Element()].into_iter();
+let printableElements = stream.filter(|e| { 
+    e.should_print()
+});
+#}</code></pre></pre>
+<p>Here the <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement.</p>
 
                     </main>
 

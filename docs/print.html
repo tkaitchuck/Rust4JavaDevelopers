@@ -191,28 +191,6 @@ More importantly Rust opens the door to future paradigms and design patterns tha
 <p>Rust’s evolution because changes were always anchored in very practical concerns as the core team spent most of their time working on Firefox. (a 4.4 million line C++ code base.) Eventually, in 2015 Rust 1.0 was released. This marked the first point where code could be written and still compile later. This marked a major change from pre-1.0 where if code that was more than 6 months old, you might as well rewrite it because the language was changing so quickly.</p>
 <p>Since 2015 many features were added or modified, or moved out into libraries, but compatibility was always maintained. However overtime, things arose that would be better if compatibility could be broken. So to maintain their release frequency, and to avoid getting stuck in the compatibility trap that a lot of languages find themselves in, the Rust project team settled on a release system, where compatibility would with old versions would be maintained, but every three years a backwards incompatible changes would be introduced in a new ‘epoch’. The ‘epoch’ is specified explicitly and multiple different ones can co-exist in the same program. So the language can be stable, but without stagnating.</p>
 <p>As of this writing the latest version is the 2018 release which contains a lot of improvements over Rust 1.0. It has been a rare pleasure to watch Rust continue to make rapid and significant improvements even as it’s usage grows. I believe this is a big part of why it was voted the “Most Loved Language” in the StackOverflow developer survey in 2016, 2017, and 2018. The percent of developers who have used it has grown each year, and the percentage of those who ‘love it’ has grown each year also.</p>
-<ul>
-<li>Genealogy of rust
-<ul>
-<li>Add Haskell ocammel and cyclone</li>
-<li>Add a note about newsqueek</li>
-</ul>
-</li>
-<li>Rust community</li>
-<li>Rust rfc process
-<ul>
-<li>Pluralism and positive sum game (multiple sources of authority working together)</li>
-<li>Different perspectives reach a better solution
-<ul>
-<li>Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight</li>
-<li>https://aturon.github.io/2018/06/02/listening-part-2/</li>
-<li>Humility, empathy, and introspection</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html</li>
-</ul>
 <p>As the name implies Rust isn’t about new ideas. It’s about taking well established and vetted ideas, and putting them together in a coherent way. Almost nothing in Rust is completely original. So in this guide you will see lots of familiar concepts, but they fit together very well. In large part this is due the fact that during its history Rust very aggressivly explored a lot of possible design space. It has had a very fast release cycle, and gone through many rounds of expermentation, design and redesign. The features that have landed have had tremendious amount of thought put into how they fit in and work together and in most cases many alternitive approaches were tried and rejected.</p>
 <a class="header" href="#geneology-of-rust" id="geneology-of-rust"><h2>Geneology of Rust</h2></a>
 <p>Below is a chart of what languages influenced which other languages. Arrows go from the influencing language to the one influenced. Time moves from top to bottom. The left-right axis represents how abstract vs concrete the language is. Finally the languages are color coated by their type.</p>
@@ -229,7 +207,7 @@ Usability</p>
 <li>Be a Good language
 <ul>
 <li>Safe, concurrent, practical</li>
-<li>We can have nice things</li>
+<li>We can have nice things:  https://blog.rust-lang.org/2017/03/02/lang-ergonomics.html</li>
 </ul>
 </li>
 <li>Be usable
@@ -426,7 +404,16 @@ Usability</p>
 <p>Another aspect it the language itself. Rust’s learning curve is both initially steep and long. Fortunately this process isn’t painful because the difficulty does not come from ‘magic’. Rust is very explicit and almost everything works exactly the way you’d expect. Rather it comes from learning to work within the safety rules. It is sometimes complicated and isn’t similar to other languages. But this has a way of keeping people humble. In a lot of other languages, it’s easy to forget that things that seem second nature now used to be confusing.</p>
 <p>So in some languages, you might be mocked for asking for help, or be unable to find it, or write what you think is right only to have things break at Runtime. With Rust, you might have to ask for help more or work harder to get things to compiler. But you’ll find lots of people will be happy to help. And once your code does compile, you can be fairly confident it is correct.</p>
 <a class="header" href="#rfc-process" id="rfc-process"><h2>RFC process</h2></a>
+<p>TODO:</p>
 <ul>
+<li>Pluralism and positive sum game (multiple sources of authority working together)</li>
+<li>Different perspectives reach a better solution
+<ul>
+<li>Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight</li>
+<li>https://aturon.github.io/2018/06/02/listening-part-2/</li>
+<li>Humility, empathy, and introspection</li>
+</ul>
+</li>
 <li>Discuss</li>
 <li>Pre-rfc</li>
 <li>RFC</li>
@@ -820,7 +807,45 @@ while { i = i*2; i &lt; 65536 } {
 #}</code></pre></pre>
 <p>here the code is iterating over the powers of 2, but the code to update the variable <code>i</code> has been put in the top as part of the loop conditional. (The purpose of showing this is not to encourage doing this all over the place, but rather to show how the compiler sees things)</p>
 <a class="header" href="#functions-as-arguments" id="functions-as-arguments"><h2>Functions as arguments</h2></a>
-<p>In Java sometimes you pass functions as arguments. With a named function this is doen like this <strong>. The Rust equivalent would be do this</strong>. (Very similar) You can also create an anonymous function and pass it like this __. In Rust the syntax is __. The <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement: __. These are sometimes referred to as “Anonymous functions” (Because they don’t have a name) or “Closures” because they can refer to local variables in the surrounding function. But it’s worth noting that you can just as easily pass normal functions too. IE __.</p>
+<p>In Java sometimes you pass functions as arguments. With a named function this is doen like this:</p>
+<pre><code class="language-java">Stream printableElements = stream.filter(Element::shouldPrint);
+</code></pre>
+<p>The Rust equivalent would be do this:</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Element();
+# impl Element {
+#    fn should_print(&amp;self) -&gt; bool { true }
+# }
+# let stream = vec![Element()].into_iter(); 
+let printableElements = stream.filter(Element::should_print);
+#}</code></pre></pre>
+<p>Which usses the same <code>::</code> syntax.</p>
+<p>Java can also create an “Anonymous function” (So called because it don’t have a function name) or “Closure” (so called because they can refer to local variables in the surrounding function) like this:</p>
+<pre><code class="language-java">Stream printableElements = stream.filter(e -&gt; e.shouldPrint());
+// or
+Stream printableElements = stream.filter((e) -&gt; { 
+    e.shouldPrint(); 
+});
+</code></pre>
+<p>In Rust the syntax is:</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Element();
+# impl Element {
+#    fn should_print(&amp;self) -&gt; bool { true }
+# }
+# let stream = vec![Element()].into_iter(); 
+let printableElements = stream.filter(|e| e.should_print());
+// or 
+# let stream = vec![Element()].into_iter();
+let printableElements = stream.filter(|e| { 
+    e.should_print()
+});
+#}</code></pre></pre>
+<p>Here the <code>|</code> characters replace the parentheses and the curly braces are optional if there is only a single statement.</p>
 <a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc"><h1>Memory safety and GC</h1></a>
 <p>Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not.</p>
 <p>It turns out, not coincidentally, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
@@ -858,8 +883,11 @@ fn sort(list: &amp;mut Vec&lt;i32&gt;) {
 #   list.sort();
 }
 #}</code></pre></pre>
-<p>Notice that the type of the argument changed. When it is just 'Vec<i32>’ the method is taking ownership of the value. But when it is ‘&amp;Vec<i32>’ it is a borrowed vector, meaning the caller still retains ownership. And a ‘&amp;mut Vec<i32>’ is a borrowed mutable vector meaning that even though the function is not taking ownership, it may modify the provided vector.</p>
-<p>For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped. This applies transitively. So for example in the function:</p>
+<p>Notice that the type of the argument changed. When it is just <code>Vec&lt;i32&gt;</code> the method is taking ownership of the value.
+But when it is <code>&amp;Vec&lt;i32&gt;</code> it is a borrowed vector, meaning the caller still retains ownership. And a <code>&amp;mut Vec&lt;i32&gt;</code>
+is a borrowed mutable vector meaning that even though the function is not taking ownership, it may modify the provided vector.</p>
+<p>For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped.
+This applies transitively. For example in the function:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 # #![allow(unused_variables)]
 #fn main() {
@@ -868,8 +896,9 @@ fn process(items: Vec&lt;String&gt;) {
 }
 #}</code></pre></pre>
 <p>when the function returns, the vector <code>items</code> and all of the strings in it will be dropped from memory.</p>
-<p>This might seems like it doesn’t allow cycles. There are ways to create cycles, but for the most part they aren’t needed. Why this is the case will be covered in “How Rust makes you a better Java programmer”.</p>
-<p>However the main tool that used is borrowing.</p>
+<p>This might seems like it doesn’t allow cycles. There are ways to create cycles, but for the most part they aren’t needed.
+Why this is the case will be covered later in <a href="./rust_makes_you_better_at_java.html">“How Rust makes you a better Java programmer”</a>.</p>
+<p>The main tool that used in conjunction with ownership is borrowing.</p>
 <a class="header" href="#borrows" id="borrows"><h1>Borrows</h1></a>
 <ul>
 <li>Output to be populated</li>
@@ -878,7 +907,8 @@ fn process(items: Vec&lt;String&gt;) {
 <li>Primitive (copy by value) vs pointer</li>
 <li>Copy vs move (is similar)</li>
 </ul>
-<p>In addition to compile time memory management and guaranteed thread safety (more on this in the concurrency chapter), explicit ownership opens up a lot of useful patterns.</p>
+<p>In addition to compile time memory management and <a href="./concurrency.html">guaranteed thread safety</a>),
+explicit ownership opens up a lot of useful patterns.</p>
 <p>In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code class="java">java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code class="java"> java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 # #![allow(unused_variables)]
@@ -971,7 +1001,12 @@ trait Config {
   //...
 }
 #}</code></pre></pre>
-<p>Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed)</p>
+<p>Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code
+cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method.
+This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal
+state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal
+representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the
+implementation to change in the future. (It can always construct the returned object if needed)</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 # #![allow(unused_variables)]
 #fn main() {
@@ -983,14 +1018,26 @@ trait Config {
   //...
 }
 #}</code></pre></pre>
-<p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code> and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood that you should not modify the object afterwards. But nothing actually prevents this.</p>
+<p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code>
+and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy
+is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer
+of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood
+that you should not modify the object afterwards. But nothing actually prevents this.</p>
+<p>TODO:</p>
 <ul>
 <li>Similar pattern getting an entry by key and doing .or_insert() += 1.</li>
 </ul>
 <p>The rules for ownership and borrowing are straight forward: __</p>
 <p>...</p>
-<p>There are more exotic ways to handle objects then in general aren't really needed the overwhelming majority of the time. These include RC (which allows ambiguous ownership where the item is dropped when all references go away.) ARC which is similar, but thread safe. This is generally used for Top-level classes with business logic that may need to be referenced from multiple places and live for a long time.</p>
-<p>All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that component where you need it. There are many such components publically available, and we’ll cover some of them in depth in this book. A short list of common ones is below __</p>
+<p>There are more exotic ways to handle objects then in general aren't really needed the overwhelming majority of the time.
+These include RC (which allows ambiguous ownership where the item is dropped when all references go away.)
+ARC which is similar, but thread safe. This is generally used for Top-level classes with business logic that may need to
+be referenced from multiple places and live for a long time.</p>
+<p>All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that,
+because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a
+small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that
+component where you need it. There are many such components publically available, and we’ll cover some of them in depth
+in this book. A short list of common ones is below __</p>
 <ul>
 <li>
 <p>SplitAtMut</p>
@@ -1137,7 +1184,36 @@ trait Config {
 </li>
 <li>Almost all of these are written in standard rust. Including thing like iterator which will be covered in the next chapter. These automatically add a LOT of premade functions for your custom made types that you don’t have to write. For the traits supporting #derive this is even easier, because you don’t even have to do anything besides type the name. Even more importantly because everything is just standard rust, and there are no special hooks in the compiler for any of these types. This means in your own code you can build abstractions that are just as powerful. <Even better this is all done at compile time so there is no overhead></li>
 </ul>
-<p>The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked. In Rust ‘this’ is called ‘self’. In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method. So leaving it out is analogous to declaring a method ‘static’ in Java. Similar to Java such a method is invoked from the type itself. The following functions are equivalent __ and __.</p>
+<p>The in Java methods have access to an implicit variable ‘this’ which is the object on which the method was invoked.
+In Rust ‘this’ is called ‘self’ and is explicetly declared.</p>
+<pre><pre class="playpen"><code class="language-rust skt-main">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Dummy {
+fn run(self: Self);
+# }
+#}</code></pre></pre>
+<p><code>self</code> is always of the type <code>Self</code> which is an alias for the name of the object's type. However because <code>self</code> cannot have any other type
+this can be abriviated as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Dummy {
+fn run(self);
+# }
+#}</code></pre></pre>
+<p>In Java there are methods declared with the keyword ‘static’ which do not have access to ‘this’ because they are not associated with any
+particular instance. In Rust the ‘self’ parameter is explicitly declared as the first argument to a method.
+Leaving it out is analogous to declaring a method ‘static’ in Java.
+Similar to Java such a method is invoked from the type itself. The following functions are equivalent</p>
+<pre><code class="language-java">    public static void println(String s) { /*...*/ }
+</code></pre>
+<p>and</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+    pub fn println(s: &amp;String) { /*...*/ }
+#}</code></pre></pre>
 <p>Rust is an Object Oriented language, but it is not a class oriented language. So unlike in Java not all of the methods on an object are located in the same block of code.</p>
 <a class="header" href="#traits" id="traits"><h1>Traits</h1></a>
 <ul>
@@ -1775,6 +1851,16 @@ but it provides callers with over 60. This allows you to do things like:</p>
 let vec = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 let map: HashMap&lt;i32, i32&gt; = (0..8).filter(|&amp;x| x%2 == 0).map(|x| (x, x * x)).collect();
 #}</code></pre></pre>
+<p>(The <code>&amp;</code> in front of the <code>x</code> in the closure is an example of <a href="./enums.html#match">destructuring</a>, which is covered in the next chapter.)</p>
+<p>In Java Streams and Iterators are different concepts defined by different interfaces. In the case of a stream the data is consumed
+and it can not be re-read once it has been iterated over. Where as an iterator can always be re-created so the data can be read many times.
+In Rust both of these concepts are unified into Iterator, with a different generic type. (Owned vs borrowed vales)</p>
+<p>If the values being iterated over are borrowed then iterator works just like a java iterator. And the collection the was used to create
+iterators over and over. However if instead of invoking <code>iter()</code> the method <code>into_iter()</code> is called, it will then return
+an iterator over owned values.</p>
+<p>Because ownership is being transferred by definition the caller cannot hold onto to the collection or the values.
+This means by in the iteration the collection will be consumed and there will be no way to iterator over the items again.</p>
+<p>TODO:</p>
 <ul>
 <li>Adding close to iterators (not possible in Java) (can pass around in Rust)</li>
 <li>Fail fast iterators vs compiler
@@ -1799,6 +1885,7 @@ let map: HashMap&lt;i32, i32&gt; = (0..8).filter(|&amp;x| x%2 == 0).map(|x| (x, 
 </li>
 </ul>
 <a class="header" href="#closures" id="closures"><h2>Closures</h2></a>
+<p>TODO:</p>
 <ul>
 <li>syntax</li>
 <li>Map on iterator / option</li>

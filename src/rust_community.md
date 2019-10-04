@@ -7,6 +7,12 @@ Another aspect it the language itself. Rust’s learning curve is both initially
 
 So in some languages, you might be mocked for asking for help, or be unable to find it, or write what you think is right only to have things break at Runtime. With Rust, you might have to ask for help more or work harder to get things to compiler. But you’ll find lots of people will be happy to help. And once your code does compile, you can be fairly confident it is correct.
 ## RFC process
+TODO:
+  * Pluralism and positive sum game (multiple sources of authority working together)
+  * Different perspectives reach a better solution
+    * Yelling lowder and ‘thicker skin’ is bad because it does not bring new insight
+    * https://aturon.github.io/2018/06/02/listening-part-2/
+    * Humility, empathy, and introspection
   * Discuss
   * Pre-rfc
   * RFC

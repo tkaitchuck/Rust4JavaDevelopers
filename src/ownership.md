@@ -41,9 +41,12 @@ fn sort(list: &mut Vec<i32>) {
 #   list.sort();
 }
 ```
-Notice that the type of the argument changed. When it is just 'Vec<i32>’ the method is taking ownership of the value. But when it is ‘&Vec<i32>’ it is a borrowed vector, meaning the caller still retains ownership. And a ‘&mut Vec<i32>’ is a borrowed mutable vector meaning that even though the function is not taking ownership, it may modify the provided vector.
+Notice that the type of the argument changed. When it is just `Vec<i32>` the method is taking ownership of the value. 
+But when it is `&Vec<i32>` it is a borrowed vector, meaning the caller still retains ownership. And a `&mut Vec<i32>`
+is a borrowed mutable vector meaning that even though the function is not taking ownership, it may modify the provided vector.
 
-For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped. This applies transitively. So for example in the function:
+For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped. 
+This applies transitively. For example in the function:
 ```rust ,skt-default
 fn process(items: Vec<String>) {
   //...
@@ -51,9 +54,10 @@ fn process(items: Vec<String>) {
 ```
 when the function returns, the vector `items` and all of the strings in it will be dropped from memory.
 
-This might seems like it doesn’t allow cycles. There are ways to create cycles, but for the most part they aren’t needed. Why this is the case will be covered in “How Rust makes you a better Java programmer”.
+This might seems like it doesn’t allow cycles. There are ways to create cycles, but for the most part they aren’t needed.
+Why this is the case will be covered later in [“How Rust makes you a better Java programmer”](./rust_makes_you_better_at_java.html).
 
-However the main tool that used is borrowing.
+The main tool that used in conjunction with ownership is borrowing.
 
 # Borrows
   * Output to be populated
@@ -62,7 +66,8 @@ However the main tool that used is borrowing.
   * Primitive (copy by value) vs pointer
   * Copy vs move (is similar)
 
-In addition to compile time memory management and guaranteed thread safety (more on this in the concurrency chapter), explicit ownership opens up a lot of useful patterns.
+In addition to compile time memory management and [guaranteed thread safety](./concurrency.html)),
+explicit ownership opens up a lot of useful patterns.
 
 In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code class="java">java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code class="java"> java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write 
 ```rust ,skt-main
@@ -147,7 +152,12 @@ trait Config {
   //...
 }
 ```
-Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the implementation to change in the future. (It can always construct the returned object if needed)
+Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code
+cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. 
+This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal 
+state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal 
+representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the 
+implementation to change in the future. (It can always construct the returned object if needed)
 ```rust ,skt-default
 use std::collections::HashMap;
 
@@ -157,18 +167,30 @@ trait Config {
   //...
 }
 ```
-here the `set_attributes` function is making explicit that when called it is now the owner of the provided `attributes` and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood that you should not modify the object afterwards. But nothing actually prevents this. 
+here the `set_attributes` function is making explicit that when called it is now the owner of the provided `attributes` 
+and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy 
+is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer 
+of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood 
+that you should not modify the object afterwards. But nothing actually prevents this. 
 
+TODO:
   * Similar pattern getting an entry by key and doing .or_insert() += 1. 
 
 The rules for ownership and borrowing are straight forward: __
 
 ...
 
-There are more exotic ways to handle objects then in general aren't really needed the overwhelming majority of the time. These include RC (which allows ambiguous ownership where the item is dropped when all references go away.) ARC which is similar, but thread safe. This is generally used for Top-level classes with business logic that may need to be referenced from multiple places and live for a long time.
+There are more exotic ways to handle objects then in general aren't really needed the overwhelming majority of the time. 
+These include RC (which allows ambiguous ownership where the item is dropped when all references go away.) 
+ARC which is similar, but thread safe. This is generally used for Top-level classes with business logic that may need to 
+be referenced from multiple places and live for a long time.
 
 
-All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that component where you need it. There are many such components publically available, and we’ll cover some of them in depth in this book. A short list of common ones is below __
+All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, 
+because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a 
+small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that
+component where you need it. There are many such components publically available, and we’ll cover some of them in depth 
+in this book. A short list of common ones is below __
   * SplitAtMut
   * Cell
   * RefCell
