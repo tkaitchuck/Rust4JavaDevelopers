@@ -137,39 +137,136 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="#lifetimes" id="lifetimes"><h1>Lifetimes</h1></a>
+<p>Lifetimes are a way to specify additional information about borrows in order to convince the compiler that what you are
+attempting to do makes sense. They will only effect whether or not code can compiler and have no effect on at runtime.</p>
+<p>Consider the following code:</p>
+<pre><pre class="playpen"><code class="language-rust">fn print_str_twice(string: &amp;str) {
+    println!(&quot;{}  {}&quot;, string, string);
+}
+fn main() {
+    let mut greeting = &quot;Hello&quot;.to_string();
+    print_str_twice(&amp;greeting);
+    greeting += &quot; world&quot;;
+    println!(&quot;{}&quot;, greeting);
+}
+</code></pre></pre>
+<p>Here the function <code>print_str_twice</code> borrows the argument <code>string</code>. Because the borrowed value cannot be held after the
+function returns, and there is no return value from the function the compiler is able to work out that it's ok to modify
+<code>greeting</code> on the next line.
+But if the code looked like this:</p>
+<pre><code class="language-rust ignore">fn get_tail_of_string(string: &amp;str) -&gt; &amp;str {
+    &amp;string[1..]
+}
+fn main() {
+    let mut greeting = &quot;Hello&quot;.to_string();
+    let bad = get_tail_of_string(&amp;greeting);
+    greeting += &quot; world&quot;;
+    println!(&quot;{}&quot;, greeting);
+    println!(&quot;Oops {}&quot;, bad);
+}
+</code></pre>
+<p>This will generate a compile error because <code>greeting</code> is borrowed in <code>get_tail_of_string</code> and part of it is returned and
+assigned to <code>bad</code>. This is a problem because <code>greeting</code> is modified on the next line, but <code>bad</code> ends up getting used later.</p>
+<p>So how was the compiler so smart? The answer is that it automatically generated some <code>lifetimes</code> and applied them to the
+method signature of <code>get_tail_of_string</code>.</p>
+<p>When a method borrows parameters the compiler needs to track how long those borrows live so it can determine if code should
+compile. This process works similar to generics. For example the method signature:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Foo {
+  fn some_function&lt;T&gt;(arg1: &amp;T);
+# }
+#}</code></pre></pre>
+<p>is actually the same as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Foo {
+  fn some_function&lt;'a, T&gt;(arg1: &amp;'a T);
+# }
+#}</code></pre></pre>
+<p>Which means that the parameter <code>arg1</code> is borrowed for however long the value passed into arg1 lasts. Of course this is
+a completely unnecessary statement, and hence can be simply omitted. (The naming convention is to start with ‘a for the
+first parameter and then ‘b, 'c' etc. Lowercase letters are used to distinguish lifetime from normal type parameters like <code>T</code>)</p>
+<p>However in the more complex case:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Foo{a:str} struct Bar {}
+  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'a str
+# {&amp;arg1.a}
+#}</code></pre></pre>
+<p>Here the lifetime is meaningful and needs to be specified. Here the signature is providing the information that function
+accepting two arguments <code>arg1</code> and <code>arg2</code> and these live however long the parameters passed as these values live, and the
+return type lives as long as <code>arg1</code>. This means in this case that the return value is being derived from the first parameter
+and not the second one. This will allow the compiler to check the calling code to make sure this is Ok.
+(You don't need to know where the inputs came from or how long they will live. The compiler will just check everything.)</p>
+<p>If the returned value were derived from the second parameter the function signature would look like:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Foo{} struct Bar {a:str}
+  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'b str
+# {&amp;arg2.a}
+#}</code></pre></pre>
+<p>What if the result could be derived from either parameter and which one won't be know until run-time?
+For example a function that returns the longer of two string slices. That would look like:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+  fn get_longer&lt;'a&gt;(arg1: &amp;'a str, arg2: &amp;'a str) -&gt; &amp;'a str
+# {arg1}
+#}</code></pre></pre>
+<p>In this case the compiler will infer a lifetime for 'a that must work for both parameters, and use this lifetime when
+reasoning about the returned value.</p>
+<p>In general the compiler is able to automatically figure out the lifetimes, and nothing needs to be specified. For example
+with methods that are being invoked on an object such as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+trait CharTrimmer {
+  fn trim_chars(&amp;self, chars_to_remove: &amp;str) -&gt; &amp;str;
+}
+#}</code></pre></pre>
+<p>It is by default assumed that the source of any returned parameter is from the <code>self</code> argument. So the lifetimes would
+be automatically inferred as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+trait CharTrimmer {
+  fn trim_chars&lt;'a&gt;(&amp;'a self, chars_to_remove: &amp;str) -&gt; &amp;'a str;
+}
+#}</code></pre></pre>
+<p>However if this is not the case, it can be clarified by specifying a different lifetime.</p>
+<p>Lifetimes, only really come up when dealing with items that are being borrowed and parts are being passed out of the original called
+either by a return value or embedding them in a struct, and never with owned items. So they tend to be a nitch feature.</p>
+<p>For a much more complete exploration of the exotic cases of lifetimes see the post <a href="http://cglab.ca/%7Eabeinges/blah/too-many-lists/book/second-iter.html">&quot;Too many lists&quot;</a>.</p>
+<a class="header" href="#static" id="static"><h2>'static</h2></a>
+<p>There is one special lifetime: <code>'static</code>. This is used to indicate the reference can live for as long as the program is
+running. For example when a constant string is defined:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+  let greeting = &quot;Hello world!&quot;;
+  //...
+}
+</code></pre></pre>
+<p>the type of greeting is actually: <code>&amp;'static str</code>. Meaning that it is valid to hold onto <code>greeting</code> forever because the
+string constant <code>&quot;Hello world!&quot;</code> will always be available. (Because string constants are part of the program itself
+and hence by definition exist for the lifetime of the program. You can of course borrow them, and when you do they
+have a static lifetime.) This is also be used as the lifetime for for statics and constants.</p>
+<p>So if a function takes a 'static string such as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+fn only_const_strings(arg: &amp;'static str)
+# {}
+#}</code></pre></pre>
+<p>This would restrict the values that can be passed into the method to only be string constants, or their derivatives.</p>
+<p>TODO:</p>
 <ul>
-<li>http://cglab.ca/~abeinges/blah/too-many-lists/book/second-iter.html</li>
-<li>Normally figured out by the compiler for you
-<ul>
-<li>Here is what it is doing</li>
-<li>Only applies to borrows, not to owned items, and not the item being borrowed.
-<ul>
-<li>This means that for instance you can specify a single ‘a on one of the parameters and the return value to indicate that the returned value came from that parameter and therefore the borrow should last as long as the parameter’s it came from.</li>
-<li>Similarly you can have a case where the value could come from more than one input, you can just add a parameter to all the relevant inputs __. This will result in compiler checking that the original objects this function is borrowing live at least as long as the result returned from this function.</li>
-<li>Notice that we don’t actually have to know where the inputs came from or have any idea how long they will live. The compiler will just check and make sure things are OK.</li>
-</ul>
-</li>
-<li>Specified with a lowercase letter to distinguish from T.</li>
-<li>Convention is to start with ‘a and then ‘b etc.</li>
-<li>Unlike a generic value T they don’t have any meaning. They are only needed to distinguish one value from another.
-<ul>
-<li>Example</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Statics lifetimes - live for as long as the program.
-<ul>
-<li>&amp;str is often this. Because string constants are part of the program itself and hence by definition exist for the lifetime of the program. You can of course borrow them, and when you do they have a static lifetime.</li>
-</ul>
-</li>
-<li>Destructors</li>
-<li>try/with replaced by destructor
-<ul>
-<li>Examples</li>
-</ul>
-</li>
-<li>Destructors cannot fail and shouldn’t block. So sometimes close exists.</li>
+<li>Drop trait</li>
+<li>try/with replaced with drop</li>
+<li>Drop cannot fail and shouldn’t block. So sometimes close exists.</li>
 </ul>
 
                     </main>

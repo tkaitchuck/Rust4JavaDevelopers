@@ -495,7 +495,8 @@ let mut counter = 0;
   }
 }
 </code></pre>
-<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restriction. These cases will be explained when they come up.</p>
+<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restrictions.
+These cases will be explained when they come up.</p>
 <p>Declaring a box is done like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 # #![allow(unused_variables)]
@@ -519,7 +520,7 @@ numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if n
 <a class="header" href="#string" id="string"><h2>String</h2></a>
 <p>Rust has a string type. It's a little different from Java's. While Java's String is built out of a <code>char[]</code> where each <code>char</code> is a UTF-16 code point, Rust's String is based on a <code>Vec&lt;u8&gt;</code> where the bytes are valid UTF-8.</p>
 <p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If is declared with <code>let mut directions : String = ...</code> it is mutable, and if it is declared with <code>let name : String = ...</code> it is not.</p>
-<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the chapter on <strong>Ownership</strong>.</p>
+<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the <a href="./ownership.html">chapter on Ownership</a>.</p>
 <a class="header" href="#method-signatures" id="method-signatures"><h1>Method Signatures</h1></a>
 <p>Below is a Java method signature and the equivalent rust signature.</p>
 <pre><code class="language-java">void printNum(int num);
@@ -818,15 +819,15 @@ while { i = i*2; i &lt; 65536 } {
 # impl Element {
 #    fn should_print(&amp;self) -&gt; bool { true }
 # }
-# let stream = vec![Element()].into_iter(); 
-let printableElements = stream.filter(Element::should_print);
+# let stream = vec![Element()].into_iter();
+let printable_elements = stream.filter(Element::should_print);
 #}</code></pre></pre>
 <p>Which usses the same <code>::</code> syntax.</p>
 <p>Java can also create an “Anonymous function” (So called because it don’t have a function name) or “Closure” (so called because they can refer to local variables in the surrounding function) like this:</p>
 <pre><code class="language-java">Stream printableElements = stream.filter(e -&gt; e.shouldPrint());
 // or
-Stream printableElements = stream.filter((e) -&gt; { 
-    e.shouldPrint(); 
+Stream printableElements = stream.filter((e) -&gt; {
+    e.shouldPrint();
 });
 </code></pre>
 <p>In Rust the syntax is:</p>
@@ -837,11 +838,11 @@ Stream printableElements = stream.filter((e) -&gt; {
 # impl Element {
 #    fn should_print(&amp;self) -&gt; bool { true }
 # }
-# let stream = vec![Element()].into_iter(); 
-let printableElements = stream.filter(|e| e.should_print());
-// or 
 # let stream = vec![Element()].into_iter();
-let printableElements = stream.filter(|e| { 
+let printable_elements = stream.filter(|e| e.should_print());
+// or
+# let stream = vec![Element()].into_iter();
+let printable_elements = stream.filter(|e| {
     e.should_print()
 });
 #}</code></pre></pre>
@@ -2754,39 +2755,136 @@ In Rust it would look like __. Of course you probably want to get the original o
 <p>A good example of this is String. Strings much like arrays support slicing. So you can take a view of a subset of a string. This is similar to the way in Java you can have a ByteBuffer which provides a view of a subset of a byte array. String implements Deref for str. Given a borrowed string it returns a borrowed slice containing the whole string. So you invoke deref explicitly or just pass a String anywhere a string slice is expected, the conversion is done for you automatically. This is even true when invoking methods on the object. Say you have a borrowed String. You can call ‘.chars()’ and get the characters in the string. Even though the ‘chars’ method was actually defined for the string slice.</p>
 <p>Now imagine that for your own wrapper types, it means they be generic to what they contain an still allow the caller to invoke whatever methods they need on the wrapped object with no syntactic overhead safely without any ambiguity. (Cool right?) It should be noted that because Deref is automatic, it is not meant for costly conversions. For that you should use the ‘From’ or ‘Into’ traits. Where the conversion is more explicit.</p>
 <a class="header" href="#lifetimes" id="lifetimes"><h1>Lifetimes</h1></a>
+<p>Lifetimes are a way to specify additional information about borrows in order to convince the compiler that what you are
+attempting to do makes sense. They will only effect whether or not code can compiler and have no effect on at runtime.</p>
+<p>Consider the following code:</p>
+<pre><pre class="playpen"><code class="language-rust">fn print_str_twice(string: &amp;str) {
+    println!(&quot;{}  {}&quot;, string, string);
+}
+fn main() {
+    let mut greeting = &quot;Hello&quot;.to_string();
+    print_str_twice(&amp;greeting);
+    greeting += &quot; world&quot;;
+    println!(&quot;{}&quot;, greeting);
+}
+</code></pre></pre>
+<p>Here the function <code>print_str_twice</code> borrows the argument <code>string</code>. Because the borrowed value cannot be held after the
+function returns, and there is no return value from the function the compiler is able to work out that it's ok to modify
+<code>greeting</code> on the next line.
+But if the code looked like this:</p>
+<pre><code class="language-rust ignore">fn get_tail_of_string(string: &amp;str) -&gt; &amp;str {
+    &amp;string[1..]
+}
+fn main() {
+    let mut greeting = &quot;Hello&quot;.to_string();
+    let bad = get_tail_of_string(&amp;greeting);
+    greeting += &quot; world&quot;;
+    println!(&quot;{}&quot;, greeting);
+    println!(&quot;Oops {}&quot;, bad);
+}
+</code></pre>
+<p>This will generate a compile error because <code>greeting</code> is borrowed in <code>get_tail_of_string</code> and part of it is returned and
+assigned to <code>bad</code>. This is a problem because <code>greeting</code> is modified on the next line, but <code>bad</code> ends up getting used later.</p>
+<p>So how was the compiler so smart? The answer is that it automatically generated some <code>lifetimes</code> and applied them to the
+method signature of <code>get_tail_of_string</code>.</p>
+<p>When a method borrows parameters the compiler needs to track how long those borrows live so it can determine if code should
+compile. This process works similar to generics. For example the method signature:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Foo {
+  fn some_function&lt;T&gt;(arg1: &amp;T);
+# }
+#}</code></pre></pre>
+<p>is actually the same as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# trait Foo {
+  fn some_function&lt;'a, T&gt;(arg1: &amp;'a T);
+# }
+#}</code></pre></pre>
+<p>Which means that the parameter <code>arg1</code> is borrowed for however long the value passed into arg1 lasts. Of course this is
+a completely unnecessary statement, and hence can be simply omitted. (The naming convention is to start with ‘a for the
+first parameter and then ‘b, 'c' etc. Lowercase letters are used to distinguish lifetime from normal type parameters like <code>T</code>)</p>
+<p>However in the more complex case:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Foo{a:str} struct Bar {}
+  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'a str
+# {&amp;arg1.a}
+#}</code></pre></pre>
+<p>Here the lifetime is meaningful and needs to be specified. Here the signature is providing the information that function
+accepting two arguments <code>arg1</code> and <code>arg2</code> and these live however long the parameters passed as these values live, and the
+return type lives as long as <code>arg1</code>. This means in this case that the return value is being derived from the first parameter
+and not the second one. This will allow the compiler to check the calling code to make sure this is Ok.
+(You don't need to know where the inputs came from or how long they will live. The compiler will just check everything.)</p>
+<p>If the returned value were derived from the second parameter the function signature would look like:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+# struct Foo{} struct Bar {a:str}
+  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'b str
+# {&amp;arg2.a}
+#}</code></pre></pre>
+<p>What if the result could be derived from either parameter and which one won't be know until run-time?
+For example a function that returns the longer of two string slices. That would look like:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+  fn get_longer&lt;'a&gt;(arg1: &amp;'a str, arg2: &amp;'a str) -&gt; &amp;'a str
+# {arg1}
+#}</code></pre></pre>
+<p>In this case the compiler will infer a lifetime for 'a that must work for both parameters, and use this lifetime when
+reasoning about the returned value.</p>
+<p>In general the compiler is able to automatically figure out the lifetimes, and nothing needs to be specified. For example
+with methods that are being invoked on an object such as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+trait CharTrimmer {
+  fn trim_chars(&amp;self, chars_to_remove: &amp;str) -&gt; &amp;str;
+}
+#}</code></pre></pre>
+<p>It is by default assumed that the source of any returned parameter is from the <code>self</code> argument. So the lifetimes would
+be automatically inferred as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+trait CharTrimmer {
+  fn trim_chars&lt;'a&gt;(&amp;'a self, chars_to_remove: &amp;str) -&gt; &amp;'a str;
+}
+#}</code></pre></pre>
+<p>However if this is not the case, it can be clarified by specifying a different lifetime.</p>
+<p>Lifetimes, only really come up when dealing with items that are being borrowed and parts are being passed out of the original called
+either by a return value or embedding them in a struct, and never with owned items. So they tend to be a nitch feature.</p>
+<p>For a much more complete exploration of the exotic cases of lifetimes see the post <a href="http://cglab.ca/%7Eabeinges/blah/too-many-lists/book/second-iter.html">&quot;Too many lists&quot;</a>.</p>
+<a class="header" href="#static" id="static"><h2>'static</h2></a>
+<p>There is one special lifetime: <code>'static</code>. This is used to indicate the reference can live for as long as the program is
+running. For example when a constant string is defined:</p>
+<pre><pre class="playpen"><code class="language-rust">fn main() {
+  let greeting = &quot;Hello world!&quot;;
+  //...
+}
+</code></pre></pre>
+<p>the type of greeting is actually: <code>&amp;'static str</code>. Meaning that it is valid to hold onto <code>greeting</code> forever because the
+string constant <code>&quot;Hello world!&quot;</code> will always be available. (Because string constants are part of the program itself
+and hence by definition exist for the lifetime of the program. You can of course borrow them, and when you do they
+have a static lifetime.) This is also be used as the lifetime for for statics and constants.</p>
+<p>So if a function takes a 'static string such as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+fn only_const_strings(arg: &amp;'static str)
+# {}
+#}</code></pre></pre>
+<p>This would restrict the values that can be passed into the method to only be string constants, or their derivatives.</p>
+<p>TODO:</p>
 <ul>
-<li>http://cglab.ca/~abeinges/blah/too-many-lists/book/second-iter.html</li>
-<li>Normally figured out by the compiler for you
-<ul>
-<li>Here is what it is doing</li>
-<li>Only applies to borrows, not to owned items, and not the item being borrowed.
-<ul>
-<li>This means that for instance you can specify a single ‘a on one of the parameters and the return value to indicate that the returned value came from that parameter and therefore the borrow should last as long as the parameter’s it came from.</li>
-<li>Similarly you can have a case where the value could come from more than one input, you can just add a parameter to all the relevant inputs __. This will result in compiler checking that the original objects this function is borrowing live at least as long as the result returned from this function.</li>
-<li>Notice that we don’t actually have to know where the inputs came from or have any idea how long they will live. The compiler will just check and make sure things are OK.</li>
-</ul>
-</li>
-<li>Specified with a lowercase letter to distinguish from T.</li>
-<li>Convention is to start with ‘a and then ‘b etc.</li>
-<li>Unlike a generic value T they don’t have any meaning. They are only needed to distinguish one value from another.
-<ul>
-<li>Example</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Statics lifetimes - live for as long as the program.
-<ul>
-<li>&amp;str is often this. Because string constants are part of the program itself and hence by definition exist for the lifetime of the program. You can of course borrow them, and when you do they have a static lifetime.</li>
-</ul>
-</li>
-<li>Destructors</li>
-<li>try/with replaced by destructor
-<ul>
-<li>Examples</li>
-</ul>
-</li>
-<li>Destructors cannot fail and shouldn’t block. So sometimes close exists.</li>
+<li>Drop trait</li>
+<li>try/with replaced with drop</li>
+<li>Drop cannot fail and shouldn’t block. So sometimes close exists.</li>
 </ul>
 <a class="header" href="#cool-rust-tricks" id="cool-rust-tricks"><h1>Cool Rust Tricks</h1></a>
 <p>Rust is built on the idea of &quot;Zero Cost Abstractions&quot;.

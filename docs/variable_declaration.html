@@ -207,7 +207,8 @@ let mut counter = 0;
   }
 }
 </code></pre>
-<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restriction. These cases will be explained when they come up.</p>
+<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restrictions.
+These cases will be explained when they come up.</p>
 <p>Declaring a box is done like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 # #![allow(unused_variables)]
@@ -231,7 +232,7 @@ numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if n
 <a class="header" href="#string" id="string"><h2>String</h2></a>
 <p>Rust has a string type. It's a little different from Java's. While Java's String is built out of a <code>char[]</code> where each <code>char</code> is a UTF-16 code point, Rust's String is based on a <code>Vec&lt;u8&gt;</code> where the bytes are valid UTF-8.</p>
 <p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If is declared with <code>let mut directions : String = ...</code> it is mutable, and if it is declared with <code>let name : String = ...</code> it is not.</p>
-<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the chapter on <strong>Ownership</strong>.</p>
+<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the <a href="./ownership.html">chapter on Ownership</a>.</p>
 
                     </main>
 

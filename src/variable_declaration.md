@@ -74,7 +74,8 @@ class Box<T> implements Iterable<T> {
   }
 }
 ```
-You may be wondering: "Why would I ever need such a useless class?". Usually you don't. But it comes up as a to work around some restriction. These cases will be explained when they come up.
+You may be wondering: "Why would I ever need such a useless class?". Usually you don't. But it comes up as a to work around some restrictions. 
+These cases will be explained when they come up.
 
 Declaring a box is done like this:
 ```rust ,skt-main
@@ -100,4 +101,4 @@ Rust has a string type. It's a little different from Java's. While Java's String
 
 This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If is declared with `let mut directions : String = ...` it is mutable, and if it is declared with `let name : String = ...` it is not. 
 
-Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the chapter on **Ownership**.
+Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the [chapter on Ownership](./ownership.html).

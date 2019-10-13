@@ -265,15 +265,15 @@ while { i = i*2; i &lt; 65536 } {
 # impl Element {
 #    fn should_print(&amp;self) -&gt; bool { true }
 # }
-# let stream = vec![Element()].into_iter(); 
-let printableElements = stream.filter(Element::should_print);
+# let stream = vec![Element()].into_iter();
+let printable_elements = stream.filter(Element::should_print);
 #}</code></pre></pre>
 <p>Which usses the same <code>::</code> syntax.</p>
 <p>Java can also create an “Anonymous function” (So called because it don’t have a function name) or “Closure” (so called because they can refer to local variables in the surrounding function) like this:</p>
 <pre><code class="language-java">Stream printableElements = stream.filter(e -&gt; e.shouldPrint());
 // or
-Stream printableElements = stream.filter((e) -&gt; { 
-    e.shouldPrint(); 
+Stream printableElements = stream.filter((e) -&gt; {
+    e.shouldPrint();
 });
 </code></pre>
 <p>In Rust the syntax is:</p>
@@ -284,11 +284,11 @@ Stream printableElements = stream.filter((e) -&gt; {
 # impl Element {
 #    fn should_print(&amp;self) -&gt; bool { true }
 # }
-# let stream = vec![Element()].into_iter(); 
-let printableElements = stream.filter(|e| e.should_print());
-// or 
 # let stream = vec![Element()].into_iter();
-let printableElements = stream.filter(|e| { 
+let printable_elements = stream.filter(|e| e.should_print());
+// or
+# let stream = vec![Element()].into_iter();
+let printable_elements = stream.filter(|e| {
     e.should_print()
 });
 #}</code></pre></pre>
