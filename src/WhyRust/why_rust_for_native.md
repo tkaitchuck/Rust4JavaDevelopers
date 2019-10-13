@@ -83,13 +83,13 @@ This signature encodes a lot more information. Here the caller knows:
 
 Similarly it allows for control of how memory is allocated and who is responsible for deallocating it.
 
-###Popularity
+### Popularity
 
 Safety combined with Rust's great packaging tools has made it the language of choice for writing small reusable libraries.
 As a point of compairson: Go has more total developers who know the language, but Rust has more [open source libraries available for download](http://modulecounts.com) 
 and is adding new ones more quickly than Go. This may be important depending on how frequently you need to look for a library to depend on.
 
-###Tradeoffs
+### Tradeoffs
 Explicitness is a double edged sword. It makes writing code a lot more explicit which may slow down writing code when there 
 only ever one implementation and one call site and one author. To make writing code fast, languages like 
 `Python` and `Go` have chosen to omit unnecessary specification detail. 
@@ -103,7 +103,7 @@ specifying additional information is well worth our time.
 
 A longer description of Rusts values is [here.](https://youtu.be/2wZ1pCpJUIM)
 
-###Sefety
+### Sefety
 Rust uses the additional information to provide additional guarantees. Specifically, if code compiles it is guaranteed to:
 * Comply with all aspects of the interface (or it will be a compiler error)
 * Be free of data races
