@@ -161,10 +161,26 @@ impl&lt;T&gt; AppendOnlyVec&lt;T&gt; {
 <p>This type wraps a vec (by taking ownership of it so that it cannot be modified elsewhere).
 At compile time this struct will get inlined, as will all of the method implementations.
 After complication the only thing left is primitives and gotos. Exactly as though everything were written in hand optimized assembly.</p>
-<p>So the above example and other similar abstraction can be added to clearify code without any overhead.</p>
+<p>So the above example and other similar abstraction can be added to clarify code without any overhead.</p>
 <p>Compared to Java this model allows Rust to have very low memory use.
 For example when <a href="https://www.rust-lang.org/static/pdfs/Rust-Tilde-Whitepaper.pdf">Tilde started using Rust</a>
 their memory use decreased by 99%.</p>
+<a class="header" href="#unsafe" id="unsafe"><h2>Unsafe</h2></a>
+<a class="header" href="#todo" id="todo"><h3>TODO</h3></a>
+<ul>
+<li>Unsafe Rust is still saver than C.
+<ul>
+<li>Ownership, borrowing, and types are all still enforced.</li>
+<li>You can perform casts, write to raw memory, call CPU instructions, and call C code.</li>
+</ul>
+</li>
+<li>Normal pattern is to isolate unsafe code and wrap it in a safe interface.
+<ul>
+<li>Add lots of tests to validate what the compiler cannot.</li>
+</ul>
+</li>
+<li>Example: <code>split_at_mut()</code></li>
+</ul>
 
                     </main>
 

@@ -2,7 +2,7 @@
 Rust is built on the idea of "Zero Cost Abstractions".
 This means that unlike in Java, [if you add a wrapping layer or extra traits, this won't add any overhead](https://www.youtube.com/watch?v=Sn3JklPAVLk)
 
-So you can define: 
+So you can define:
 ```rust
 # #![allow(dead_code)]
 # #![allow(unused)]
@@ -26,10 +26,19 @@ This type wraps a vec (by taking ownership of it so that it cannot be modified e
 At compile time this struct will get inlined, as will all of the method implementations.
 After complication the only thing left is primitives and gotos. Exactly as though everything were written in hand optimized assembly.
 
-So the above example and other similar abstraction can be added to clearify code without any overhead.
+So the above example and other similar abstraction can be added to clarify code without any overhead.
 
 Compared to Java this model allows Rust to have very low memory use.
-For example when [Tilde started using Rust](https://www.rust-lang.org/static/pdfs/Rust-Tilde-Whitepaper.pdf) 
+For example when [Tilde started using Rust](https://www.rust-lang.org/static/pdfs/Rust-Tilde-Whitepaper.pdf)
 their memory use decreased by 99%.
 
 
+## Unsafe
+
+### TODO
+  * Unsafe Rust is still saver than C.
+    * Ownership, borrowing, and types are all still enforced.
+    * You can perform casts, write to raw memory, call CPU instructions, and call C code.
+  * Normal pattern is to isolate unsafe code and wrap it in a safe interface.
+    * Add lots of tests to validate what the compiler cannot.
+  * Example: `split_at_mut()`
