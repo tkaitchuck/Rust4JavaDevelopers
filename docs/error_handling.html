@@ -258,7 +258,7 @@ if let Err(error) = failing_function() {
 # #![allow(unused_variables)]
 #fn main() {
 # use std::io;
-# pub trait Example { 
+# pub trait Example {
 fn read_to_string(path: String) -&gt; Result&lt;String, io::Error&gt;;
 # }
 #}</code></pre></pre>
@@ -270,7 +270,7 @@ fn read_to_string(path: String) -&gt; Result&lt;String, io::Error&gt;;
 # use std::io::Read;
 # use std::fs::*;
 # fn initial_buffer_size(file: &amp;File) -&gt; usize { 0 }
-# pub trait Example { 
+# pub trait Example {
 // Copied from std::fs
 fn read_to_string(path: &amp;str) -&gt; io::Result&lt;String&gt; {
     let mut file = File::open(path)?;
@@ -292,7 +292,7 @@ fn read_to_string(path: &amp;str) -&gt; io::Result&lt;String&gt; {
     super(message, t);
   }
 }
-//Then elsewhere: 
+//Then elsewhere:
 public void publicFunction() throws PublicException {
   String value;
   try {
@@ -389,25 +389,6 @@ fn load_config(path: String) -&gt; Result&lt;Config, ConfigReadError&gt; {
 #}</code></pre></pre>
 <p>So in Java a caller handling these together would just catch _ or would handle them separately with multiple catch blocks __. In Rust they can be handled collectively __ or via a Match statement __. However this code is messy and verbose. So Rust allows you to instead write __. This is exactly the same as the above code. The ? Operator unwraps the result object if the call was successful, otherwise it returns an error, and if the method’s error type is different it will automatically call __ to wrap or convert the error. This pattern is commonly used in conjunction with a crate called Failure which automatically generates a lot of the boilerplate code for you and provides backtraces that can we accessed just like in Java 10. __. The advantage of Failure backtraces as opposed to Java's is they automatically work across threads. __</p>
 <p>Another common pattern in Rust that gets exceptions even further out of the way is to Alias error. For example __. Then all the methods can just have __ in their signature and not have to type the exception signature over and over.</p>
-<a class="header" href="#destructors" id="destructors"><h2>Destructors</h2></a>
-<ul>
-<li>Destructors
-<ul>
-<li>Drop trait</li>
-<li>Mutex</li>
-<li>Refcell</li>
-<li>Can't fail to close socket or file</li>
-</ul>
-</li>
-</ul>
-<p>Programming in Rust means never having to close a Socket. This is acheived through the <code>Drop</code> trait.
-This is in some ways similar to Java's <code>AutoClosable</code> which can be used to make &quot;try-with&quot; resources that have their close method called at the end of a try block.
-Drop is different in that the that the cleanup method <code>drop</code> is always called
-when the object goes out of scope. So there is no need for a special block or syntax required. It also makes it impossible to forget
-to use the method/syntax.</p>
-<p>A good example of where this is used is Mutexes, these are used for synchronization and will be discussed more in the next chapter. The mutex returns a mutexguard object. This is a wrapper object that holds the lock while it is in scope. The mutexguard locks the mutex when it is created and unlocks it when it goes out of scope. IE:__ Because he only to access the value is though the mutexguard it is impossible to misuse the interface. If you have access to the variable you must be holding a lock. There is no way to forget to either acquire or release the lock.</p>
-<p>If in Java an exception is thrown from inside of a synchronized block, (assuming it is not caught inside) the lock will be released and the exception will propagate up the stack. Certainly this is desirable in the case where the exception is being deliberately thrown. But in the event of an Error this might be undesirable. The lock will be released and other threads will proceed to use it even though it only completed half of the critical section. This might be harmless or it might leave the object in a bad state and trigger weird problems in other threads. This is an example of why treating unexpected and expected errors in the same way is not a great idea.</p>
-<p>Rust resolves this by distinguishing between an panic and a normal error. It is expected that critical sections may return errors. If they do, the lock is released normally and other threads can use the guarded resource. Critical section however are not expected to panic. If one does, in the destructor of the mutexguard it will detect the panic and “poison” the lock. This will mean any thread attempting to acquire the lock will receive an error and won’t be able to access the guarded resource. This acts as a safety check against the data being left in an inconsistent state.</p>
 
                     </main>
 
