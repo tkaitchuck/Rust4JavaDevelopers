@@ -124,8 +124,3 @@ fn only_const_strings(arg: &'static str)
 # {}
 ```
 This would restrict the values that can be passed into the method to only be string constants, or their derivatives.
-
-TODO:
-  * Drop trait
-  * try/with replaced with drop
-  * Drop cannot fail and shouldn’t block. So sometimes close exists.

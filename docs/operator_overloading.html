@@ -188,6 +188,7 @@ if a &lt; b {
 <tr><td> <code>|</code> </td><td> <code>expr | expr</code> </td><td> Bitwise OR </td><td> <code>BitOr</code> </td></tr>
 <tr><td> <code>|=</code> </td><td> <code>var |= expr</code> </td><td> Bitwise OR and assignment </td><td> <code>BitOrAssign</code> </td></tr>
 </tbody></table>
+<a class="header" href="#deref" id="deref"><h2>deref</h2></a>
 <p>One common operator is known as the “deref” operator. It's trait is defined as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 # #![allow(unused_variables)]
@@ -211,7 +212,7 @@ let f : Foo = *b;
 <p>or even more simply:</p>
 <pre><pre class="playpen"><code class="language-rust"># #![allow(dead_code)]
 # #![allow(unused)]
-struct Foo { 
+struct Foo {
     a : u32,
 }
 fn function(foo: &amp;Foo) {
@@ -262,6 +263,26 @@ In Rust it would look like __. Of course you probably want to get the original o
 <p>The deref method will automatically be invoked by the compiler any time an object is passed to a method expecting a type that it can deref into. This means for example you could pass an object like this __ because the method is implemented for _ and the wrapper will automatically have its deref method called and the result passed to the function.</p>
 <p>A good example of this is String. Strings much like arrays support slicing. So you can take a view of a subset of a string. This is similar to the way in Java you can have a ByteBuffer which provides a view of a subset of a byte array. String implements Deref for str. Given a borrowed string it returns a borrowed slice containing the whole string. So you invoke deref explicitly or just pass a String anywhere a string slice is expected, the conversion is done for you automatically. This is even true when invoking methods on the object. Say you have a borrowed String. You can call ‘.chars()’ and get the characters in the string. Even though the ‘chars’ method was actually defined for the string slice.</p>
 <p>Now imagine that for your own wrapper types, it means they be generic to what they contain an still allow the caller to invoke whatever methods they need on the wrapped object with no syntactic overhead safely without any ambiguity. (Cool right?) It should be noted that because Deref is automatic, it is not meant for costly conversions. For that you should use the ‘From’ or ‘Into’ traits. Where the conversion is more explicit.</p>
+<a class="header" href="#drop" id="drop"><h2>Drop</h2></a>
+<p>There is one more common operation that can be overloaded, but it does not have any explicit syntax. That is <code>Drop</code>.
+Because Rust's memory management is deterministic it is possible to have a method run right before a object is dropped.</p>
+<p>This can be done by implementing the <code>Drop</code> trait, which is defined as:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+# #![allow(unused_variables)]
+#fn main() {
+pub trait Drop {
+    fn drop(&amp;mut self);
+}
+#}</code></pre></pre>
+<p>This is implemented on Sockets and Files. Drop is in some ways similar to Java's <code>AutoClosable</code> which can is used to make &quot;try-with&quot; resources that have their close method called at the end of a try block.</p>
+<p>Drop is different in that the that the cleanup method <code>drop</code> is always called when the object goes out of scope.
+So there is no need for a special block or syntax required. It also makes it impossible to forget to use the method/syntax.
+This is why writing in <a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a>.</p>
+<p>Implementations of Drop cannot fail and shouldn’t block. So sometimes is there are still <code>close()</code> methods in case for
+example an RPC needs to be made.</p>
+<p>A good example of where this is used is <code>Mutex</code>, these are used for synchronization and will be discussed more in the next chapter. The mutex returns a mutexguard object. This is a wrapper object that holds the lock while it is in scope. The mutexguard locks the mutex when it is created and unlocks it when it goes out of scope. IE:__ Because he only to access the value is though the mutexguard it is impossible to misuse the interface. If you have access to the variable you must be holding a lock. There is no way to forget to either acquire or release the lock.</p>
+<p>If in Java an exception is thrown from inside of a synchronized block, (assuming it is not caught inside) the lock will be released and the exception will propagate up the stack. Certainly this is desirable in the case where the exception is being deliberately thrown. But in the event of an Error this might be undesirable. The lock will be released and other threads will proceed to use it even though it only completed half of the critical section. This might be harmless or it might leave the object in a bad state and trigger weird problems in other threads. This is an example of why treating unexpected and expected errors in the same way is not a great idea.</p>
+<p>Rust resolves this by distinguishing between an panic and a normal error. It is expected that critical sections may return errors. If they do, the lock is released normally and other threads can use the guarded resource. Critical section however are not expected to panic. If one does, in the destructor of the mutexguard it will detect the panic and “poison” the lock. This will mean any thread attempting to acquire the lock will receive an error and won’t be able to access the guarded resource. This acts as a safety check against the data being left in an inconsistent state.</p>
 
                     </main>
 
