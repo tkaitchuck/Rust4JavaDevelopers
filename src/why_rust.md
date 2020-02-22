@@ -37,7 +37,7 @@ Throughout the book we’ll have running commentary from two characters:
 ![Optimizer](images/professor.png)
 </td>
 <td width="80%">
-g
+
 > *“Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”*
 </td>
 </tr>
