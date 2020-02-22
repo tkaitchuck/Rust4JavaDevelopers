@@ -38,7 +38,19 @@ Besides being mutable or not, in Rust a variable can also be “borrowed”. Whe
 
 A method that takes a borrowed parameter cannot assign the parameter to a member variable. Also it can only pass that parameter to other methods which also borrow it. (Otherwise it would be able violate its contract indirectly.)
 
-Safety monitor: “I will act as the borrow checker to make sure you don't make a mistake.”
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+>  *I will act as the borrow checker to make sure you don't make a mistake.*
+</td>
+</tr>
+</table>
+
 
 To indicate a parameter is borrowed, in the method signature, place a “&” in front of the type.
 

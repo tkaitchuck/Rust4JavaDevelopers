@@ -394,7 +394,18 @@ in this book. A short list of common ones is below __</p>
 <p>In such a case you can label your inputs. Like so __ (Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. __ Then it is clear which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)</p>
 <p>If somehow the result could come from multiple inputs, or it is ambiguous like __. You can simply give the the same label, and the compiler will be forced to make the conservative assumption that it could have come from either.</p>
 <p>Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.</p>
-<p>Safety monitor: don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <h1><a class="header" href="#pass-by-value-vs-pass-by-reference" id="pass-by-value-vs-pass-by-reference">Pass by value vs Pass by reference</a></h1>
 <p>Similar to Java, Rust's function calls are normally “pass by reference” meaning that if you pass an object to a function and modify it the caller will see those modifications. However also like Java, primitives are an exception to this and are “pass by value”. Meaning if you pass an integer to a function and it increments it. The caller will not see the change.</p>
 <p>In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)</p>
@@ -469,21 +480,6 @@ in this book. A short list of common ones is below __</p>
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         

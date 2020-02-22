@@ -46,7 +46,19 @@ let mut counter = 0;
 ``` 
 The advantage of using `mut` rather than `final` (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java it very common to simply omit the final keyword even when a variable is final. As a result when reading Java you often don’t know if a variable is final or not. 
 
-Safety monitor: Rust's default declaration actually provides an even stronger guarantee than Java's final, because we not only enforce that the variable won't be reassigned, but also that it's contents won't be changed.
+
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> *Rust's default declaration actually provides an even stronger guarantee than Java's final, because we not only enforce that the variable won't be reassigned, but also that it's contents won't be changed.*
+</td>
+</tr>
+</table>
 
 A ‘final-by-default’ policy makes reasoning about code a lot easier, because you know if something is going to change. This makes writing multi-threaded code easier, because if something is immutable can always be shared safely between threads. (We’ll come back to this in a later chapter).
 

@@ -181,9 +181,8 @@
 <p><img src="images/professor.png" alt="Optimizer" /></p>
 </td>
 <td width="80%">
-<blockquote>
-<p><em>“Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”</em></p>
-</blockquote>
+g
+> *“Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”*
 </td>
 </tr>
 </table>
@@ -231,7 +230,18 @@ More importantly Rust opens the door to future paradigms and design patterns tha
 <p>While it might not be immediately obvious from looking a random code sample. As can be seen in the genealogy above, that Rust and Java are actually closely related. Rust draws heavily from Java's most influential predicessor C++ as well as C# which was very heavily influenced by Java. Java's philosophy of safety is also present throughout Rust.</p>
 <p>Java was the first popular language to embrace the idea of safety. Unlike lower level languages Java prohibits users from directly manipulating memory or doing other dangerous operations, and unlike a lot of other high-level language is it has a strong type system which ensures that you don't get errors at runtime that could be caught earlier. Rust takes this idea of safety and really runs with it. It aims to prevent as many bugs as possible from reaching production by making incorrect code impossible to write. So like Java it prevents use of uninitialized memory, dangling pointers, use after free, memory leaks. Similarly Rust also provides exception safety, and prevents type errors through static type checking with generics. But Rust goes further and also prevents iterator invalidation / ConcurrentModificationExceptions, null pointers, resource leaks, ordering bugs due to static initialization or partial initialization, and data races in multi threaded code.</p>
 <p>Rust’s primary goal is to prevent errors. If it is possible errors should be prevented at compile time. </p>
-<p>Safety monitory: “The safest program is the program that doesn't compile”</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>The safest program is the program that doesn't compile</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>Portability
 Java has a goal that you should build your code once and be able to run anywhere Rust doesn't quite have the same goal: it has the goal that you should be able to write your code once, compiler it many times, and have it run almost anywhere. Rust compiles to native code on each platform it supports which as of today is 23 CPU architectures, Windows, MacOS, Linux, Bsd, all major web browsers, Android, iOS, and even several different micro controllers. Part of the reason that Rust is able to be ond so many architectures is that it is self-hosting. The Rust compiler is written in Rust. The standard library is also written in Rust and it depends on very little native code. Rust even brings its own memory allocator. Because Rust compiles using llvm, as long as there is an llvm target available for a system, Rust can target it.</p>
 <p>Performance
@@ -509,7 +519,18 @@ The reason Rust puts the type one the right is because the type is optional anyt
 <span class="boring">}
 </span></code></pre></pre>
 <p>The advantage of using <code>mut</code> rather than <code>final</code> (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java it very common to simply omit the final keyword even when a variable is final. As a result when reading Java you often don’t know if a variable is final or not. </p>
-<p>Safety monitor: Rust's default declaration actually provides an even stronger guarantee than Java's final, because we not only enforce that the variable won't be reassigned, but also that it's contents won't be changed.</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Rust's default declaration actually provides an even stronger guarantee than Java's final, because we not only enforce that the variable won't be reassigned, but also that it's contents won't be changed.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>A ‘final-by-default’ policy makes reasoning about code a lot easier, because you know if something is going to change. This makes writing multi-threaded code easier, because if something is immutable can always be shared safely between threads. (We’ll come back to this in a later chapter).</p>
 <h1><a class="header" href="#common-types" id="common-types">Common types</a></h1>
 <p>There are some common builtin types that appear in a lot of the examples. The details of each will be explained later.</p>
@@ -602,7 +623,18 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 <h2><a class="header" href="#borrowing" id="borrowing">Borrowing</a></h2>
 <p>Besides being mutable or not, in Rust a variable can also be “borrowed”. When the parameter to a method is borrowed, it means the method promises not keep the parameter after the method has returned. Or anything it obtained from the parameter. </p>
 <p>A method that takes a borrowed parameter cannot assign the parameter to a member variable. Also it can only pass that parameter to other methods which also borrow it. (Otherwise it would be able violate its contract indirectly.)</p>
-<p>Safety monitor: “I will act as the borrow checker to make sure you don't make a mistake.”</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>I will act as the borrow checker to make sure you don't make a mistake.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>To indicate a parameter is borrowed, in the method signature, place a “&amp;” in front of the type.</p>
 <p>As an example, in Java you might define a method 'isSorted’ like this </p>
 <pre><code class="language-java">boolean isSorted(List&lt;Integer&gt; values);
@@ -1161,7 +1193,18 @@ in this book. A short list of common ones is below __</p>
 <p>In such a case you can label your inputs. Like so __ (Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. __ Then it is clear which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)</p>
 <p>If somehow the result could come from multiple inputs, or it is ambiguous like __. You can simply give the the same label, and the compiler will be forced to make the conservative assumption that it could have come from either.</p>
 <p>Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.</p>
-<p>Safety monitor: don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <h1><a class="header" href="#pass-by-value-vs-pass-by-reference" id="pass-by-value-vs-pass-by-reference">Pass by value vs Pass by reference</a></h1>
 <p>Similar to Java, Rust's function calls are normally “pass by reference” meaning that if you pass an object to a function and modify it the caller will see those modifications. However also like Java, primitives are an exception to this and are “pass by value”. Meaning if you pass an integer to a function and it increments it. The caller will not see the change.</p>
 <p>In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)</p>
@@ -2684,7 +2727,18 @@ Another pattern is message passing. This is also often used in Java using Queues
 <p>In Java you would synchronize the code like this.__ In Rust you synchronize it like this.__  In both cases the lock is guaranteed to be released at the end of the scope. In Java’s case it is because a special scope is being introduced. In the case of Rust, there is no special language feature it just uses the normal destructor to release the lock. This means a new scope does not need to be introduced. Of course you can add one line this __ if you want to reduce the scope a lock is held. (This could also be done with a private method). Another common pattern is to use a loop conditional expression __ as this has a very small scope.</p>
 <p>Locks in both languages work the same way, if one thread holds the lock, another thread attempting to acquire the same lock will block. </p>
 <p>The mutex object returns a MutexGard object which works like a RefCell. It allows for mutablity borrowing the data but does not allow for taking ownership.</p>
-<p>Safety Monitor: Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock. </p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>In Java the pattern is that locks should live inside of the class and it is the responsibility of the implementation to implement the locking. This makes sense as the code is relatively compact and all located in a single file which makes it easier to validate. In Rust the pattern is to do synchronization outside. This has a few advantages: it allows callers to make multiple calls under the same lock, so two or more calls in order can be done atomically together without using a second lock. It also means the class can be written once without thinking about thread safety and added by the caller if needed. Applying this pattern to Java would be a bad idea because it would be very hard to verify the lock is held everywhere the data is being accessed. By putting all of the places you need to check into a single file, you can verify it is correct. This is not a problem with Rust because the correctness will be enforced by the compiler. Applying the Java pattern to Rust is also a bad idea. Because other someone else in another module can add methods to your objects neither the compiler nor any of the standard tools will allow a pattern where all of the methods on a particular object are expected to do something.</p>
 <p>In Java it is important to encapsulate state for ownership and in turn thread safety. In many functional programming languages the pattern is to do the reverse and have the state passed into the function. The advantage of this is it makes the program very easy to test. Example:</p>
 <hr />
@@ -3179,21 +3233,6 @@ Web server example (mio, surdie, tokio, rotor, hyper)</p>
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         

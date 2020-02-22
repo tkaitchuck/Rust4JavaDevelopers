@@ -227,7 +227,18 @@ If somehow the result could come from multiple inputs, or it is ambiguous like _
 
 Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.
 
-Safety monitor: don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> *Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.*
+</td>
+</tr>
+</table>
 
 # Pass by value vs Pass by reference
 

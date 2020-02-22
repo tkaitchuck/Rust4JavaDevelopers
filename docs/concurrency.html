@@ -178,7 +178,18 @@
 <p>In Java you would synchronize the code like this.__ In Rust you synchronize it like this.__  In both cases the lock is guaranteed to be released at the end of the scope. In Java’s case it is because a special scope is being introduced. In the case of Rust, there is no special language feature it just uses the normal destructor to release the lock. This means a new scope does not need to be introduced. Of course you can add one line this __ if you want to reduce the scope a lock is held. (This could also be done with a private method). Another common pattern is to use a loop conditional expression __ as this has a very small scope.</p>
 <p>Locks in both languages work the same way, if one thread holds the lock, another thread attempting to acquire the same lock will block. </p>
 <p>The mutex object returns a MutexGard object which works like a RefCell. It allows for mutablity borrowing the data but does not allow for taking ownership.</p>
-<p>Safety Monitor: Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock. </p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>In Java the pattern is that locks should live inside of the class and it is the responsibility of the implementation to implement the locking. This makes sense as the code is relatively compact and all located in a single file which makes it easier to validate. In Rust the pattern is to do synchronization outside. This has a few advantages: it allows callers to make multiple calls under the same lock, so two or more calls in order can be done atomically together without using a second lock. It also means the class can be written once without thinking about thread safety and added by the caller if needed. Applying this pattern to Java would be a bad idea because it would be very hard to verify the lock is held everywhere the data is being accessed. By putting all of the places you need to check into a single file, you can verify it is correct. This is not a problem with Rust because the correctness will be enforced by the compiler. Applying the Java pattern to Rust is also a bad idea. Because other someone else in another module can add methods to your objects neither the compiler nor any of the standard tools will allow a pattern where all of the methods on a particular object are expected to do something.</p>
 <p>In Java it is important to encapsulate state for ownership and in turn thread safety. In many functional programming languages the pattern is to do the reverse and have the state passed into the function. The advantage of this is it makes the program very easy to test. Example:</p>
 <hr />
@@ -233,21 +244,6 @@ Notice that as far as the caller is concerned they are dealing with a single cla
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         

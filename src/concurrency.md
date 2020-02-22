@@ -22,7 +22,19 @@ Locks in both languages work the same way, if one thread holds the lock, another
 
 The mutex object returns a MutexGard object which works like a RefCell. It allows for mutablity borrowing the data but does not allow for taking ownership.
 
-Safety Monitor: Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock. 
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> *Notice that the type perfectly reflects the guarantees. The mutex is guaranteeing only a single thread can hold the lock at any given time, and hence follows the contract of mut. And the value is borrowed so it can't be accidentally stored into some other object which would allow it to be accessed outside the scope of the lock.*
+</td>
+</tr>
+</table>
+
 
 In Java the pattern is that locks should live inside of the class and it is the responsibility of the implementation to implement the locking. This makes sense as the code is relatively compact and all located in a single file which makes it easier to validate. In Rust the pattern is to do synchronization outside. This has a few advantages: it allows callers to make multiple calls under the same lock, so two or more calls in order can be done atomically together without using a second lock. It also means the class can be written once without thinking about thread safety and added by the caller if needed. Applying this pattern to Java would be a bad idea because it would be very hard to verify the lock is held everywhere the data is being accessed. By putting all of the places you need to check into a single file, you can verify it is correct. This is not a problem with Rust because the correctness will be enforced by the compiler. Applying the Java pattern to Rust is also a bad idea. Because other someone else in another module can add methods to your objects neither the compiler nor any of the standard tools will allow a pattern where all of the methods on a particular object are expected to do something.
 

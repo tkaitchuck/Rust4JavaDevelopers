@@ -190,7 +190,18 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 <h2><a class="header" href="#borrowing" id="borrowing">Borrowing</a></h2>
 <p>Besides being mutable or not, in Rust a variable can also be “borrowed”. When the parameter to a method is borrowed, it means the method promises not keep the parameter after the method has returned. Or anything it obtained from the parameter. </p>
 <p>A method that takes a borrowed parameter cannot assign the parameter to a member variable. Also it can only pass that parameter to other methods which also borrow it. (Otherwise it would be able violate its contract indirectly.)</p>
-<p>Safety monitor: “I will act as the borrow checker to make sure you don't make a mistake.”</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>I will act as the borrow checker to make sure you don't make a mistake.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>To indicate a parameter is borrowed, in the method signature, place a “&amp;” in front of the type.</p>
 <p>As an example, in Java you might define a method 'isSorted’ like this </p>
 <pre><code class="language-java">boolean isSorted(List&lt;Integer&gt; values);
@@ -363,21 +374,6 @@ fn main() {
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3001");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload(true); // force reload from server (not from cache)
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         

@@ -57,7 +57,18 @@ Java was the first popular language to embrace the idea of safety. Unlike lower 
 
 Rust’s primary goal is to prevent errors. If it is possible errors should be prevented at compile time. 
 
-Safety monitory: “The safest program is the program that doesn't compile”
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> *The safest program is the program that doesn't compile*
+</td>
+</tr>
+</table>
 
 Portability
 Java has a goal that you should build your code once and be able to run anywhere Rust doesn't quite have the same goal: it has the goal that you should be able to write your code once, compiler it many times, and have it run almost anywhere. Rust compiles to native code on each platform it supports which as of today is 23 CPU architectures, Windows, MacOS, Linux, Bsd, all major web browsers, Android, iOS, and even several different micro controllers. Part of the reason that Rust is able to be ond so many architectures is that it is self-hosting. The Rust compiler is written in Rust. The standard library is also written in Rust and it depends on very little native code. Rust even brings its own memory allocator. Because Rust compiles using llvm, as long as there is an llvm target available for a system, Rust can target it.
