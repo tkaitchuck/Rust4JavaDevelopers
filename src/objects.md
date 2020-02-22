@@ -284,7 +284,7 @@ public final class UUID implements Serializable, Comparable<UUID> {}
   }
 }
 ```
-In Rust the equivlent would be in a file named UUID.rs and look like this:
+In Rust the equivalent would be in a file named UUID.rs and look like this:
 {{#playpen object_example.rs}}
 
 The major difference between the Java version and the Rust version is that instead of being in a single `class` block where as the Rust implementation is split into three a `struct` block which contains the fields, an `impl` block which contains all of the class speffic methods, and separate `impl` blocks for each of the different traits that are implemented. 

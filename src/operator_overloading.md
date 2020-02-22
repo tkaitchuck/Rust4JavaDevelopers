@@ -139,11 +139,12 @@ pub trait Drop {
     fn drop(&mut self);
 }
 ```
-This is implemented on Sockets and Files. Drop is in some ways similar to Java's `AutoClosable` which can is used to make "try-with" resources that have their close method called at the end of a try block.
+This is implemented on Sockets and Files. Drop is in some ways similar to Java's `AutoClosable` which can is used to make
+"try-with" resources that have their close method called at the end of a try block.
 
 Drop is different in that the that the cleanup method `drop` is always called when the object goes out of scope.
 So there is no need for a special block or syntax required. It also makes it impossible to forget to use the method/syntax.
-This is why writing in [Rust Means Never Having to Close a Socket](https://blog.skylight.io/rust-means-never-having-to-close-a-socket/).
+This is why they say [Rust Means Never Having to Close a Socket](https://blog.skylight.io/rust-means-never-having-to-close-a-socket/).
 
 Implementations of Drop cannot fail and shouldn’t block. So sometimes is there are still `close()` methods in case for
 example an RPC needs to be made.

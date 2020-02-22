@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Ownership - Rust for Java developers</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +32,12 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,10 +58,13 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -72,7 +80,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html" class="active"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li class="expanded "><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li class="expanded "><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li class="expanded "><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li class="expanded "><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li class="expanded "><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li class="expanded "><a href="ownership.html" class="active"><strong aria-hidden="true">7.</strong> Ownership</a></li><li class="expanded "><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li class="expanded "><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li class="expanded "><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li class="expanded "><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li class="expanded "><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li class="expanded "><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li class="expanded "><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li class="expanded "><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li class="expanded "><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li class="expanded "><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li class="expanded "><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li class="expanded "><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li class="expanded "><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li class="expanded "><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li class="expanded "><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li class="expanded "><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li class="expanded "><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li class="expanded "><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li class="expanded "><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +100,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +113,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Rust for Java developers</h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,15 +148,15 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc"><h1>Memory safety and GC</h1></a>
-<p>Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not.</p>
-<p>It turns out, not coincidentally, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection.</p>
+                        <h1><a class="header" href="#memory-safety-and-gc" id="memory-safety-and-gc">Memory safety and GC</a></h1>
+<p>Like Java, Rust has automatic memory management so you never have to worry about explicitly allocating or deallocating objects. However unlike Java it does not have a garbage collector. This may sound like a contradiction but it's not. </p>
+<p>It turns out, not coincidentally, the same static analysis that solves the problem of allowing sharing or mutability but never both, also solves the problem of perfect garbage collection. </p>
 <p>One way to think about it is to think of Rust as having compile time garbage collection. The compiler works out where in your code objects are no longer used automatically generates the necessary code to deallocate them.</p>
 <p>So like Java this means Rust does not suffer from memory leaks, use-after-free bugs, dangling pointer bugs, or buffer overflows that plague most compiled languages. At the same time Rust does not have the overhead of garbage collection or the associated runtime which has prevented languages like Java and C# from reaching the performance of C++ in “object heavy” applications.</p>
-<a class="header" href="#ownership" id="ownership"><h1>Ownership</h1></a>
-<p>To explain how Rust achieves automatic memory management without garbage collection and a number of other more advanced features we need to first explain Ownership.</p>
-<p>Ownership is a common pattern in programming in any language even though it really isn’t a part of most languages themselves. It’s best to see this through example. In Java compare the method <code>addAll</code> on <code>TreeSet</code> to the static method <code>Collections.sort</code>. Both provide ways to sort a list of items by passing it into a method, but the contract of these methods is quite different. In the case of the <code>TreeSet.add</code> ownership of the values is being implicitly transferred to the TreeSet. The caller should not hold onto references to the items added to the Set. If they want to modify one of the items they should first remove it from the set. Otherwise the change could affect the of sort order and break the TreeSet resulting in undefined behavior. On the other hand <code>Collections.sort</code> does not have this restriction. In fact it is implicit in the contract of the method that the implementation won't hold onto references to the items passed after the method returns. If the implementation of sort were to modify the the list after it returned it would surely break the caller's code. <code>Collections.max</code> is similar but it has the additional implicit assumption that it won't modify the passed list.</p>
-<p>In Rust these assumptions are explicitly declared as part of the method signature. So if in Java we were to declare integer speffic versions on each of these, it would look like this:</p>
+<h1><a class="header" href="#ownership" id="ownership">Ownership</a></h1>
+<p>To explain how Rust achieves automatic memory management without garbage collection and a number of other more advanced features we need to first explain Ownership. </p>
+<p>Ownership is a common pattern in programming in any language even though it really isn’t a part of most languages themselves. It’s best to see this through example. In Java compare the method <code>addAll</code> on <code>TreeSet</code> to the static method <code>Collections.sort</code>. Both provide ways to sort a list of items by passing it into a method, but the contract of these methods is quite different. In the case of the <code>TreeSet.add</code> ownership of the values is being implicitly transferred to the TreeSet. The caller should not hold onto references to the items added to the Set. If they want to modify one of the items they should first remove it from the set. Otherwise the change could affect the of sort order and break the TreeSet resulting in undefined behavior. On the other hand <code>Collections.sort</code> does not have this restriction. In fact it is implicit in the contract of the method that the implementation won't hold onto references to the items passed after the method returns. If the implementation of sort were to modify the the list after it returned it would surely break the caller's code. <code>Collections.max</code> is similar but it has the additional implicit assumption that it won't modify the passed list. </p>
+<p>In Rust these assumptions are explicitly declared as part of the method signature. So if in Java we were to declare integer speffic versions on each of these, it would look like this: </p>
 <pre><code class="language-java">public interface IntegerSet {
   //...
   public void addAll(List&lt;Integer&gt; list);
@@ -158,38 +170,40 @@ public static void sort(List&lt;Integer&gt; list) {
 </code></pre>
 <p>in Rust an equivlent method are declared as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-pub trait MySet {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub trait MySet {
   //...
   fn add_all(list: Vec&lt;i32&gt;);
 }
 fn max(list: &amp;Vec&lt;i32&gt;) -&gt; Option&lt;i32&gt; { 
   //...
-# list.iter().cloned().max()
-}
+<span class="boring">list.iter().cloned().max()
+</span>}
 fn sort(list: &amp;mut Vec&lt;i32&gt;) {
    //...
-#   list.sort();
-}
-#}</code></pre></pre>
-<p>Notice that the type of the argument changed. When it is just <code>Vec&lt;i32&gt;</code> the method is taking ownership of the value.
+<span class="boring">  list.sort();
+</span>}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Notice that the type of the argument changed. When it is just <code>Vec&lt;i32&gt;</code> the method is taking ownership of the value. 
 But when it is <code>&amp;Vec&lt;i32&gt;</code> it is a borrowed vector, meaning the caller still retains ownership. And a <code>&amp;mut Vec&lt;i32&gt;</code>
 is a borrowed mutable vector meaning that even though the function is not taking ownership, it may modify the provided vector.</p>
-<p>For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped.
+<p>For any given object there is one owner. When that variable is reassigned or goes out of scope the value is dropped. 
 This applies transitively. For example in the function:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-fn process(items: Vec&lt;String&gt;) {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>fn process(items: Vec&lt;String&gt;) {
   //...
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>when the function returns, the vector <code>items</code> and all of the strings in it will be dropped from memory.</p>
 <p>This might seems like it doesn’t allow cycles. There are ways to create cycles, but for the most part they aren’t needed.
 Why this is the case will be covered later in <a href="./rust_makes_you_better_at_java.html">“How Rust makes you a better Java programmer”</a>.</p>
 <p>The main tool that used in conjunction with ownership is borrowing.</p>
-<a class="header" href="#borrows" id="borrows"><h1>Borrows</h1></a>
+<h1><a class="header" href="#borrows" id="borrows">Borrows</a></h1>
 <ul>
 <li>Output to be populated</li>
 <li>Sort example</li>
@@ -199,44 +213,48 @@ Why this is the case will be covered later in <a href="./rust_makes_you_better_a
 </ul>
 <p>In addition to compile time memory management and <a href="./concurrency.html">guaranteed thread safety</a>),
 explicit ownership opens up a lot of useful patterns.</p>
-<p>In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code class="java">java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code class="java"> java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write</p>
+<p>In Java a common pattern is to pass around a byte array with a offset and length to provide access to a part of an array without making a new copy. For example see <code class="java">java.io.OutputStream.write(byte[] b, int off, int len)</code> or <code class="java"> java.io.FileInputStream.read(byte[] b, int off, int len)</code>. In Rust you can use slices. So you can write </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-# use std::io;
-# use std::io::prelude::*;
-# let mut output = io::stdout();
-let buffer = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::io;
+</span><span class="boring">use std::io::prelude::*;
+</span><span class="boring">let mut output = io::stdout();
+</span>let buffer = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 output.write(&amp;buffer[2 .. 8]);
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>which passes a segment of a byte array to the <code>write</code> function. In addition to convince and performance, it allows you specify if the slice is being passed can be written to or just read from have this enforced by the compiler. So if you have a function that looks like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# pub struct MyConfig(i32);
-pub fn apply_config(config : &amp;MyConfig) {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">pub struct MyConfig(i32);
+</span>pub fn apply_config(config : &amp;MyConfig) {
   //...
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>you can be sure that the <code>config</code> object won’t be changed by passing it to the function. No defensive copies required. Similarly, above the caller is guaranteed that <code>output.write(&amp;buffer)</code> won’t modify the contents of the buffer.</p>
-<p>Borrowing also works with loops. When using a for loop to iterate over a collection, you can either pass the for loop the collection itself</p>
+<p>Borrowing also works with loops. When using a for loop to iterate over a collection, you can either pass the for loop the collection itself </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-let strings = vec![&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, &quot;bat&quot;];
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let strings = vec![&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, &quot;bat&quot;];
 for value in strings {
   println!(&quot;Hello {}&quot;, value);
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>consuming the collection in the process, much a like a stream in Java. Or you can let it borrow the collection</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-let strings = vec![&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, &quot;bat&quot;];
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let strings = vec![&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, &quot;bat&quot;];
 for &amp;value in &amp;strings {
   println!(&quot;Hello {}&quot;, value);
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>If the collection is borrowed then inside the loop each entry will itself be borrowed. This is actually a important feature. In Java a for-each loop can't take an iterator only an iterable. This is because if it did you could write</p>
 <pre><code class="language-java">Iterator&lt;String&gt; iter = //...
 for (value : iter) {
@@ -246,7 +264,7 @@ for (oops : iter) {
   //Can't get here...
 }
 </code></pre>
-<p>the second loop wouldn’t make any sense because it can’t get any data because there is no way to invoke .iterator() again and reread the data. For this reason Java introduced a second concept ‘streams’ which don’t work with for loops. Because there was no way to convey to the compiler that the for loop will consume the values it's iterating over, Java had to create two separate concepts <code>stream</code> and <code>iterator</code> that don’t work together. You can either write</p>
+<p>the second loop wouldn’t make any sense because it can’t get any data because there is no way to invoke .iterator() again and reread the data. For this reason Java introduced a second concept ‘streams’ which don’t work with for loops. Because there was no way to convey to the compiler that the for loop will consume the values it's iterating over, Java had to create two separate concepts <code>stream</code> and <code>iterator</code> that don’t work together. You can either write </p>
 <pre><code class="language-java">List&lt;Foo&gt; foos = //...
 for (Foo f : foos) {
   if (meetsCriteria(f)) {
@@ -261,72 +279,76 @@ foos.stream().filter(f -&gt; meetsCriteria(f)).forEach(f-&gt;process(f));
 </code></pre>
 <p>but you can’t mix these ways of coding. In Rust this can be conveyed by either passing or lending the collection to the for loop. This allows the concepts of stream and iterator to be unified into a single simple interface and work with for loops without the risk of accidentally reusing the consumed stream allowing you to write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-# struct Foo(i32);
-# fn get_foos() -&gt; Vec&lt;Foo&gt; { vec![Foo(1), Foo(2)] }
-# fn meets_criteria(f : &amp;Foo) -&gt; bool { true }
-# fn process(f : Foo) {}
-let foos : Vec&lt;Foo&gt; = get_foos();
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo(i32);
+</span><span class="boring">fn get_foos() -&gt; Vec&lt;Foo&gt; { vec![Foo(1), Foo(2)] }
+</span><span class="boring">fn meets_criteria(f : &amp;Foo) -&gt; bool { true }
+</span><span class="boring">fn process(f : Foo) {}
+</span>let foos : Vec&lt;Foo&gt; = get_foos();
 for f in foos.into_iter().filter(|f| meets_criteria(f)) {
   process(f);
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>In addition to these there are a bunch of other common patterns.</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# trait Example {
-fn read_from_buffer(&amp;self, buffer : &amp;[u8]);
-# }
-#}</code></pre></pre>
-<p>Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it.</p>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">trait Example {
+</span>fn read_from_buffer(&amp;self, buffer : &amp;[u8]);
+<span class="boring">}
+</span><span class="boring">}
+</span></code></pre></pre>
+<p>Here a method is borrowing a parameter but it's not modifying it. When is the messages returned your guaranteed it is not still holding onto it. </p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-use std::path::Path;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::path::Path;
 trait Config {
   //...
   fn get_storage_location(&amp;self) -&gt; &amp;Path;
   //...
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Here an accessor method is lending the caller some of the object's internal state (in a read only way) the calling code
-cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method.
-This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal
-state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal
-representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the
+cannot invoke any further methods on the object until it drops the reference to the data that was returned from this method. 
+This is a great pattern for simple accessors that would not be safe in Java because they would be exposing the internal 
+state of the class and potentially violating it's invariants. While it may not always be a good idea to expose internal 
+representation, this provides a way to do it safely that does not violate the integrity of class, and still allows the 
 implementation to change in the future. (It can always construct the returned object if needed)</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-use std::collections::HashMap;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
 
 trait Config {
   //...
   fn set_attributes(&amp;mut self, attributes: HashMap&lt;String, String&gt;);
   //...
 }
-#}</code></pre></pre>
-<p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code>
-and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy
-is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer
-of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood
-that you should not modify the object afterwards. But nothing actually prevents this.</p>
+<span class="boring">}
+</span></code></pre></pre>
+<p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code> 
+and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy 
+is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer 
+of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood 
+that you should not modify the object afterwards. But nothing actually prevents this. </p>
 <p>TODO:</p>
 <ul>
-<li>Similar pattern getting an entry by key and doing .or_insert() += 1.</li>
+<li>Similar pattern getting an entry by key and doing .or_insert() += 1. </li>
 </ul>
 <p>The rules for ownership and borrowing are straight forward: __</p>
 <p>...</p>
-<p>There are more exotic ways to handle objects then in general aren't really needed the overwhelming majority of the time.
-These include RC (which allows ambiguous ownership where the item is dropped when all references go away.)
-ARC which is similar, but thread safe. This is generally used for Top-level classes with business logic that may need to
+<p>There are more exotic ways to handle objects then in general aren't really needed the overwhelming majority of the time. 
+These include RC (which allows ambiguous ownership where the item is dropped when all references go away.) 
+ARC which is similar, but thread safe. This is generally used for Top-level classes with business logic that may need to 
 be referenced from multiple places and live for a long time.</p>
-<p>All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that,
-because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a
+<p>All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, 
+because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a 
 small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that
-component where you need it. There are many such components publically available, and we’ll cover some of them in depth
+component where you need it. There are many such components publically available, and we’ll cover some of them in depth 
 in this book. A short list of common ones is below __</p>
 <ul>
 <li>
@@ -364,19 +386,19 @@ in this book. A short list of common ones is below __</p>
 <ul>
 <li>Ref and RefMut are returned. These act as a lifetime tracker which allows the enforcement of one writer at a time.</li>
 </ul>
-<p>In general using ‘cell’ or ‘RefCell’ a lot is considered bad design. ‘Cell’ and ‘RefCell’ should be reserved for special cases that don’t impact the externally visible functionality. For example they provide a easy way to add things like counters, metrics, debugging information to an existing object without having to refactor all the code that is accessing it. Similarly they are frequently used when constructing Mock objects for test purposes. (The actual code may be accessing the object in a ‘read-only’ way, but the mock still may want to record what calls have occured)</p>
+<p>In general using ‘cell’ or ‘RefCell’ a lot is considered bad design. ‘Cell’ and ‘RefCell’ should be reserved for special cases that don’t impact the externally visible functionality. For example they provide a easy way to add things like counters, metrics, debugging information to an existing object without having to refactor all the code that is accessing it. Similarly they are frequently used when constructing Mock objects for test purposes. (The actual code may be accessing the object in a ‘read-only’ way, but the mock still may want to record what calls have occured) </p>
 <p>Reference cycles and ambiguous ownership is an anti-pattern in Java, and a really really aggressively discouraged anti-pattern in Rust. But one place it tends to get asked about a lot is doing GUI programing. For example when rendering a window with many widgets it is easy to jump to the conclusion that links are needed between all sorts of objects as changes to one may involve changes to another. This generally arises from the false belief that objects in an object oriented system should be directly modeled after real life objects. often this is not the case because concerns are cross-cutting. If you're writing code in Rust this pattern will fail faster. While this might be frustrating to the author it's actually good because it prevents you from writing bad code. There are actually a lot of good talks on this subject, such as <em>ECS at rustconf</em> and <em>xi-GUI</em>. I'm not going to go into the details here because these problems are application specific. However if you find yourself fighting the borrow checker or tempted to use unsafe or RefCell all over the place, it’s probably worth taking a step back and re evaluating the broader design. …….. data oriented design.</p>
-<a class="header" href="#returning-borrowed-values" id="returning-borrowed-values"><h1>Returning borrowed values</h1></a>
+<h1><a class="header" href="#returning-borrowed-values" id="returning-borrowed-values">Returning borrowed values</a></h1>
 <p>Borrowing is not just for parameters, it is also for returned values. The simplest case is where the returned value is derived from an input parameter. For example __. Another case is where the value being returned comes from 'self’ and is being lent to the caller. For example __. In both these cases the caller is bound by the contract of borrowing, exactly the same as though it were provided as an input parameter. If it helps, imagine the rest of the function were factored out into a private method and had the result as a borrowed parameter. For example __.</p>
-<p>When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. For example __. Here the compiler won't be able to work it out, because it only looks at one method at a time.</p>
+<p>When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. For example __. Here the compiler won't be able to work it out, because it only looks at one method at a time. </p>
 <p>In such a case you can label your inputs. Like so __ (Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. __ Then it is clear which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)</p>
 <p>If somehow the result could come from multiple inputs, or it is ambiguous like __. You can simply give the the same label, and the compiler will be forced to make the conservative assumption that it could have come from either.</p>
 <p>Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.</p>
 <p>Safety monitor: don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</p>
-<a class="header" href="#pass-by-value-vs-pass-by-reference" id="pass-by-value-vs-pass-by-reference"><h1>Pass by value vs Pass by reference</h1></a>
+<h1><a class="header" href="#pass-by-value-vs-pass-by-reference" id="pass-by-value-vs-pass-by-reference">Pass by value vs Pass by reference</a></h1>
 <p>Similar to Java, Rust's function calls are normally “pass by reference” meaning that if you pass an object to a function and modify it the caller will see those modifications. However also like Java, primitives are an exception to this and are “pass by value”. Meaning if you pass an integer to a function and it increments it. The caller will not see the change.</p>
 <p>In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)</p>
-<a class="header" href="#todo" id="todo"><h1>TODO</h1></a>
+<h1><a class="header" href="#todo" id="todo">TODO</a></h1>
 <ul>
 <li>String types (mutability, borrowing, assignment as move)
 <ul>
@@ -386,7 +408,7 @@ in this book. A short list of common ones is below __</p>
 </ul>
 </li>
 <li>Stringbuilder</li>
-<li>In Java Strings are Immutable, and a primitive. You might not think about it too much but this is an essential language feature. If Java hadn’t provided a single standard String implementation in the standard library, or if they had chosen to make it mutable it would be very difficult to work in the language. Imagine if every time you passed a string into a method you had to make a defensive copy or carefully check the method’s Javadocs to make sure it doesn’t modify the string. So it might seem surprising that Rust went into a different direction. However there is a very simple reason for this, Rust’s methods always declare if they need to modify the value being passed. __. Similarly the caller has to explicitly pass either a mutable or immutable reference or slice of the string. So there is no ambiguity. A function can never pass a string somewhere and have it unexpectedly modified.</li>
+<li>In Java Strings are Immutable, and a primitive. You might not think about it too much but this is an essential language feature. If Java hadn’t provided a single standard String implementation in the standard library, or if they had chosen to make it mutable it would be very difficult to work in the language. Imagine if every time you passed a string into a method you had to make a defensive copy or carefully check the method’s Javadocs to make sure it doesn’t modify the string. So it might seem surprising that Rust went into a different direction. However there is a very simple reason for this, Rust’s methods always declare if they need to modify the value being passed. __. Similarly the caller has to explicitly pass either a mutable or immutable reference or slice of the string. So there is no ambiguity. A function can never pass a string somewhere and have it unexpectedly modified. </li>
 </ul>
 </li>
 <li>Fixed size arrays</li>
@@ -448,7 +470,30 @@ in this book. A short list of common ones is below __</p>
         </div>
 
         
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
 
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
         
 
         

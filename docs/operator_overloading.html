@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Operator Overloading - Rust for Java developers</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +32,12 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,10 +58,13 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -72,7 +80,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html" class="active"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li class="expanded "><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li class="expanded "><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li class="expanded "><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li class="expanded "><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li class="expanded "><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li class="expanded "><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li class="expanded "><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li class="expanded "><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li class="expanded "><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li class="expanded "><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li class="expanded "><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li class="expanded "><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li class="expanded "><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li class="expanded "><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li class="expanded "><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li class="expanded "><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li class="expanded "><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li class="expanded "><a href="operator_overloading.html" class="active"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li class="expanded "><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li class="expanded "><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li class="expanded "><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li class="expanded "><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li class="expanded "><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li class="expanded "><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li class="expanded "><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +100,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +113,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Rust for Java developers</h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +148,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#operator-overloading" id="operator-overloading"><h1>Operator Overloading</h1></a>
+                        <h1><a class="header" href="#operator-overloading" id="operator-overloading">Operator Overloading</a></h1>
 <ul>
 <li>Size() length, get(), []</li>
 </ul>
@@ -147,72 +159,75 @@
 </code></pre>
 <p>Where as in rust if your type implements the <code>Ord</code> or <code>PartialOrd</code> traits you can just write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-# let a = 1; let b = 2;
-if a &lt; b {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">let a = 1; let b = 2;
+</span>if a &lt; b {
     //...
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Note that <code>Ord</code> compares the object against others of the same type so unlike Java you don't have to worry about a class cast exception at runtime.</p>
 <p>Unlike C++ or Scala all of the operators that can be overloaded and the signature of their corresponding methods is pre-defined by the language. Because implementing a trait is only allowed in the package that defined either the trait or the type you can add support for operators to your own types, but you can't add or alter their behavior on someone else's types. So you can't add you own “pope operator” that looks like “&lt;+|:-)”. And operators can't be used to do anything crazy or surprising.</p>
 <p>Operators are just syntactic sugar for the method call, so they are still statically checked at compile time. So using them your code is every bit as safe if you simply called the corresponding methods yourself.</p>
 <p>Below is a table of operators and the corresponding trait that allows you to implement support for them.</p>
-<table><thead><tr><th> Operator </th><th> Example </th><th> Explanation </th><th> Trait </th></tr></thead><tbody>
-<tr><td> <code>!</code> </td><td> <code>!expr</code> </td><td> Bitwise or logical complement </td><td> <code>Not</code> </td></tr>
-<tr><td> <code>!=</code> </td><td> <code>var != expr</code> </td><td> Nonequality comparison </td><td> <code>PartialEq</code> </td></tr>
-<tr><td> <code>%</code> </td><td> <code>expr % expr</code> </td><td> Arithmetic remainder </td><td> <code>Rem</code> </td></tr>
-<tr><td> <code>%=</code> </td><td> <code>var %= expr</code> </td><td> Arithmetic remainder and assignment </td><td> <code>RemAssign</code> </td></tr>
-<tr><td> <code>&amp;</code> </td><td> <code>expr &amp; expr</code> </td><td> Bitwise AND </td><td> <code>BitAnd</code> </td></tr>
-<tr><td> <code>&amp;=</code> </td><td> <code>var &amp;= expr</code> </td><td> Bitwise AND and assignment </td><td> <code>BitAndAssign</code></td></tr>
-<tr><td> <code>*</code> </td><td> <code>expr * expr</code> </td><td> Arithmetic multiplication </td><td> <code>Mul</code> </td></tr>
-<tr><td> <code>*=</code> </td><td> <code>var *= expr</code> </td><td> Arithmetic multiplication and assignment </td><td> <code>MulAssign</code> </td></tr>
-<tr><td> <code>+</code> </td><td> <code>expr + expr</code> </td><td> Arithmetic addition </td><td> <code>Add</code> </td></tr>
-<tr><td> <code>+=</code> </td><td> <code>var += expr</code> </td><td> Arithmetic addition and assignment </td><td> <code>AddAssign</code> </td></tr>
-<tr><td> <code>-</code> </td><td> <code>- expr</code> </td><td> Arithmetic negation </td><td> <code>Neg</code> </td></tr>
-<tr><td> <code>-</code> </td><td> <code>expr - expr</code> </td><td> Arithmetic subtraction </td><td> <code>Sub</code> </td></tr>
-<tr><td> <code>-=</code> </td><td> <code>var -= expr</code> </td><td> Arithmetic subtraction and assignment </td><td> <code>SubAssign</code> </td></tr>
-<tr><td> <code>/</code> </td><td> <code>expr / expr</code> </td><td> Arithmetic division </td><td> <code>Div</code> </td></tr>
-<tr><td> <code>/=</code> </td><td> <code>var /= expr</code> </td><td> Arithmetic division and assignment </td><td> <code>DivAssign</code> </td></tr>
-<tr><td> <code>&lt;&lt;</code> </td><td> <code>expr &lt;&lt; expr</code> </td><td> Left-shift </td><td> <code>Shl</code> </td></tr>
-<tr><td> <code>&lt;&lt;=</code> </td><td> <code>var &lt;&lt;= expr</code> </td><td> Left-shift and assignment </td><td> <code>ShlAssign</code> </td></tr>
-<tr><td> <code>&lt;</code> </td><td> <code>expr &lt; expr</code> </td><td> Less than comparison </td><td> <code>PartialOrd</code> </td></tr>
-<tr><td> <code>&lt;=</code> </td><td> <code>expr &lt;= expr</code> </td><td> Less than or equal to comparison </td><td> <code>PartialOrd</code> </td></tr>
-<tr><td> <code>==</code> </td><td> <code>expr == expr</code> </td><td> Equality comparison </td><td> <code>PartialEq</code> </td></tr>
-<tr><td> <code>&gt;</code> </td><td> <code>expr &gt; expr</code> </td><td> Greater than comparison </td><td> <code>PartialOrd</code> </td></tr>
-<tr><td> <code>&gt;=</code> </td><td> <code>expr &gt;= expr</code> </td><td> Greater than or equal to comparison </td><td> <code>PartialOrd</code> </td></tr>
-<tr><td> <code>&gt;&gt;</code> </td><td> <code>expr &gt;&gt; expr</code> </td><td> Right-shift </td><td> <code>Shr</code> </td></tr>
-<tr><td> <code>&gt;&gt;=</code> </td><td> <code>var &gt;&gt;= expr</code> </td><td> Right-shift and assignment </td><td> <code>ShrAssign</code> </td></tr>
-<tr><td> <code>^</code> </td><td> <code>expr ^ expr</code> </td><td> Bitwise exclusive OR </td><td> <code>BitXor</code> </td></tr>
-<tr><td> <code>^=</code> </td><td> <code>var ^= expr</code> </td><td> Bitwise exclusive OR and assignment </td><td> <code>BitXorAssign</code> </td></tr>
-<tr><td> <code>|</code> </td><td> <code>expr | expr</code> </td><td> Bitwise OR </td><td> <code>BitOr</code> </td></tr>
-<tr><td> <code>|=</code> </td><td> <code>var |= expr</code> </td><td> Bitwise OR and assignment </td><td> <code>BitOrAssign</code> </td></tr>
+<table><thead><tr><th>Operator</th><th>Example</th><th>Explanation</th><th>Trait</th></tr></thead><tbody>
+<tr><td><code>!</code></td><td><code>!expr</code></td><td>Bitwise or logical complement</td><td><code>Not</code></td></tr>
+<tr><td><code>!=</code></td><td><code>var != expr</code></td><td>Nonequality comparison</td><td><code>PartialEq</code></td></tr>
+<tr><td><code>%</code></td><td><code>expr % expr</code></td><td>Arithmetic remainder</td><td><code>Rem</code></td></tr>
+<tr><td><code>%=</code></td><td><code>var %= expr</code></td><td>Arithmetic remainder and assignment</td><td><code>RemAssign</code></td></tr>
+<tr><td><code>&amp;</code></td><td><code>expr &amp; expr</code></td><td>Bitwise AND</td><td><code>BitAnd</code></td></tr>
+<tr><td><code>&amp;=</code></td><td><code>var &amp;= expr</code></td><td>Bitwise AND and assignment</td><td><code>BitAndAssign</code></td></tr>
+<tr><td><code>*</code></td><td><code>expr * expr</code></td><td>Arithmetic multiplication</td><td><code>Mul</code></td></tr>
+<tr><td><code>*=</code></td><td><code>var *= expr</code></td><td>Arithmetic multiplication and assignment</td><td><code>MulAssign</code></td></tr>
+<tr><td><code>+</code></td><td><code>expr + expr</code></td><td>Arithmetic addition</td><td><code>Add</code></td></tr>
+<tr><td><code>+=</code></td><td><code>var += expr</code></td><td>Arithmetic addition and assignment</td><td><code>AddAssign</code></td></tr>
+<tr><td><code>-</code></td><td><code>- expr</code></td><td>Arithmetic negation</td><td><code>Neg</code></td></tr>
+<tr><td><code>-</code></td><td><code>expr - expr</code></td><td>Arithmetic subtraction</td><td><code>Sub</code></td></tr>
+<tr><td><code>-=</code></td><td><code>var -= expr</code></td><td>Arithmetic subtraction and assignment</td><td><code>SubAssign</code></td></tr>
+<tr><td><code>/</code></td><td><code>expr / expr</code></td><td>Arithmetic division</td><td><code>Div</code></td></tr>
+<tr><td><code>/=</code></td><td><code>var /= expr</code></td><td>Arithmetic division and assignment</td><td><code>DivAssign</code></td></tr>
+<tr><td><code>&lt;&lt;</code></td><td><code>expr &lt;&lt; expr</code></td><td>Left-shift</td><td><code>Shl</code></td></tr>
+<tr><td><code>&lt;&lt;=</code></td><td><code>var &lt;&lt;= expr</code></td><td>Left-shift and assignment</td><td><code>ShlAssign</code></td></tr>
+<tr><td><code>&lt;</code></td><td><code>expr &lt; expr</code></td><td>Less than comparison</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>&lt;=</code></td><td><code>expr &lt;= expr</code></td><td>Less than or equal to comparison</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>==</code></td><td><code>expr == expr</code></td><td>Equality comparison</td><td><code>PartialEq</code></td></tr>
+<tr><td><code>&gt;</code></td><td><code>expr &gt; expr</code></td><td>Greater than comparison</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>&gt;=</code></td><td><code>expr &gt;= expr</code></td><td>Greater than or equal to comparison</td><td><code>PartialOrd</code></td></tr>
+<tr><td><code>&gt;&gt;</code></td><td><code>expr &gt;&gt; expr</code></td><td>Right-shift</td><td><code>Shr</code></td></tr>
+<tr><td><code>&gt;&gt;=</code></td><td><code>var &gt;&gt;= expr</code></td><td>Right-shift and assignment</td><td><code>ShrAssign</code></td></tr>
+<tr><td><code>^</code></td><td><code>expr ^ expr</code></td><td>Bitwise exclusive OR</td><td><code>BitXor</code></td></tr>
+<tr><td><code>^=</code></td><td><code>var ^= expr</code></td><td>Bitwise exclusive OR and assignment</td><td><code>BitXorAssign</code></td></tr>
+<tr><td><code>|</code></td><td><code>expr | expr</code></td><td>Bitwise OR</td><td><code>BitOr</code></td></tr>
+<tr><td><code>|=</code></td><td><code>var |= expr</code></td><td>Bitwise OR and assignment</td><td><code>BitOrAssign</code></td></tr>
 </tbody></table>
-<a class="header" href="#deref" id="deref"><h2>deref</h2></a>
+<h2><a class="header" href="#deref" id="deref">deref</a></h2>
 <p>One common operator is known as the “deref” operator. It's trait is defined as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-pub trait Deref {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub trait Deref {
     /// The resulting type after dereferencing.]
     type Target;
     /// Dereferences the value.
     fn deref(&amp;self) -&gt; &amp;Self::Target;
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>The idea of deref is to allow access to a wrapped inner object. You may have heard invoking a method on a member variable is: “this.foo.bar()” refered to as “dereferencing” the member variable. This is where the name comes from. ‘Box’ implements 'deref’. This allows you to write</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-# struct Foo();
-let b : Box&lt;Foo&gt; = //...
-# Box::new(Foo());
-let f : Foo = *b;
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo();
+</span>let b : Box&lt;Foo&gt; = //...
+<span class="boring">Box::new(Foo());
+</span>let f : Foo = *b;
+<span class="boring">}
+</span></code></pre></pre>
 <p>or even more simply:</p>
-<pre><pre class="playpen"><code class="language-rust"># #![allow(dead_code)]
-# #![allow(unused)]
-struct Foo {
+<pre><pre class="playpen"><code class="language-rust"><span class="boring">#![allow(dead_code)]
+</span><span class="boring">#![allow(unused)]
+</span>struct Foo {
     a : u32,
 }
 fn function(foo: &amp;Foo) {
@@ -226,9 +241,9 @@ pub fn main () {
 <p>This allows you to treat a 'Box<T>’ as though it was a T most of the time, which makes working with Box a lot more convenient.</p>
 <p>Similarly <code>MutexGuard</code> implements deref. So you can just write an method like:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-use std::sync::Mutex;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::sync::Mutex;
 
 struct MyObject {
     data : Mutex&lt;Vec&lt;i32&gt;&gt;,
@@ -239,13 +254,14 @@ impl MyObject {
         data.push(new_item);
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Here <code>data</code> is a <code>MutexGuard</code>, and it will automatically release the lock when it goes out of scope, but <code>data</code> can use the methods on the guarded object directly without having to unwrap it.</p>
 <p>Deref can be used with assignment. So with MutexGard you could write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-use std::sync::Mutex;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::sync::Mutex;
 
 struct MyObject {
     data : Mutex&lt;Vec&lt;i32&gt;&gt;,
@@ -256,28 +272,31 @@ impl MyObject {
         *data = replacement;
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Suppose you want to add some functionality to a type, the easiest way is to wrap it and add the functionality to your wrapper. For example to make an existing type sortable, in Java it would look like.
 __
 In Rust it would look like __. Of course you probably want to get the original object out of your wrapper so you can actually use it. In Java you might use a getter. In Rust you would use Deref. Deref is the trait the corresponds with the ‘*’ prefix operator. So you can do this __.</p>
 <p>The deref method will automatically be invoked by the compiler any time an object is passed to a method expecting a type that it can deref into. This means for example you could pass an object like this __ because the method is implemented for _ and the wrapper will automatically have its deref method called and the result passed to the function.</p>
 <p>A good example of this is String. Strings much like arrays support slicing. So you can take a view of a subset of a string. This is similar to the way in Java you can have a ByteBuffer which provides a view of a subset of a byte array. String implements Deref for str. Given a borrowed string it returns a borrowed slice containing the whole string. So you invoke deref explicitly or just pass a String anywhere a string slice is expected, the conversion is done for you automatically. This is even true when invoking methods on the object. Say you have a borrowed String. You can call ‘.chars()’ and get the characters in the string. Even though the ‘chars’ method was actually defined for the string slice.</p>
 <p>Now imagine that for your own wrapper types, it means they be generic to what they contain an still allow the caller to invoke whatever methods they need on the wrapped object with no syntactic overhead safely without any ambiguity. (Cool right?) It should be noted that because Deref is automatic, it is not meant for costly conversions. For that you should use the ‘From’ or ‘Into’ traits. Where the conversion is more explicit.</p>
-<a class="header" href="#drop" id="drop"><h2>Drop</h2></a>
+<h2><a class="header" href="#drop" id="drop">Drop</a></h2>
 <p>There is one more common operation that can be overloaded, but it does not have any explicit syntax. That is <code>Drop</code>.
 Because Rust's memory management is deterministic it is possible to have a method run right before a object is dropped.</p>
 <p>This can be done by implementing the <code>Drop</code> trait, which is defined as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-pub trait Drop {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub trait Drop {
     fn drop(&amp;mut self);
 }
-#}</code></pre></pre>
-<p>This is implemented on Sockets and Files. Drop is in some ways similar to Java's <code>AutoClosable</code> which can is used to make &quot;try-with&quot; resources that have their close method called at the end of a try block.</p>
+<span class="boring">}
+</span></code></pre></pre>
+<p>This is implemented on Sockets and Files. Drop is in some ways similar to Java's <code>AutoClosable</code> which can is used to make
+&quot;try-with&quot; resources that have their close method called at the end of a try block.</p>
 <p>Drop is different in that the that the cleanup method <code>drop</code> is always called when the object goes out of scope.
 So there is no need for a special block or syntax required. It also makes it impossible to forget to use the method/syntax.
-This is why writing in <a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a>.</p>
+This is why they say <a href="https://blog.skylight.io/rust-means-never-having-to-close-a-socket/">Rust Means Never Having to Close a Socket</a>.</p>
 <p>Implementations of Drop cannot fail and shouldn’t block. So sometimes is there are still <code>close()</code> methods in case for
 example an RPC needs to be made.</p>
 <p>A good example of where this is used is <code>Mutex</code>, these are used for synchronization and will be discussed more in the next chapter. The mutex returns a mutexguard object. This is a wrapper object that holds the lock while it is in scope. The mutexguard locks the mutex when it is created and unlocks it when it goes out of scope. IE:__ Because he only to access the value is though the mutexguard it is impossible to misuse the interface. If you have access to the variable you must be holding a lock. There is no way to forget to either acquire or release the lock.</p>
@@ -322,7 +341,30 @@ example an RPC needs to be made.</p>
         </div>
 
         
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
 
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
         
 
         

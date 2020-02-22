@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Generics - Rust for Java developers</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +32,12 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,10 +58,13 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -72,7 +80,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html" class="active"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li class="expanded "><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li class="expanded "><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li class="expanded "><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li class="expanded "><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li class="expanded "><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li class="expanded "><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li class="expanded "><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li class="expanded "><a href="generics.html" class="active"><strong aria-hidden="true">9.</strong> Generics</a></li><li class="expanded "><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li class="expanded "><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li class="expanded "><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li class="expanded "><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li class="expanded "><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li class="expanded "><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li class="expanded "><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li class="expanded "><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li class="expanded "><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li class="expanded "><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li class="expanded "><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li class="expanded "><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li class="expanded "><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li class="expanded "><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li class="expanded "><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li class="expanded "><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li class="expanded "><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +100,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +113,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Rust for Java developers</h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +148,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#generics-aka-type-parameters" id="generics-aka-type-parameters"><h1>Generics (aka Type parameters)</h1></a>
+                        <h1><a class="header" href="#generics-aka-type-parameters" id="generics-aka-type-parameters">Generics (aka Type parameters)</a></h1>
 <p>Non-trivial example to show assignment + use</p>
 <ul>
 <li>Strongly Prefer associated types on traits
@@ -162,7 +174,7 @@
 </li>
 <li>Syntax for ‘where’ vs ‘:’ (also ‘+’)</li>
 <li>Generics + Builders</li>
-<li>Self type
+<li>Self type 
 <ul>
 <li>Can return an newly created instance of a generic type. (collect on iterator)</li>
 </ul>
@@ -176,27 +188,29 @@
 </ul>
 <p>Rust generics look a lot like Javas. When declared on a type:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# use std::marker::PhantomData;
-pub struct LinkedList&lt;T&gt; {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::marker::PhantomData;
+</span>pub struct LinkedList&lt;T&gt; {
   //...
-# not_implemented : PhantomData&lt;T&gt;,
-}
-#}</code></pre></pre>
+<span class="boring">not_implemented : PhantomData&lt;T&gt;,
+</span>}
+<span class="boring">}
+</span></code></pre></pre>
 <p>When instantiated:</p>
 <pre><code class="language-rust ignore">let connection : HashMap&lt;String, TcpStream&gt; = //...
 </code></pre>
 <p>When in a function signature:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-use std::collections::HashMap;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
 pub fn lookup_emojis(characters : Vec&lt;&amp;str&gt;) -&gt; HashMap&lt;&amp;str, &amp;str&gt; {
   //...
-# HashMap::new()
-}
-#}</code></pre></pre>
+<span class="boring">HashMap::new()
+</span>}
+<span class="boring">}
+</span></code></pre></pre>
 <p>The biggest difference is that Rust calls them &quot;Type Parameters&quot;. <a href="https://bluejekyll.github.io/blog/rust/2017/08/06/type-parameters.html">Just as a function may take various parameters, it can
 also take a parameter which is a type.</a></p>
 <p>Below are some additional examples:
@@ -206,20 +220,21 @@ TODO:</p>
 <li>In structs</li>
 <li>In traits</li>
 <li>Defaults</li>
-<li>Associated types - FromStr provides a good example.</li>
+<li>Associated types - FromStr provides a good example. </li>
 </ul>
-<a class="header" href="#type-inference" id="type-inference"><h2>Type Inference</h2></a>
+<h2><a class="header" href="#type-inference" id="type-inference">Type Inference</a></h2>
 <p>Rust also has some shortcuts to make things easier. For example a type can be declared like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-fn get_items() -&gt; Vec&lt;String&gt; {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>fn get_items() -&gt; Vec&lt;String&gt; {
   vec![&quot;Hello&quot;.to_string()] 
 }
 let to_print : Vec&lt;_&gt; = get_items();
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Here the character ‘_’ tells the compiler “You figure out what's supposed to go here, I'm not going to bother to type it.”. This allows you to specify a type, while still allowing the generics to be infered. This works and can be used any place where the compiler has enough content to work out the generic value.</p>
-<a class="header" href="#bounds" id="bounds"><h2>Bounds</h2></a>
+<h2><a class="header" href="#bounds" id="bounds">Bounds</a></h2>
 <p>In java you might write a function that looks like this:</p>
 <pre><code class="language-java">public static void &lt;T extends Comparable&lt;T&gt;&gt; sort(List&lt;T&gt; toSort) {
   //...
@@ -228,41 +243,44 @@ let to_print : Vec&lt;_&gt; = get_items();
 <p>Here the <code>entends</code> keyword is used to specify that the geric type <code>T</code> is must satisfy the &quot;bounds&quot; of Implementing <code>Comparable&lt;T&gt;</code>.
 The same function in Rust would look like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-pub fn sort&lt;T : Ord&gt;(to_sort : &amp;mut Vec&lt;T&gt;) {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub fn sort&lt;T : Ord&gt;(to_sort : &amp;mut Vec&lt;T&gt;) {
   //...
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>The <code>:</code> takes the place of &quot;extends&quot;. <code>Ord</code> is a trait that allows items to be ordered similar to <code>Comparable</code> in Java.</p>
-<p>You may be wondering, &quot;Why doesn't Ord take a generic parameter?&quot;. After all <code>Comparable</code> in Java needs one because the interface is not specific to one implementation, and needs to refer to the same type. This is due to another feature, the &quot;Self&quot; type.</p>
+<p>You may be wondering, &quot;Why doesn't Ord take a generic parameter?&quot;. After all <code>Comparable</code> in Java needs one because the interface is not specific to one implementation, and needs to refer to the same type. This is due to another feature, the &quot;Self&quot; type. </p>
 <p>If you'll recall, when we define a method on an object we write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-struct Foo;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>struct Foo;
 impl Foo {
   fn bar(&amp;self) {
     //...
   }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Where the 'self' variable is a way to pass the equivlent of &quot;this&quot; in Java. Well that's actually just shorthand for:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-struct Foo;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>struct Foo;
 impl Foo {
   fn bar(self : &amp;Self) {
     //...
   }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Where <code>Self</code> is the type of the object. This isn't useful on an impl because you know the type, but on an interface it can be. For example you can define something like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-trait Doubleable {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait Doubleable {
   fn double(self) -&gt; Self;
 }
 impl Doubleable for i32 {
@@ -272,57 +290,60 @@ impl Doubleable for i32 {
 }
 //then this method can be invoked
 assert_eq!(4, 2.double());
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>So the <code>Self</code> type allows the trait to refer to whatever is implementing the interface without actually knowing what that is or having to have a generic itself.</p>
-<a class="header" href="#features-unique-to-rust" id="features-unique-to-rust"><h2>Features unique to Rust</h2></a>
-<p>Rust also has a few other features that help avoid so called &quot;generics hell&quot; that sometimes crops up in Java.</p>
+<h2><a class="header" href="#features-unique-to-rust" id="features-unique-to-rust">Features unique to Rust</a></h2>
+<p>Rust also has a few other features that help avoid so called &quot;generics hell&quot; that sometimes crops up in Java. </p>
 <ul>
 <li>Rust avoids generics hell
 <ul>
 <li>Ownership and borrowing save the day</li>
-<li>https://doc.rust-lang.org/nomicon/subtyping.html</li>
+<li>https://doc.rust-lang.org/nomicon/subtyping.html </li>
 </ul>
 </li>
 </ul>
-<a class="header" href="#where-clauses" id="where-clauses"><h3>Where clauses</h3></a>
+<h3><a class="header" href="#where-clauses" id="where-clauses">Where clauses</a></h3>
 <p>A simple one is &quot;where&quot; clauses. Suppose you had an interface like this:</p>
 <pre><code class="language-java">public &lt;T extends Comparable&lt;T&gt;, ProcT extends Serializable, Processor&lt;T&gt;&gt; byte[] serializeMaximumValue(List&lt;T&gt;, ProcT processor);
 </code></pre>
 <p>You could just do the same thing in Rust:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# //Normally Serialize is imported as: use serde::Serialize;
-# pub trait Serialize {}
-pub fn serialize_max_value&lt;T : Ord, ProcT : Proc&lt;T&gt; + Serialize&gt;(items : Vec&lt;T&gt;, processor : ProcT) -&gt; Vec&lt;u8&gt; {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">//Normally Serialize is imported as: use serde::Serialize;
+</span><span class="boring">pub trait Serialize {}
+</span>pub fn serialize_max_value&lt;T : Ord, ProcT : Proc&lt;T&gt; + Serialize&gt;(items : Vec&lt;T&gt;, processor : ProcT) -&gt; Vec&lt;u8&gt; {
   //...
-# vec![]
-}
-# pub trait Proc&lt;T&gt; {
-#  fn do_something(item : T);
-# }
-#}</code></pre></pre>
+<span class="boring">vec![]
+</span>}
+<span class="boring">pub trait Proc&lt;T&gt; {
+</span><span class="boring"> fn do_something(item : T);
+</span><span class="boring">}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>The problem with this in both Rust and java is the generics really get in the way and make the function signature hard to read. So it's easier to use the <code>where</code> keyword to move these bounds over to the right, so they can be wrapped onto the following lines:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# //Normally Serialize is imported as: use serde::Serialize;
-# pub trait Serialize {}
-pub fn serialize_max_value&lt;T, ProcT&gt;(items : Vec&lt;T&gt;, processor : ProcT) -&gt; Vec&lt;u8&gt; where
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">//Normally Serialize is imported as: use serde::Serialize;
+</span><span class="boring">pub trait Serialize {}
+</span>pub fn serialize_max_value&lt;T, ProcT&gt;(items : Vec&lt;T&gt;, processor : ProcT) -&gt; Vec&lt;u8&gt; where
  T : Ord,
  ProcT : Proc&lt;T&gt; + Serialize {
   //...
-# vec![]
-}
-# pub trait Proc&lt;T&gt; {
-#  fn do_something(item : T);
-# }
-#}</code></pre></pre>
+<span class="boring">vec![]
+</span>}
+<span class="boring">pub trait Proc&lt;T&gt; {
+</span><span class="boring"> fn do_something(item : T);
+</span><span class="boring">}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>This is strictly equivlent, but hopefully easier to read.</p>
-<a class="header" href="#impl-keyword" id="impl-keyword"><h3>Impl keyword</h3></a>
+<h3><a class="header" href="#impl-keyword" id="impl-keyword">Impl keyword</a></h3>
 <p>In the case of a single trait/interface. In Java you might write __ where 'T extends’ is used to indicate there is some type T but the function doesn't care about the exact type of the object, provided it implements the specified interface. In Rust there is a shorthand for this using the 'impl’ keyword. __. This is most commonly used for return values for example __ specifies that this function is returning a _ but without providing the exact type. This is especially common when a function is returning a function. (Like a callback for example) __ here the function is specifying that it is returning a function with a particular signature but without specifying exactly which function it is returning. So you can think of impl as meaning “some implementation of this trait”. (It doesn't matter which) ‘impl’ only can refer to one trait. So if you need to use multiple, you'll have to use a where clause _ or an alias _.</p>
 <p>Optimizer: I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.</p>
-<a class="header" href="#associated-types" id="associated-types"><h3>Associated Types</h3></a>
+<h3><a class="header" href="#associated-types" id="associated-types">Associated Types</a></h3>
 <p>Finally there is one feature that cuts down on the burdon of generics a lot: &quot;Associated types&quot;. In Java the Supplier interface is defined as:</p>
 <pre><code class="language-java">interface Supplier&lt;T&gt; {
   public T get();
@@ -330,31 +351,33 @@ pub fn serialize_max_value&lt;T, ProcT&gt;(items : Vec&lt;T&gt;, processor : Pro
 </code></pre>
 <p>To do the same thing in Rust, you could write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-trait Supplier&lt;T&gt; {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait Supplier&lt;T&gt; {
   fn get(&amp;self) -&gt; T;
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Or you could instead write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-trait Supplier {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait Supplier {
   type Item;
   fn get(&amp;self) -&gt; Self::Item;
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Here <code>type</code> is a keyword, and <code>Item</code> is the name of the generic type rather than <code>T</code>.
-This has a few advantages. First it allows the generics to be specified by name, rather than relying on order:</p>
+This has a few advantages. First it allows the generics to be specified by name, rather than relying on order: </p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# trait Supplier {
-# type Item;
-# fn get(&amp;self) -&gt; Self::Item;
-# }
-struct StringWrapper(String);
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">trait Supplier {
+</span><span class="boring">type Item;
+</span><span class="boring">fn get(&amp;self) -&gt; Self::Item;
+</span><span class="boring">}
+</span>struct StringWrapper(String);
 impl Supplier for StringWrapper {
   type Item = String;
 
@@ -362,12 +385,13 @@ impl Supplier for StringWrapper {
     self.0.clone()
   }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>This can segnifigantly improve readability when there are multiple types. It also allows the type to be refered to without specifying the type. For example:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-trait Countable {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait Countable {
     fn count(self) -&gt; i32;
 }
 impl&lt;T&gt; Countable for T where T:Iterator {
@@ -379,12 +403,13 @@ impl&lt;T&gt; Countable for T where T:Iterator {
         count
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Here <code>Iterator</code> is refered to without needing to specify the generic associated with Iterator. This means that Countable does not itself have to be generic even though it operates on things that are. In the above code, they type of <code>value</code> is <code>T::Item</code>. A similar example using the supplier interface defined above would look like:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-trait Supplier {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait Supplier {
   type Item;
   fn get(&amp;self) -&gt; Self::Item;
 }
@@ -392,12 +417,13 @@ trait Supplier {
 fn vec_of_value&lt;S:Supplier&gt;(supplier : &amp;S) -&gt; Vec&lt;S::Item&gt; {
   vec![supplier.get()]
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>In general the major difference between associated types and generics, is that for an associated type each implementation is tied to a speffic type. (For the language geeks this is called &quot;unicity&quot;.) For example If you were to define a concrete class <code>LinkedList</code> it should use generics because any sort of item should be able to go into one. However when defining a more general trait for example <code>Iterator</code> in that case it should use an associated type, because each implementation of iterator is only going to have one perticular type associated with it. Usually this is the type of whatever collection is implementing it, which of course itself is likely a generic. For example:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-trait Storage {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait Storage {
   type Item;
   //...
   fn insert(&amp;self, item: Self::Item);
@@ -412,7 +438,8 @@ impl Storage for MessageStore {
       //...
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Here we have a <code>MessageStore</code> is tied to the type <code>Message</code> so it uses an associated type.</p>
 
                     </main>
@@ -453,7 +480,30 @@ impl Storage for MessageStore {
         </div>
 
         
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
 
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
         
 
         

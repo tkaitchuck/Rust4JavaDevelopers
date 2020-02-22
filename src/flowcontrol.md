@@ -7,14 +7,31 @@ while i < 10 {
     i += 1;
 }
 ```
-but not this
+<table width="100%">
+<tr>
+<td>
+but not this:
+
 ```rust ,ignore
-for i in 1..10 {
-    let x = i;
-}
-println!("You can't do this: {}", x);
+  for i in 1..10 {
+      let x = i;
+  }
+  println!("You can't do this: {}", x);
 ```
-(SafetyMonitor: This is a bug, don’t do that.)  
+<div style="text-align: right"> 
+
+*This is a bug because `x` is out of scope.*
+
+</div>
+
+</td>
+<td>
+
+![Safety monitor](images/borrow.png)
+
+</td>
+</tr>
+</table>
 
 Rust has `return` keyword, which works exactly like java:
 ```java

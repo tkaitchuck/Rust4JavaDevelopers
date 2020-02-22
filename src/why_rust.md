@@ -20,5 +20,25 @@ I decided to write this book because a lot of the Rust documentation was written
 Throughout, the book will provide side-by-side comparisons of Java and Rust code that is identical in functionality. Because the goal is to facilitate comparison between the languages sometimes the examples are not idiomatic Rust or idiomatic Java. Rather they are written to make the comparison clear and direct.
 
 Throughout the book we’ll have running commentary from two characters:
-The Safety Monitor: “Hi, I make sure your program is correct, and won’t fail at runtime. A lot of people call me ‘the borrow checker’ because that’s a big part of my job. But I do more than that. I enforce style guidelines, memory safety, thread safety, type safety and more. I’ll act as a guide and alert you if you do anything that could go wrong.”
-The optimizer: “Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”
+
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> *“Hi, I make sure your program is correct, and won’t fail at runtime. A lot of people call me ‘the borrow checker’ because that’s a big part of my job. But I do more than that. I enforce style guidelines, memory safety, thread safety, type safety and more. I’ll act as a guide and alert you if you do anything that could go wrong.”*
+</td>
+<tr>
+<td>
+
+![Optimizer](images/professor.png)
+</td>
+<td width="80%">
+g
+> *“Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”*
+</td>
+</tr>
+</table>

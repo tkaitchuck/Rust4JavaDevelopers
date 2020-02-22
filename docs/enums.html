@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Enums, tuples, and aliases - Rust for Java developers</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +32,12 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,10 +58,13 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -72,7 +80,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html" class="active"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li class="expanded "><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li class="expanded "><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li class="expanded "><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li class="expanded "><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li class="expanded "><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li class="expanded "><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li class="expanded "><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li class="expanded "><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li class="expanded "><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li class="expanded "><a href="enums.html" class="active"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li class="expanded "><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li class="expanded "><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li class="expanded "><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li class="expanded "><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li class="expanded "><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li class="expanded "><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li class="expanded "><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li class="expanded "><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li class="expanded "><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li class="expanded "><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li class="expanded "><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li class="expanded "><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li class="expanded "><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li class="expanded "><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li class="expanded "><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +100,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +113,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Rust for Java developers</h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +148,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#enums-tuples-and-aliases" id="enums-tuples-and-aliases"><h1>Enums, Tuples, and Aliases</h1></a>
+                        <h1><a class="header" href="#enums-tuples-and-aliases" id="enums-tuples-and-aliases">Enums, Tuples, and Aliases</a></h1>
 <p>TODO:</p>
 <ul>
 <li>Range operator. Range on struct to destructure.</li>
@@ -145,23 +157,25 @@
 <li>Enums can implement traits</li>
 <li>bitflags</li>
 </ul>
-<a class="header" href="#aliases" id="aliases"><h2>Aliases</h2></a>
+<h2><a class="header" href="#aliases" id="aliases">Aliases</a></h2>
 <p>Rust supports the concept of 'Aliasing’ this just allows you to refer to one type by a different name. This can be useful to add clearity for example:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-type Time = i64;
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>type Time = i64;
+<span class="boring">}
+</span></code></pre></pre>
 <p>This will allow an i64 to be referred to as ‘Time’ like so:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-# struct Message{timestamp:i64};
-# let message = Message{timestamp:0};
-type Time = i64;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Message{timestamp:i64};
+</span><span class="boring">let message = Message{timestamp:0};
+</span>type Time = i64;
 let timestamp : Time = message.timestamp;
-#}</code></pre></pre>
-<p>Note that Time is not a separate type. So a i64 can be passed to the function. This will not allow adding any special methods to the type, but it also means all the methods of the existing type are there. Because of these limitations, aliasing is generally not used for public interfaces, but to improve readability of code. It does have another important use: renaming an imported type. In Java if you have two types with the same name you have to refer to one by its fully qualified name.</p>
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note that Time is not a separate type. So a i64 can be passed to the function. This will not allow adding any special methods to the type, but it also means all the methods of the existing type are there. Because of these limitations, aliasing is generally not used for public interfaces, but to improve readability of code. It does have another important use: renaming an imported type. In Java if you have two types with the same name you have to refer to one by its fully qualified name. </p>
 <pre><code class="language-java">import java.awt.List;
 //...
 class Example {
@@ -176,10 +190,10 @@ class Example {
 <p>In Rust you could just rename one of types.</p>
 <pre><code class="language-rust ignore">use some::value as other_value;
 </code></pre>
-<a class="header" href="#enums" id="enums"><h2>Enums</h2></a>
+<h2><a class="header" href="#enums" id="enums">Enums</a></h2>
 <p>Enums in Rust are different from enums in Java. They aren't just constants, they can have fields and multiple instances can be instantiated. Additionally different values can have different member variables. So in Java you can do __ but in Rust you can do __. Notice the _ parameter on the _. This can be different for different instances.</p>
 <p>This is useful as it allows you to enumerate different possible return values. For example __. This would require a very awkward construction in Java.</p>
-<a class="header" href="#option-vs-null" id="option-vs-null"><h2>Option vs null</h2></a>
+<h2><a class="header" href="#option-vs-null" id="option-vs-null">Option vs null</a></h2>
 <ul>
 <li>Option implements traits
 <ul>
@@ -188,52 +202,56 @@ class Example {
 </li>
 </ul>
 <p>In Java and variable can be assigned to null. (In fact there is no <code>null</code> in Rust) Rust uses an explicit Option type to convey when an object can be null. This was added in later versions of Java but it's not as helpful as it could be because it doesn't actually prevent assigning things to null, it just documents times when you expect that they can be null. As such it doesn't catch any NullPointerExceptions at compile time because these occur precisely when you don't expect things to be null. You might think the lack of nulls would result is very verbose code. But it's not much of a problem in Rust. Compare this __ to the equivalent Java __. The real advantage of making option explicit is not that it prevents null pointers but that it makes interfaces better. Take a look at Java's iterators. They need to have a hasNext() method because it cannot use null to differentiate “there are no more values” from a value that is null. Anyone who has implemented their own iterator will immediately recognize how annoying this can be.</p>
-<p>Rust also supports <code>destructuring</code>. This allows assignment statements to extract values from structures. For example you could write __ to split apart a structure. Here the struct is being split up and assigned to individual variables. There is an even fancier version of this where it can be used in a conditional. Here is an example of “if let” this is extracting and assigning the value ‘x’ but does so only if the surrounding pattern matches. So in this case if the option is ‘None’ this will not match, the condition will be false and the ‘if’ will execute the code in the else block. You can do the same thing with a “while let”. __ As you can see this is useful when there is a</p>
-<a class="header" href="#tuples" id="tuples"><h2>Tuples</h2></a>
+<p>Rust also supports <code>destructuring</code>. This allows assignment statements to extract values from structures. For example you could write __ to split apart a structure. Here the struct is being split up and assigned to individual variables. There is an even fancier version of this where it can be used in a conditional. Here is an example of “if let” this is extracting and assigning the value ‘x’ but does so only if the surrounding pattern matches. So in this case if the option is ‘None’ this will not match, the condition will be false and the ‘if’ will execute the code in the else block. You can do the same thing with a “while let”. __ As you can see this is useful when there is a </p>
+<h2><a class="header" href="#tuples" id="tuples">Tuples</a></h2>
 <p>Rust supports Tupples. Tupples are just like 'Pair’ in <code>apache lang</code> in Java or Map.Entry. They are a simple wrapper of multiple objects. The syntax looks like:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-let pair : (i32, String) = (5, &quot;Hello&quot;.to_string()); 
-#}</code></pre></pre>
-<p>which is a tuple of a integer and a String. Tupples aren't full blown classes so the fields don't even have names. They are accessed by number.</p>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let pair : (i32, String) = (5, &quot;Hello&quot;.to_string()); 
+<span class="boring">}
+</span></code></pre></pre>
+<p>which is a tuple of a integer and a String. Tupples aren't full blown classes so the fields don't even have names. They are accessed by number. </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-let pair = (10, 20);
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let pair = (10, 20);
 let ten = pair.0;
 let twenty = pair.1;
 //Tupples can also be named
 struct Position(f64, f64);
 let pos = Position(1.4, 3.2);
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Tupples should only be used when it is very clear what the represent, because without accessor methods or named fields their meaning can be ambiguous to someone who doesn't fully understand the context.</p>
-<p>Tupples can have 0 or more values. An empty tuple is just <code>()</code> this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”)</p>
-<p>Tuples with two parameters are the most common. IE . But 3 or more is possible.</p>
+<p>Tupples can have 0 or more values. An empty tuple is just <code>()</code> this litterly contains nothing and has no methods. An empty tuple is actually the return type of a “void” method. (This is sometimes called “the unit type”) </p>
+<p>Tuples with two parameters are the most common. IE . But 3 or more is possible. </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-let tripple = (1, 1.0, &quot;one&quot;);
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let tripple = (1, 1.0, &quot;one&quot;);
 let quad = (2, 2.0, &quot;two&quot;, true);
-#}</code></pre></pre>
-<p>A single element tuple might seem pointless but it does provide a way to name something. IE:</p>
+<span class="boring">}
+</span></code></pre></pre>
+<p>A single element tuple might seem pointless but it does provide a way to name something. IE: </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
-# #![allow(unused_variables)]
-#fn main() {
-struct Distance(f64);
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>struct Distance(f64);
 
 let london_to_ny = Distance(3459.3,);
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Which can sometimes help with clearity. (Note: the single element tuple must have the trailing ‘,’ to distinguish it from a normal expression in parenthsis.</p>
 <ul>
 <li>https://medium.com/@robertgrosse/ref-patterns-destructuring-and-invisible-borrows-2f8ae6902656</li>
 </ul>
-<a class="header" href="#match" id="match"><h2>Match</h2></a>
+<h2><a class="header" href="#match" id="match">Match</a></h2>
 <ul>
 <li>Match guards / binding</li>
 </ul>
-<p>In the above example we introduced a new construct <code>match</code>. Match works like a souped up version of Java’s switch statement. It differs in a few important ways: It must be exhaustive, There is no fallthrough (and hence no break), it is an expression so it can return a value, It has pattern matching which lets you define what to match against, it can capture variables so the right hand side can use them. Here is a match statement that shows off all of these __ compared to the equivalent Java __.</p>
-<p>Match works with destructuring __. It works on Options and Enums __. If all cases are covered, there does not need to be a default branch. It also works with ranges _<em>. (The ‘</em>’ means “you figure it out” and is a default branch.) If the paths are not mutually exclusive for example __. The first one that applies will be taken. IE __.</p>
+<p>In the above example we introduced a new construct <code>match</code>. Match works like a souped up version of Java’s switch statement. It differs in a few important ways: It must be exhaustive, There is no fallthrough (and hence no break), it is an expression so it can return a value, It has pattern matching which lets you define what to match against, it can capture variables so the right hand side can use them. Here is a match statement that shows off all of these __ compared to the equivalent Java __. </p>
+<p>Match works with destructuring __. It works on Options and Enums __. If all cases are covered, there does not need to be a default branch. It also works with ranges __. (The ‘_’ means “you figure it out” and is a default branch.) If the paths are not mutually exclusive for example __. The first one that applies will be taken. IE __.</p>
 <p>Sometimes in a destructuring expression you will see the word 'ref’. This is equivalent to a ‘&amp;’ in the corresponding place on the other side. IE __ is equivalent to __.</p>
 
                     </main>
@@ -274,7 +292,30 @@ let london_to_ny = Distance(3459.3,);
         </div>
 
         
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
 
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
         
 
         

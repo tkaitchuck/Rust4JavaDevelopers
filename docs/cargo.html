@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Cargo - Rust for Java developers</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +32,12 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,10 +58,13 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -72,7 +80,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html" class="active"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li class="expanded "><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li class="expanded "><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li class="expanded "><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li class="expanded "><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li class="expanded "><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li class="expanded "><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li class="expanded "><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li class="expanded "><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li class="expanded "><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li class="expanded "><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li class="expanded "><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li class="expanded "><a href="cargo.html" class="active"><strong aria-hidden="true">13.</strong> Cargo</a></li><li class="expanded "><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li class="expanded "><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li class="expanded "><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li class="expanded "><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li class="expanded "><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li class="expanded "><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li class="expanded "><a href="lifetimes.html"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li class="expanded "><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li class="expanded "><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li class="expanded "><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li class="expanded "><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li class="expanded "><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li class="expanded "><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +100,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +113,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Rust for Java developers</h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +148,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#cargo" id="cargo"><h1>Cargo</h1></a>
+                        <h1><a class="header" href="#cargo" id="cargo">Cargo</a></h1>
 <p><strong>Cargo</strong> is rust's build and dependency management system. It is similar to <code>gradle</code> and <code>maven</code> in Java.
 However in comparison to them Cargo is much simpler. For example Cargo uses the
 <a href="https://github.com/toml-lang/toml">TOML</a> file format for it's config, which is written in a declaritive style.</p>
@@ -154,15 +166,15 @@ serde = &quot;1.0&quot;
 </code></pre>
 <p>You can find more information about cargo in the <a href="https://doc.rust-lang.org/cargo/index.html">cargo book</a></p>
 <p>Some common commands are listed below:</p>
-<table><thead><tr><th>  Command                 </th><th>  Effect   </th></tr></thead><tbody>
-<tr><td> <code>cargo new --bin foo</code>    </td><td> Create a new program named &quot;foo&quot; </td></tr>
-<tr><td> <code>cargo new --lib foo</code>    </td><td> Create a new library named &quot;foo&quot; </td></tr>
-<tr><td> <code>cargo build</code>            </td><td> Build the current project </td></tr>
-<tr><td> <code>cargo clean</code>            </td><td> Cleans the build directory </td></tr>
-<tr><td> <code>cargo check</code>            </td><td> Checks for complication errors </td></tr>
-<tr><td> <code>cargo doc</code>              </td><td> Builds <a href="./method_signatures.html#Rustdocs">Rustdocs</a> </td></tr>
-<tr><td> <code>cargo test</code>             </td><td> Runs tests (Like Junit, but built into the language) </td></tr>
-<tr><td> <code>cargo publish</code>          </td><td> Publish the crate to <a href="https://crates.io">Crates.io</a> </td></tr>
+<table><thead><tr><th>Command</th><th>Effect</th></tr></thead><tbody>
+<tr><td><code>cargo new --bin foo</code></td><td>Create a new program named &quot;foo&quot;</td></tr>
+<tr><td><code>cargo new --lib foo</code></td><td>Create a new library named &quot;foo&quot;</td></tr>
+<tr><td><code>cargo build</code></td><td>Build the current project</td></tr>
+<tr><td><code>cargo clean</code></td><td>Cleans the build directory</td></tr>
+<tr><td><code>cargo check</code></td><td>Checks for complication errors</td></tr>
+<tr><td><code>cargo doc</code></td><td>Builds <a href="./method_signatures.html#Rustdocs">Rustdocs</a></td></tr>
+<tr><td><code>cargo test</code></td><td>Runs tests (Like Junit, but built into the language)</td></tr>
+<tr><td><code>cargo publish</code></td><td>Publish the crate to <a href="https://crates.io">Crates.io</a></td></tr>
 </tbody></table>
 <ul>
 <li>https://blog.rust-lang.org/2016/05/05/cargo-pillars.html</li>
@@ -179,37 +191,37 @@ serde = &quot;1.0&quot;
 </ul>
 </li>
 </ul>
-<a class="header" href="#versions" id="versions"><h2>Versions</h2></a>
+<h2><a class="header" href="#versions" id="versions">Versions</a></h2>
 <ul>
 <li>Depreciation warning</li>
 </ul>
 <p>One old idea that Rust embraces is versioning. Unlike Java (or most other programming languages) in Rust when creating a new project you explicitly specify which edition of the language you wish use. This Book is written to the <a href="https://hacks.mozilla.org/2018/12/rust-2018-is-here/">2018 edition of the language</a>. This edition has different syntax than the 2015 edition, and future editions will change things as well. But backwards compatibility is maintained because the compiler can check which edition is being used and compile to that standard. Because regardless of which edition is being used the code is compiled to native code, code written in any edition can depend on code written in any other edition. This frees the language to evolve and change overtime without being tied down to legacy.</p>
-<p>Similarly in Rust all projects are expected to use semantic versioning of the form Major.Minor.Patch where a change to the patch version means no publicly visible changes have occurred, a change to the minor version means changes have occurred but existing code should still work, and a change to the major version means dependant code needs to be re-written. Changes that break backwards compatibility are also OK prior to a 1.0.0 version.</p>
-<p>The Rust language itself also versioned in this way. This is actually how Java was originally versioned. They released 1.2, 1.3, 1.4, and 1.5. But then they decided that they could drop the leading 1 because they were not going to break compatibility. Just looking at the version number you can see that Rust releases a lot faster than Java. The Language is on a six-week release cycle so it's constantly improving.</p>
+<p>Similarly in Rust all projects are expected to use semantic versioning of the form Major.Minor.Patch where a change to the patch version means no publicly visible changes have occurred, a change to the minor version means changes have occurred but existing code should still work, and a change to the major version means dependant code needs to be re-written. Changes that break backwards compatibility are also OK prior to a 1.0.0 version. </p>
+<p>The Rust language itself also versioned in this way. This is actually how Java was originally versioned. They released 1.2, 1.3, 1.4, and 1.5. But then they decided that they could drop the leading 1 because they were not going to break compatibility. Just looking at the version number you can see that Rust releases a lot faster than Java. The Language is on a six-week release cycle so it's constantly improving. </p>
 <p>This rapid release cycle is made possible because it is well factored in well tested. Most of what would be considered the standard library in another language is packaged and released separately. The developers even have a tool which will build all publicly available code against a new version of the language before it is released.</p>
-<p>Unlike Java, Rust has a very small standard library. Instead it provides powerful and flexible primitives, that allow many features you wouldn’t expect to be developed as libraries. This works because Rust has a built in dependency management system called Cargo.</p>
-<a class="header" href="#dependencies" id="dependencies"><h2>Dependencies</h2></a>
-<p>Dependencies can be added to your project by simply addin the approprate line in Cargo.toml.
+<p>Unlike Java, Rust has a very small standard library. Instead it provides powerful and flexible primitives, that allow many features you wouldn’t expect to be developed as libraries. This works because Rust has a built in dependency management system called Cargo. </p>
+<h2><a class="header" href="#dependencies" id="dependencies">Dependencies</a></h2>
+<p>Dependencies can be added to your project by simply addin the approprate line in Cargo.toml. 
 To find crates you can depend on and the line to add them to your config file go to <a href="https://crates.io/">crates.io</a>.</p>
 <p>Unlike Java, you don't need to worry about transitive dependencies, it is not possible to endup accedently directly using their code,
-and &quot;version conflicts&quot; are not an issue, because multiple versions can be in the same application at the same time without ambiguity.</p>
+and &quot;version conflicts&quot; are not an issue, because multiple versions can be in the same application at the same time without ambiguity. </p>
 <p>Below is a list of common dependencies and their function.</p>
-<table><thead><tr><th>  Crate    </th><th>   Function   </th></tr></thead><tbody>
-<tr><td> <a href="https://serde.rs/">Serde</a> </td><td> Serialization and Deserialization </td></tr>
-<tr><td> <a href="https://clap.rs/">Clap</a> </td><td> Command line argument parsing. (See also <a href="https://crates.io/crates/structopt">structopt</a> which automates even more </td></tr>
-<tr><td> <a href="https://crates.io/crates/simple-signal">Simple-signal</a> </td><td> Unix signal handling </td></tr>
-<tr><td> <a href="https://rust-lang.github.io/rust-bindgen/">Bindgen</a> </td><td> Automatically generates Rust FFI bindings to C </td></tr>
-<tr><td> <a href="https://crates.io/crates/itertools">Itertools</a> </td><td> Extra iterator adaptors and methods </td></tr>
-<tr><td> <a href="https://crates.io/crates/rayon">Rayon</a> </td><td> Simple lightweight data-parallelism library </td></tr>
-<tr><td> <a href="https://crates.io/crates/faster">Faster</a> </td><td> SMID made safe and simple using iterators </td></tr>
-<tr><td> <a href="https://rust-lang-nursery.github.io/packed_simd/packed_simd/">Packed-simd</a> </td><td> Architecture independent SIMD </td></tr>
-<tr><td> <a href="https://github.com/crossbeam-rs/crossbeam">Crossbeam</a> </td><td> Tools for concurrent programming </td></tr>
-<tr><td> <a href="https://tokio.rs/">Tokio</a> </td><td> A non-blocking IO framework </td></tr>
-<tr><td> <a href="https://diesel.rs/">Diesel</a> </td><td> A compile time validated ORM query buider </td></tr>
-<tr><td> <a href="https://rocket.rs/">Rocket</a> </td><td> A web server that uses compile time checks to prevent vunribilites (directory traversal, SQL injection, csrf, css, remote code execution, misconfiguration) and verifies authentication, authorization, and input validation logic. </td></tr>
-<tr><td> <a href="https://maud.lambda.xyz/">Maud</a> </td><td> Compile time validated HTML templates </td></tr>
-<tr><td> <a href="https://crates.io/crates/rand">Rand</a> </td><td> Random number generators </td></tr>
-<tr><td> <a href="https://crates.io/crates/quickcheck">Quickcheck</a> </td><td> Randomized unit testing </td></tr>
+<table><thead><tr><th>Crate</th><th>Function</th></tr></thead><tbody>
+<tr><td><a href="https://serde.rs/">Serde</a></td><td>Serialization and Deserialization</td></tr>
+<tr><td><a href="https://clap.rs/">Clap</a></td><td>Command line argument parsing. (See also <a href="https://crates.io/crates/structopt">structopt</a> which automates even more</td></tr>
+<tr><td><a href="https://crates.io/crates/simple-signal">Simple-signal</a></td><td>Unix signal handling</td></tr>
+<tr><td><a href="https://rust-lang.github.io/rust-bindgen/">Bindgen</a></td><td>Automatically generates Rust FFI bindings to C</td></tr>
+<tr><td><a href="https://crates.io/crates/itertools">Itertools</a></td><td>Extra iterator adaptors and methods</td></tr>
+<tr><td><a href="https://crates.io/crates/rayon">Rayon</a></td><td>Simple lightweight data-parallelism library</td></tr>
+<tr><td><a href="https://crates.io/crates/faster">Faster</a></td><td>SMID made safe and simple using iterators</td></tr>
+<tr><td><a href="https://rust-lang-nursery.github.io/packed_simd/packed_simd/">Packed-simd</a></td><td>Architecture independent SIMD</td></tr>
+<tr><td><a href="https://github.com/crossbeam-rs/crossbeam">Crossbeam</a></td><td>Tools for concurrent programming</td></tr>
+<tr><td><a href="https://tokio.rs/">Tokio</a></td><td>A non-blocking IO framework</td></tr>
+<tr><td><a href="https://diesel.rs/">Diesel</a></td><td>A compile time validated ORM query buider</td></tr>
+<tr><td><a href="https://rocket.rs/">Rocket</a></td><td>A web server that uses compile time checks to prevent vunribilites (directory traversal, SQL injection, csrf, css, remote code execution, misconfiguration) and verifies authentication, authorization, and input validation logic.</td></tr>
+<tr><td><a href="https://maud.lambda.xyz/">Maud</a></td><td>Compile time validated HTML templates</td></tr>
+<tr><td><a href="https://crates.io/crates/rand">Rand</a></td><td>Random number generators</td></tr>
+<tr><td><a href="https://crates.io/crates/quickcheck">Quickcheck</a></td><td>Randomized unit testing</td></tr>
 </tbody></table>
 <ul>
 <li>
@@ -219,7 +231,7 @@ and &quot;version conflicts&quot; are not an issue, because multiple versions ca
 <p>Rtfm for embedded systems. Also Singleton. And svd2rust</p>
 </li>
 <li>
-<p>Instead of rolling your own graph: Petgraph or an ECS</p>
+<p>Instead of rolling your own graph: Petgraph or an ECS </p>
 </li>
 <li>
 <p>Rustfmt/racer/rustfix</p>
@@ -267,7 +279,7 @@ Checksyle
 Findbugs
 Lint (clippy)
 Fuzzers: afl / hongfuzz / cargo fuzz</p>
-<a class="header" href="#rustc" id="rustc"><h2>Rustc</h2></a>
+<h2><a class="header" href="#rustc" id="rustc">Rustc</a></h2>
 <p>If you've been programming in Java for a long time you're probably used to compiler-errors that you just look at to get the line number and then go to the that line and see what's wrong. IDEs have mostly even obsoleted this by just underlining the problem, which is usually sufficient to work out the problem. Rust goes well above and beyond this. It has very clear and detailed error messages explaining exactly what the problem is some of which even suggest Solutions what's more each error message has a number associated with it but you can look up online and see if full documentation as to why that error message occurs examples of it occurring how to avoid it and how to structure code so is to prevent it from being a problem.</p>
 
                     </main>
@@ -308,7 +320,30 @@ Fuzzers: afl / hongfuzz / cargo fuzz</p>
         </div>
 
         
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
 
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
         
 
         

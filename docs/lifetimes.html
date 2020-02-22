@@ -1,9 +1,11 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Lifetimes - Rust for Java developers</title>
+        
+
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A guide to learning Rust for developers familiar with Java">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,9 +32,12 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">var path_to_root = "";</script>
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
+        </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script type="text/javascript">
@@ -53,10 +58,13 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script type="text/javascript">
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
-            if (theme === null || theme === undefined) { theme = 'light'; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -72,7 +80,10 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <ol class="chapter"><li><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li><a href="lifetimes.html" class="active"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded "><a href="why_rust.html"><strong aria-hidden="true">1.</strong> Why Rust</a></li><li class="expanded "><a href="history_of_rust.html"><strong aria-hidden="true">2.</strong> History of Rust</a></li><li class="expanded "><a href="rust_community.html"><strong aria-hidden="true">3.</strong> The Rust Community</a></li><li class="expanded "><a href="variable_declaration.html"><strong aria-hidden="true">4.</strong> Variable declaration</a></li><li class="expanded "><a href="method_signatures.html"><strong aria-hidden="true">5.</strong> Method Signatures</a></li><li class="expanded "><a href="flowcontrol.html"><strong aria-hidden="true">6.</strong> Flowcontrol</a></li><li class="expanded "><a href="ownership.html"><strong aria-hidden="true">7.</strong> Ownership</a></li><li class="expanded "><a href="objects.html"><strong aria-hidden="true">8.</strong> Objects and Traits</a></li><li class="expanded "><a href="generics.html"><strong aria-hidden="true">9.</strong> Generics</a></li><li class="expanded "><a href="collections.html"><strong aria-hidden="true">10.</strong> Collections</a></li><li class="expanded "><a href="enums.html"><strong aria-hidden="true">11.</strong> Enums, tuples, and aliases</a></li><li class="expanded "><a href="modules.html"><strong aria-hidden="true">12.</strong> Modules</a></li><li class="expanded "><a href="cargo.html"><strong aria-hidden="true">13.</strong> Cargo</a></li><li class="expanded "><a href="equivalent_frameworks.html"><strong aria-hidden="true">14.</strong> Equivalent frameworks</a></li><li class="expanded "><a href="error_handling.html"><strong aria-hidden="true">15.</strong> Error handling</a></li><li class="expanded "><a href="rust_makes_you_better_at_java.html"><strong aria-hidden="true">16.</strong> How Rust makes you a better Java programmer</a></li><li class="expanded "><a href="concurrency.html"><strong aria-hidden="true">17.</strong> Concurrency</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">18.</strong> Testing</a></li><li class="expanded "><a href="debugging.html"><strong aria-hidden="true">19.</strong> Debugging</a></li><li class="expanded "><a href="operator_overloading.html"><strong aria-hidden="true">20.</strong> Operator Overloading</a></li><li class="expanded "><a href="lifetimes.html" class="active"><strong aria-hidden="true">21.</strong> Lifetimes</a></li><li class="expanded "><a href="cool_rust_tricks.html"><strong aria-hidden="true">22.</strong> Cool Rust Tricks</a></li><li class="expanded "><a href="writing_macros.html"><strong aria-hidden="true">23.</strong> Writing Mactos</a></li><li class="expanded "><a href="command_line_programs.html"><strong aria-hidden="true">24.</strong> Command line programs</a></li><li class="expanded "><a href="example_program.html"><strong aria-hidden="true">25.</strong> Example program</a></li><li class="expanded "><a href="webasm.html"><strong aria-hidden="true">26.</strong> Webasm</a></li><li class="expanded "><a href="rust_with_java.html"><strong aria-hidden="true">27.</strong> Using Rust with Java</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -89,7 +100,7 @@
                                 <i class="fa fa-paint-brush"></i>
                             </button>
                             <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                                 <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -102,12 +113,13 @@
                             
                         </div>
 
-                        <h1 class="menu-title">Rust for Java developers</h1> 
+                        <h1 class="menu-title">Rust for Java developers</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
                                 <i id="print-button" class="fa fa-print"></i>
                             </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -136,7 +148,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <a class="header" href="#lifetimes" id="lifetimes"><h1>Lifetimes</h1></a>
+                        <h1><a class="header" href="#lifetimes" id="lifetimes">Lifetimes</a></h1>
 <p>Lifetimes are a way to specify additional information about borrows in order to convince the compiler that what you are
 attempting to do makes sense. They will only effect whether or not code can compiler and have no effect on at runtime.</p>
 <p>Consider the following code:</p>
@@ -172,31 +184,34 @@ method signature of <code>get_tail_of_string</code>.</p>
 <p>When a method borrows parameters the compiler needs to track how long those borrows live so it can determine if code should
 compile. This process works similar to generics. For example the method signature:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# trait Foo {
-  fn some_function&lt;T&gt;(arg1: &amp;T);
-# }
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">trait Foo {
+</span>  fn some_function&lt;T&gt;(arg1: &amp;T);
+<span class="boring">}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>is actually the same as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# trait Foo {
-  fn some_function&lt;'a, T&gt;(arg1: &amp;'a T);
-# }
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">trait Foo {
+</span>  fn some_function&lt;'a, T&gt;(arg1: &amp;'a T);
+<span class="boring">}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>Which means that the parameter <code>arg1</code> is borrowed for however long the value passed into arg1 lasts. Of course this is
 a completely unnecessary statement, and hence can be simply omitted. (The naming convention is to start with ‘a for the
 first parameter and then ‘b, 'c' etc. Lowercase letters are used to distinguish lifetime from normal type parameters like <code>T</code>)</p>
 <p>However in the more complex case:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# struct Foo{a:str} struct Bar {}
-  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'a str
-# {&amp;arg1.a}
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo{a:str} struct Bar {}
+</span>  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'a str
+<span class="boring">{&amp;arg1.a}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>Here the lifetime is meaningful and needs to be specified. Here the signature is providing the information that function
 accepting two arguments <code>arg1</code> and <code>arg2</code> and these live however long the parameters passed as these values live, and the
 return type lives as long as <code>arg1</code>. This means in this case that the return value is being derived from the first parameter
@@ -204,45 +219,49 @@ and not the second one. This will allow the compiler to check the calling code t
 (You don't need to know where the inputs came from or how long they will live. The compiler will just check everything.)</p>
 <p>If the returned value were derived from the second parameter the function signature would look like:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-# struct Foo{} struct Bar {a:str}
-  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'b str
-# {&amp;arg2.a}
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo{} struct Bar {a:str}
+</span>  fn some_function&lt;'a, 'b&gt;(arg1: &amp;'a Foo, arg2: &amp;'b Bar) -&gt; &amp;'b str
+<span class="boring">{&amp;arg2.a}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>What if the result could be derived from either parameter and which one won't be know until run-time?
 For example a function that returns the longer of two string slices. That would look like:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-  fn get_longer&lt;'a&gt;(arg1: &amp;'a str, arg2: &amp;'a str) -&gt; &amp;'a str
-# {arg1}
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>  fn get_longer&lt;'a&gt;(arg1: &amp;'a str, arg2: &amp;'a str) -&gt; &amp;'a str
+<span class="boring">{arg1}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>In this case the compiler will infer a lifetime for 'a that must work for both parameters, and use this lifetime when
 reasoning about the returned value.</p>
 <p>In general the compiler is able to automatically figure out the lifetimes, and nothing needs to be specified. For example
 with methods that are being invoked on an object such as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-trait CharTrimmer {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait CharTrimmer {
   fn trim_chars(&amp;self, chars_to_remove: &amp;str) -&gt; &amp;str;
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>It is by default assumed that the source of any returned parameter is from the <code>self</code> argument. So the lifetimes would
 be automatically inferred as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-trait CharTrimmer {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>trait CharTrimmer {
   fn trim_chars&lt;'a&gt;(&amp;'a self, chars_to_remove: &amp;str) -&gt; &amp;'a str;
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>However if this is not the case, it can be clarified by specifying a different lifetime.</p>
 <p>Lifetimes, only really come up when dealing with items that are being borrowed and parts are being passed out of the original called
 either by a return value or embedding them in a struct, and never with owned items. So they tend to be a nitch feature.</p>
 <p>For a much more complete exploration of the exotic cases of lifetimes see the post <a href="http://cglab.ca/%7Eabeinges/blah/too-many-lists/book/second-iter.html">&quot;Too many lists&quot;</a>.</p>
-<a class="header" href="#static" id="static"><h2>'static</h2></a>
+<h2><a class="header" href="#static" id="static">'static</a></h2>
 <p>There is one special lifetime: <code>'static</code>. This is used to indicate the reference can live for as long as the program is
 running. For example when a constant string is defined:</p>
 <pre><pre class="playpen"><code class="language-rust">fn main() {
@@ -256,11 +275,12 @@ and hence by definition exist for the lifetime of the program. You can of course
 have a static lifetime.) This is also be used as the lifetime for for statics and constants.</p>
 <p>So if a function takes a 'static string such as:</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
-# #![allow(unused_variables)]
-#fn main() {
-fn only_const_strings(arg: &amp;'static str)
-# {}
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>fn only_const_strings(arg: &amp;'static str)
+<span class="boring">{}
+</span><span class="boring">}
+</span></code></pre></pre>
 <p>This would restrict the values that can be passed into the method to only be string constants, or their derivatives.</p>
 
                     </main>
@@ -301,7 +321,30 @@ fn only_const_strings(arg: &amp;'static str)
         </div>
 
         
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
 
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
+        </script>
         
 
         
