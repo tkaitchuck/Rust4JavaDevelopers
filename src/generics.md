@@ -165,7 +165,25 @@ This is strictly equivlent, but hopefully easier to read.
 
 In the case of a single trait/interface. In Java you might write __ where 'T extends’ is used to indicate there is some type T but the function doesn't care about the exact type of the object, provided it implements the specified interface. In Rust there is a shorthand for this using the 'impl’ keyword. __. This is most commonly used for return values for example __ specifies that this function is returning a _ but without providing the exact type. This is especially common when a function is returning a function. (Like a callback for example) __ here the function is specifying that it is returning a function with a particular signature but without specifying exactly which function it is returning. So you can think of impl as meaning “some implementation of this trait”. (It doesn't matter which) ‘impl’ only can refer to one trait. So if you need to use multiple, you'll have to use a where clause _ or an alias _.
 
-Optimizer: I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.
+
+
+
+<table width="100%">
+<tr>
+<td>
+
+![Optimizer](images/professor.png)
+</td>
+<td width="80%">
+
+>  *I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.*
+></td>
+</tr>
+</table>
+
+
+
+
 
 
 

@@ -321,6 +321,13 @@ fn main() {
     println!(&quot;Hello {}!&quot;, name);
 }
 </code></pre></pre>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
 <p>The template is validated at compile time. So if you were to type </p>
 <pre><code class="language-rust ignore">println!(&quot;Hello {}!&quot;);
 </code></pre>
@@ -328,7 +335,27 @@ fn main() {
 <pre><code class="language-rust ignore"><span class="boring">let name = &quot;a&quot;; let name = &quot;b&quot;
 </span>println!(&quot;Hello {}!&quot;, name1, name2);
 </code></pre>
-<p>the mistake would actually be a compile error. (BorrowChecker: Which is great because it means you can't write incorrect code. Optimizer: and has the added bonus of not spending any CPU at runtime parsing and verifying the template.) This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.</p>
+<p>the mistake would actually be a compile error. Which is great because it means you can't write incorrect code.</p>
+</blockquote>
+</td>
+<tr>
+<td>
+<p><img src="images/professor.png" alt="Optimizer" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>This has the added bonus of not spending any CPU at runtime parsing and verifying the template.</em></p>
+</blockquote>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<blockquote>
+<p>This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.</p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>Another place you'll see macros, is for initilizing collections or places where you might find &quot;varargs&quot; in Java. For example you can initilaize a Vec with the <code>vec!</code> macro:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]

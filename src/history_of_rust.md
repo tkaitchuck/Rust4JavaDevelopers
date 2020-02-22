@@ -1,7 +1,24 @@
 # History of Rust
 
-> **“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”**  
-> *-- The Book of Mozilla, 11:14*
+<table style="background: maroon; color: white">
+<tr>
+<td>
+
+
+<p>
+<b>
+The Beast adopted <em style="font-size:1.2em;line-height:0">new raiment</em> and studied the ways of <em style="font-size:1.2em;line-height:0">Time</em> and
+<em style="font-size:1.2em;line-height:0">Space</em> and <em style="font-size:1.2em;line-height:0">Light</em> and the <em style="font-size:1.2em;line-height:0">Flow</em> of energy through the Universe.
+From its studies, the Beast fashioned new structures from <em style="font-size:1.3em;line-height:0">oxidised metal</em> and proclaimed
+their glories. And the Beast’s followers rejoiced, finding renewed purpose in these <em style="font-size:1.2em;line-height:0">teachings</em>.
+</b>
+</p>
+
+*-- The Book of Mozilla, 11:14*
+</td>
+</tr>
+</table>
+
 
 ## Prehistory
 

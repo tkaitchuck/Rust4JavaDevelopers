@@ -184,16 +184,45 @@ fn main() {
     println!("Hello {}!", name);
 }
 ```
-The template is validated at compile time. So if you were to type 
-```rust, ignore
-println!("Hello {}!");
-```
-or 
-```rust, ignore
-# let name = "a"; let name = "b"
-println!("Hello {}!", name1, name2);
-```
-the mistake would actually be a compile error. (BorrowChecker: Which is great because it means you can't write incorrect code. Optimizer: and has the added bonus of not spending any CPU at runtime parsing and verifying the template.) This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.
+
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> The template is validated at compile time. So if you were to type 
+> ```rust, ignore
+> println!("Hello {}!");
+> ```
+> or 
+> ```rust, ignore
+> # let name = "a"; let name = "b"
+> println!("Hello {}!", name1, name2);
+> ```
+> the mistake would actually be a compile error. Which is great because it means you can't write incorrect code.
+
+</td>
+<tr>
+<td>
+
+![Optimizer](images/professor.png)
+</td>
+<td width="80%">
+
+> *This has the added bonus of not spending any CPU at runtime parsing and verifying the template.*
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+> This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.
+</td>
+</tr>
+</table>
 
 Another place you'll see macros, is for initilizing collections or places where you might find "varargs" in Java. For example you can initilaize a Vec with the `vec!` macro:
 ```rust ,skt-main

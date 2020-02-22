@@ -181,16 +181,28 @@
 <p><img src="images/professor.png" alt="Optimizer" /></p>
 </td>
 <td width="80%">
-g
-> *“Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”*
+<blockquote>
+<p><em>“Hi, I focus on making everything you write go as fast as possible. My goal is to allow you to write code in the safest, most readable, way possible so you don’t make mistakes. Then once she has approved it, I’ll take over and remove all of those abstractions so they don’t cost you a thing. Then I fine tune everything to be as fast as if you had written it all in assembler by hand.”</em></p>
+</blockquote>
 </td>
 </tr>
 </table>
 <h1><a class="header" href="#history-of-rust" id="history-of-rust">History of Rust</a></h1>
-<blockquote>
-<p><strong>“The Beast adopted new raiment and studied the ways of Time and Space and Light and the Flow of energy through the Universe. From its studies, the Beast fashioned new structures from oxidised metal and proclaimed their glories. And the Beast's followers rejoiced, finding renewed purpose in these teachings.”</strong><br />
-<em>-- The Book of Mozilla, 11:14</em></p>
-</blockquote>
+<table style="background: maroon; color: white">
+<tr>
+<td>
+<p>
+<b>
+The Beast adopted <em style="font-size:1.2em;line-height:0">new raiment</em> and studied the ways of <em style="font-size:1.2em;line-height:0">Time</em> and
+<em style="font-size:1.2em;line-height:0">Space</em> and <em style="font-size:1.2em;line-height:0">Light</em> and the <em style="font-size:1.2em;line-height:0">Flow</em> of energy through the Universe.
+From its studies, the Beast fashioned new structures from <em style="font-size:1.3em;line-height:0">oxidised metal</em> and proclaimed
+their glories. And the Beast’s followers rejoiced, finding renewed purpose in these <em style="font-size:1.2em;line-height:0">teachings</em>.
+</b>
+</p>
+<p><em>-- The Book of Mozilla, 11:14</em></p>
+</td>
+</tr>
+</table>
 <h2><a class="header" href="#prehistory" id="prehistory">Prehistory</a></h2>
 <p>The history of programming is one of ever increassing levels of abstraction. Electrial signals were abstracted into instructions. CPU instructions were abstracted by assembly languages. The next innovation was proceedural programming. This provided a layer of abstraction helps avoid errors in flow control. Soon after their creation soon almost all programing was done in proceederal languages. </p>
 <p>Proceedural programming is great for reasoning about flow control, but the introduction of variables which provide a useful name and abstract over registers and memory addresses intruduces a source of potential problems: It is often desireable or nessicary to have two variables refer to the same thing, and it is possible to forget that is the case. This seems subtle at first, but this problem of shared state, speffically shared <em>mutable</em> state, has become the root of most bugs.</p>
@@ -754,6 +766,13 @@ fn main() {
     println!(&quot;Hello {}!&quot;, name);
 }
 </code></pre></pre>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
 <p>The template is validated at compile time. So if you were to type </p>
 <pre><code class="language-rust ignore">println!(&quot;Hello {}!&quot;);
 </code></pre>
@@ -761,7 +780,27 @@ fn main() {
 <pre><code class="language-rust ignore"><span class="boring">let name = &quot;a&quot;; let name = &quot;b&quot;
 </span>println!(&quot;Hello {}!&quot;, name1, name2);
 </code></pre>
-<p>the mistake would actually be a compile error. (BorrowChecker: Which is great because it means you can't write incorrect code. Optimizer: and has the added bonus of not spending any CPU at runtime parsing and verifying the template.) This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.</p>
+<p>the mistake would actually be a compile error. Which is great because it means you can't write incorrect code.</p>
+</blockquote>
+</td>
+<tr>
+<td>
+<p><img src="images/professor.png" alt="Optimizer" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>This has the added bonus of not spending any CPU at runtime parsing and verifying the template.</em></p>
+</blockquote>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<blockquote>
+<p>This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.</p>
+</blockquote>
+</td>
+</tr>
+</table>
 <p>Another place you'll see macros, is for initilizing collections or places where you might find &quot;varargs&quot; in Java. For example you can initilaize a Vec with the <code>vec!</code> macro:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
@@ -1812,7 +1851,18 @@ assert_eq!(4, 2.double());
 <p>This is strictly equivlent, but hopefully easier to read.</p>
 <h3><a class="header" href="#impl-keyword" id="impl-keyword">Impl keyword</a></h3>
 <p>In the case of a single trait/interface. In Java you might write __ where 'T extends’ is used to indicate there is some type T but the function doesn't care about the exact type of the object, provided it implements the specified interface. In Rust there is a shorthand for this using the 'impl’ keyword. __. This is most commonly used for return values for example __ specifies that this function is returning a _ but without providing the exact type. This is especially common when a function is returning a function. (Like a callback for example) __ here the function is specifying that it is returning a function with a particular signature but without specifying exactly which function it is returning. So you can think of impl as meaning “some implementation of this trait”. (It doesn't matter which) ‘impl’ only can refer to one trait. So if you need to use multiple, you'll have to use a where clause _ or an alias _.</p>
-<p>Optimizer: I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.</p>
+<table width="100%">
+<tr>
+<td>
+<p><img src="images/professor.png" alt="Optimizer" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>I can actually make methods invoked on an ‘impl’ parameter a lot faster. So take advantage of that.</em></p>
+</td>
+</blockquote>
+</tr>
+</table>
 <h3><a class="header" href="#associated-types" id="associated-types">Associated Types</a></h3>
 <p>Finally there is one feature that cuts down on the burdon of generics a lot: &quot;Associated types&quot;. In Java the Supplier interface is defined as:</p>
 <pre><code class="language-java">interface Supplier&lt;T&gt; {
