@@ -103,6 +103,19 @@ either by a return value or embedding them in a struct, and never with owned ite
 
 For a much more complete exploration of the exotic cases of lifetimes see the post ["Too many lists"](http://cglab.ca/~abeinges/blah/too-many-lists/book/second-iter.html).
 
+<table width="100%">
+<tr>
+<td> 
+
+![Safety monitor](images/borrow.png)
+</td>
+<td width="80%">
+
+> *Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short or to long, I'll catch your mistake and show you the code path where it goes wrong. If it compiles it will do the right thing at runtime.*
+</td>
+</tr>
+</table>
+
 ## 'static
 
 There is one special lifetime: `'static`. This is used to indicate the reference can live for as long as the program is

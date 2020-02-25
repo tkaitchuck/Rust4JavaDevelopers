@@ -169,7 +169,7 @@ trait Config {
 ```
 here the `set_attributes` function is making explicit that when called it is now the owner of the provided `attributes` 
 and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy 
-is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer 
+is made. However this comes at a performance cost. To avoid this sometimes Java programs just skip it because the transfer 
 of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood 
 that you should not modify the object afterwards. But nothing actually prevents this. 
 
@@ -189,7 +189,7 @@ be referenced from multiple places and live for a long time.
 All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, 
 because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a 
 small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that
-component where you need it. There are many such components publically available, and we’ll cover some of them in depth 
+component where you need it. There are many such components publicly available, and we’ll cover some of them in depth 
 in this book. A short list of common ones is below __
   * SplitAtMut
   * Cell
@@ -217,28 +217,118 @@ Reference cycles and ambiguous ownership is an anti-pattern in Java, and a reall
 
 
 # Returning borrowed values
-Borrowing is not just for parameters, it is also for returned values. The simplest case is where the returned value is derived from an input parameter. For example __. Another case is where the value being returned comes from 'self’ and is being lent to the caller. For example __. In both these cases the caller is bound by the contract of borrowing, exactly the same as though it were provided as an input parameter. If it helps, imagine the rest of the function were factored out into a private method and had the result as a borrowed parameter. For example __.
+Borrowing is not just for parameters, it is also for returned values. 
+The simplest case is where the returned value is derived from an input parameter. 
+For example:
+```rust ,skt-default
+# struct Foo { bar: Bar }
+# struct Bar {}
+fn get_bar(foo: &Foo) -> &Bar {
+    &foo.bar
+}
+```
 
-When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. For example __. Here the compiler won't be able to work it out, because it only looks at one method at a time. 
+Another case is where the value being returned comes from 'self’ and is being lent to the caller. For example:
 
-In such a case you can label your inputs. Like so __ (Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. __ Then it is clear which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)
+```rust ,skt-default
+# struct Bar {}
+struct Foo { 
+    bar: Bar 
+}
+impl Foo {
+    fn get_bar(&self) -> &Bar {
+        &self.bar
+    }
+}
+```
 
-If somehow the result could come from multiple inputs, or it is ambiguous like __. You can simply give the the same label, and the compiler will be forced to make the conservative assumption that it could have come from either.
-
-Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.
+In both these cases the caller is bound by the contract of borrowing, exactly the same as though it were provided as an input parameter.
+If it helps, imagine the rest of the function were factored out into a private method and had the result as a borrowed parameter. For example:
 
 <table width="100%">
 <tr>
-<td> 
+<td>
 
-![Safety monitor](images/borrow.png)
+```rust ,skt-default
+# struct Foo { bar: Bar }
+# struct Bar {}
+impl Foo {
+    fn get_bar(&self) -> &Bar {
+       &self.bar
+    }
+}
+fn process_foo(foo: &Foo) {
+    let bar = foo.get_bar();
+    process_bar(bar);
+}
+```
 </td>
-<td width="80%">
+<td>
 
-> *Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.*
+This is equivalent to:
+```rust ,skt-default
+# struct Foo { bar: Bar }
+# struct Bar {}
+fn process_foo(foo: &Foo) {
+    process_bar(&foo.bar);
+}
+```
 </td>
 </tr>
 </table>
+
+When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. 
+For example here the compiler won't be able to work it out, because it only looks at one method at a time. 
+```rust ,ignore
+fn function_with_two_inputs(arg1: &Something, arg2: &SomethingElse) -> &Output {
+    //...
+}
+```
+In such a case you can label your inputs. Like so:
+
+```rust ,ignore
+# struct Something();
+# struct SomethingElse();
+# struct Output();
+fn function_with_two_inputs(arg1: &'a Something, arg2: &'b SomethingElse) -> &'a Output {
+    //...
+}
+```
+(Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. In this case it is indicating that the output is derived from the first input and not the second.
+So it is explicit which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)
+
+This also happens to be the same syntax that you would use to label loops for the `break` and `continue` keywords, which work similar to Java:
+```rust ,skt-default
+# struct Item();
+# fn is_bad(item: &Item) -> bool { true }
+fn labeled_loops(collection: &Vec<Vec<Item>>) -> bool {
+    'outer: for group in collection {
+        'inner: for item in group {
+            if (is_bad(item)) {
+                break 'outer;     
+            }
+            //...
+        }
+        //...
+    }
+    return false;
+}
+```
+
+In the above case the thing being labeled is the loop. In the first case the thing being labeled is the `lifetime` of the borrow.
+It is also possible to have a generic lifetime. This is useful for cases where which parameter a returned value is derived from
+is not known at compile time. For example:
+
+```rust ,skt-default
+///Returns the longer of two strings.
+fn get_longer<'a>(a: &'a str, b: &'a str) -> &'a str {
+    if a.len() > b.len() {
+        a
+    } else {
+        b
+    }
+}
+```
 
 # Pass by value vs Pass by reference
 

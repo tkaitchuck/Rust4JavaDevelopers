@@ -261,6 +261,18 @@ be automatically inferred as:</p>
 <p>Lifetimes, only really come up when dealing with items that are being borrowed and parts are being passed out of the original called
 either by a return value or embedding them in a struct, and never with owned items. So they tend to be a nitch feature.</p>
 <p>For a much more complete exploration of the exotic cases of lifetimes see the post <a href="http://cglab.ca/%7Eabeinges/blah/too-many-lists/book/second-iter.html">&quot;Too many lists&quot;</a>.</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short or to long, I'll catch your mistake and show you the code path where it goes wrong. If it compiles it will do the right thing at runtime.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <h2><a class="header" href="#static" id="static">'static</a></h2>
 <p>There is one special lifetime: <code>'static</code>. This is used to indicate the reference can live for as long as the program is
 running. For example when a constant string is defined:</p>

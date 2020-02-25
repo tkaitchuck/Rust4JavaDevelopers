@@ -151,13 +151,6 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#why-rust" id="why-rust">Why Rust</a></h1>
-<ul>
-<li>Rust’s goals: Safe, Performant, productive, general purpose</li>
-<li>A lot of competition.</li>
-<li>No language has really been able to fully win over the general purpose space since C.</li>
-<li>To succeed languages need to be not just a little better but a lot better.</li>
-<li>Rust is a lot better.</li>
-</ul>
 <p>Rust is designed to be a safe, productive, and performant general-purpose programming language.</p>
 <p>In that space there is a lot of competition. New language since c has ever really taken over that space. C++, Python, Java, and C# have each, carved off a piece of that space. But none of them have ever really been able to be the best in all of the different niches.</p>
 <p>To even carve off a portion of this space is quite a challenge because any new language has to be better than the best language out there for a given usecase. It can't be just a little bit better either. It has to be a lot better, because there are huge switching costs. Libraries need to be rewritten. People need to be retrained. To gain traction a new language needs to be a lot better.</p>
@@ -1170,7 +1163,7 @@ trait Config {
 </span></code></pre></pre>
 <p>here the <code>set_attributes</code> function is making explicit that when called it is now the owner of the provided <code>attributes</code> 
 and the caller no longer has any references to it. In Java would be dangerous. Usually to prevent this a defensive copy 
-is made. However this comes at a perfromace cost. To avoid this sometimes Java programs just skip it because the transfer 
+is made. However this comes at a performance cost. To avoid this sometimes Java programs just skip it because the transfer 
 of ownership is understood and users know not to do this. For example when inserting an object into a HashSet, it is understood 
 that you should not modify the object afterwards. But nothing actually prevents this. </p>
 <p>TODO:</p>
@@ -1186,7 +1179,7 @@ be referenced from multiple places and live for a long time.</p>
 <p>All of these compile time rules can be broken by declaring code ‘unsafe’ but you shouldn’t go around do that, 
 because it will mean the compiler won’t be able to protect you. Instead the pattern in Rust is to use ‘unsafe’ to build a 
 small generic primitive which is itself safe but is for reasons that the compiler doesn’t understand. Then depend on that
-component where you need it. There are many such components publically available, and we’ll cover some of them in depth 
+component where you need it. There are many such components publicly available, and we’ll cover some of them in depth 
 in this book. A short list of common ones is below __</p>
 <ul>
 <li>
@@ -1227,23 +1220,123 @@ in this book. A short list of common ones is below __</p>
 <p>In general using ‘cell’ or ‘RefCell’ a lot is considered bad design. ‘Cell’ and ‘RefCell’ should be reserved for special cases that don’t impact the externally visible functionality. For example they provide a easy way to add things like counters, metrics, debugging information to an existing object without having to refactor all the code that is accessing it. Similarly they are frequently used when constructing Mock objects for test purposes. (The actual code may be accessing the object in a ‘read-only’ way, but the mock still may want to record what calls have occured) </p>
 <p>Reference cycles and ambiguous ownership is an anti-pattern in Java, and a really really aggressively discouraged anti-pattern in Rust. But one place it tends to get asked about a lot is doing GUI programing. For example when rendering a window with many widgets it is easy to jump to the conclusion that links are needed between all sorts of objects as changes to one may involve changes to another. This generally arises from the false belief that objects in an object oriented system should be directly modeled after real life objects. often this is not the case because concerns are cross-cutting. If you're writing code in Rust this pattern will fail faster. While this might be frustrating to the author it's actually good because it prevents you from writing bad code. There are actually a lot of good talks on this subject, such as <em>ECS at rustconf</em> and <em>xi-GUI</em>. I'm not going to go into the details here because these problems are application specific. However if you find yourself fighting the borrow checker or tempted to use unsafe or RefCell all over the place, it’s probably worth taking a step back and re evaluating the broader design. …….. data oriented design.</p>
 <h1><a class="header" href="#returning-borrowed-values" id="returning-borrowed-values">Returning borrowed values</a></h1>
-<p>Borrowing is not just for parameters, it is also for returned values. The simplest case is where the returned value is derived from an input parameter. For example __. Another case is where the value being returned comes from 'self’ and is being lent to the caller. For example __. In both these cases the caller is bound by the contract of borrowing, exactly the same as though it were provided as an input parameter. If it helps, imagine the rest of the function were factored out into a private method and had the result as a borrowed parameter. For example __.</p>
-<p>When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. For example __. Here the compiler won't be able to work it out, because it only looks at one method at a time. </p>
-<p>In such a case you can label your inputs. Like so __ (Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. __ Then it is clear which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)</p>
-<p>If somehow the result could come from multiple inputs, or it is ambiguous like __. You can simply give the the same label, and the compiler will be forced to make the conservative assumption that it could have come from either.</p>
-<p>Because these labels are used by the compile time garbage collection to determine when data can be dropped, they are called “lifetimes”. As mentioned above today you rarely need them, because the compiler infers them. As the compiler has improved they are needed less. So you'll see labels more often in older code.</p>
+<p>Borrowing is not just for parameters, it is also for returned values. 
+The simplest case is where the returned value is derived from an input parameter. 
+For example:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo { bar: Bar }
+</span><span class="boring">struct Bar {}
+</span>fn get_bar(foo: &amp;Foo) -&gt; &amp;Bar {
+    &amp;foo.bar
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Another case is where the value being returned comes from 'self’ and is being lent to the caller. For example:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Bar {}
+</span>struct Foo { 
+    bar: Bar 
+}
+impl Foo {
+    fn get_bar(&amp;self) -&gt; &amp;Bar {
+        &amp;self.bar
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In both these cases the caller is bound by the contract of borrowing, exactly the same as though it were provided as an input parameter.
+If it helps, imagine the rest of the function were factored out into a private method and had the result as a borrowed parameter. For example:</p>
 <table width="100%">
 <tr>
-<td> 
-<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+<td>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo { bar: Bar }
+</span><span class="boring">struct Bar {}
+</span>impl Foo {
+    fn get_bar(&amp;self) -&gt; &amp;Bar {
+       &amp;self.bar
+    }
+}
+fn process_foo(foo: &amp;Foo) {
+    let bar = foo.get_bar();
+    process_bar(bar);
+}
+<span class="boring">}
+</span></code></pre></pre>
 </td>
-<td width="80%">
-<blockquote>
-<p><em>Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short, I'll catch your mistake and show you the code path where it goes wrong. If you declare a lifetime to be too long, worst case scenario an object is kept around longer than is theoretically necessary, but it still won't be leaked.</em></p>
-</blockquote>
+<td>
+<p>This is equivalent to:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Foo { bar: Bar }
+</span><span class="boring">struct Bar {}
+</span>fn process_foo(foo: &amp;Foo) {
+    process_bar(&amp;foo.bar);
+}
+<span class="boring">}
+</span></code></pre></pre>
 </td>
 </tr>
 </table>
+<p>When returning borrowed values it is occasionally ambiguous where the returned value came from. 99% of the time the compiler will work it out automatically. But sometimes there are cases that aren't so clear. 
+For example here the compiler won't be able to work it out, because it only looks at one method at a time. </p>
+<pre><code class="language-rust ignore">fn function_with_two_inputs(arg1: &amp;Something, arg2: &amp;SomethingElse) -&gt; &amp;Output {
+    //...
+}
+</code></pre>
+<p>In such a case you can label your inputs. Like so:</p>
+<pre><code class="language-rust ignore"><span class="boring">struct Something();
+</span><span class="boring">struct SomethingElse();
+</span><span class="boring">struct Output();
+</span>fn function_with_two_inputs(arg1: &amp;'a Something, arg2: &amp;'b SomethingElse) -&gt; &amp;'a Output {
+    //...
+}
+</code></pre>
+<p>(Usually 'a, 'b, 'c, etc are used.) And the apply the same label to the output. In this case it is indicating that the output is derived from the first input and not the second.
+So it is explicit which input you intend the output to have come from. (The compiler will still check to make sure the labels are correct.)</p>
+<p>This also happens to be the same syntax that you would use to label loops for the <code>break</code> and <code>continue</code> keywords, which work similar to Java:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span><span class="boring">struct Item();
+</span><span class="boring">fn is_bad(item: &amp;Item) -&gt; bool { true }
+</span>fn labeled_loops(collection: &amp;Vec&lt;Vec&lt;Item&gt;&gt;) -&gt; bool {
+    'outer: for group in collection {
+        'inner: for item in group {
+            if (is_bad(item)) {
+                break 'outer;     
+            }
+            //...
+        }
+        //...
+    }
+    return false;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In the above case the thing being labeled is the loop. In the first case the thing being labeled is the <code>lifetime</code> of the borrow.
+It is also possible to have a generic lifetime. This is useful for cases where which parameter a returned value is derived from
+is not known at compile time. For example:</p>
+<pre><pre class="playpen"><code class="language-rust skt-default">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>///Returns the longer of two strings.
+fn get_longer&lt;'a&gt;(a: &amp;'a str, b: &amp;'a str) -&gt; &amp;'a str {
+    if a.len() &gt; b.len() {
+        a
+    } else {
+        b
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
 <h1><a class="header" href="#pass-by-value-vs-pass-by-reference" id="pass-by-value-vs-pass-by-reference">Pass by value vs Pass by reference</a></h1>
 <p>Similar to Java, Rust's function calls are normally “pass by reference” meaning that if you pass an object to a function and modify it the caller will see those modifications. However also like Java, primitives are an exception to this and are “pass by value”. Meaning if you pass an integer to a function and it increments it. The caller will not see the change.</p>
 <p>In Java this is just a hardcoded rule and only primitives are copied. In Rust you can define your own types that are treated this way by having them implement “Copy” which is what is called a “marker trait”. It is similar an interface with no methods in Java indicating something about a class. (Like ‘Cloneable’ or ‘Serializable’)</p>
@@ -3095,6 +3188,18 @@ be automatically inferred as:</p>
 <p>Lifetimes, only really come up when dealing with items that are being borrowed and parts are being passed out of the original called
 either by a return value or embedding them in a struct, and never with owned items. So they tend to be a nitch feature.</p>
 <p>For a much more complete exploration of the exotic cases of lifetimes see the post <a href="http://cglab.ca/%7Eabeinges/blah/too-many-lists/book/second-iter.html">&quot;Too many lists&quot;</a>.</p>
+<table width="100%">
+<tr>
+<td> 
+<p><img src="images/borrow.png" alt="Safety monitor" /></p>
+</td>
+<td width="80%">
+<blockquote>
+<p><em>Don't worry about making a mistake with lifetimes. If you declare lifetime to be too short or to long, I'll catch your mistake and show you the code path where it goes wrong. If it compiles it will do the right thing at runtime.</em></p>
+</blockquote>
+</td>
+</tr>
+</table>
 <h2><a class="header" href="#static" id="static">'static</a></h2>
 <p>There is one special lifetime: <code>'static</code>. This is used to indicate the reference can live for as long as the program is
 running. For example when a constant string is defined:</p>

@@ -1,10 +1,4 @@
 # Why Rust
-* Rust’s goals: Safe, Performant, productive, general purpose
-* A lot of competition.
-* No language has really been able to fully win over the general purpose space since C.
-* To succeed languages need to be not just a little better but a lot better.
-* Rust is a lot better.
-
 Rust is designed to be a safe, productive, and performant general-purpose programming language.
 
 In that space there is a lot of competition. New language since c has ever really taken over that space. C++, Python, Java, and C# have each, carved off a piece of that space. But none of them have ever really been able to be the best in all of the different niches.
