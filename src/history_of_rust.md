@@ -31,6 +31,7 @@ It might not seem obvious that this is the case, after all it's usually simple e
 * Use after free bugs
 * Segfaults
 * Iterator invalidation
+
 In Java you see:
 * Null pointer exceptions
 * Concurrent modification exceptions
