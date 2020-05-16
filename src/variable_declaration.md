@@ -23,7 +23,7 @@ The equals sign for assignment works the same way it does in Java. Primitives al
 | double| f64   |
 | float | f32   |
 
-Rust also supports unsigned integers that cannot be negative and use their highest order bit to represent higher numbers just like any other bit. The range of values that can be represented in each is listed in the table below. 
+Rust also supports unsigned integers. These cannot be negative and use their highest order bit to represent higher numbers just like any other bit. The range of values that can be represented in each is listed in the table below. 
 
 | Type | Min | Max   |
 |------|-----|-------|
