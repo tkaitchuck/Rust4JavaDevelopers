@@ -9,11 +9,11 @@ build = "build.rs"
 proc-macro = true
 
 [dependencies]
-failure = "0.1.6"
 derive_more = "0.99"
 rand = "0.7.3"
 serde = "1.0"
 serde_derive = "1.0"
+snafu = "0.6.8"
 
 [build-dependencies]
 skeptic = "0.13"
