@@ -2,7 +2,7 @@
 #![allow(unused)]
 
 mod object_example;
-mod failure_example;
-mod failure_example_2;
-mod failure_example_3;
-mod failure_example_4;
+mod snafu_example;
+mod snafu_example_2;
+mod snafu_example_3;
+mod snafu_example_4;

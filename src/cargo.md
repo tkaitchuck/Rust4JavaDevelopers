@@ -13,7 +13,7 @@ authors = ["Your Name <you@example.com>"]
 edition = "2018"
 
 [dependencies]
-failure = "0.1.5"
+snafu = "0.6.8"
 serde = "1.0"
 # This is a comment ...
 ```
