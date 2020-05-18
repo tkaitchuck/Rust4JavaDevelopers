@@ -1,6 +1,5 @@
 use std::u64; 
 use std::str::FromStr;
-use failure::*;
 use serde_derive::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
@@ -16,10 +15,11 @@ impl UUID {
     UUID{ most_sig_bits: rand::random(), least_sig_bits: rand::random() }
   }
 }
+
 impl FromStr for UUID {
-    type Err = Error;
-    fn from_str(as_string: &str) -> Result<UUID, Error> {
-        Err(format_err!("Todo: deserialization not implemented {}", as_string))
+    type Err = String;
+    fn from_str(as_string: &str) -> Result<UUID, String> {
+        unimplemented!("Todo: implement this") 
     }
 }
 impl ToString for UUID {

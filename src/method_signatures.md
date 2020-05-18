@@ -34,7 +34,7 @@ fn add(a: i32, b: i32) -> i32 {
 }
 ```
 ## Borrowing
-Besides being mutable or not, in Rust a variable can also be “borrowed”. When the parameter to a method is borrowed, it means the method promises not keep the parameter after the method has returned. Or anything it obtained from the parameter. 
+In Rust a variable can also be “borrowed”. When the parameter to a method is borrowed, it means the method promises not keep the parameter after the method has returned. Or anything it obtained from the parameter.
 
 A method that takes a borrowed parameter cannot assign the parameter to a member variable. Also it can only pass that parameter to other methods which also borrow it. (Otherwise it would be able violate its contract indirectly.)
 
@@ -66,7 +66,9 @@ fn is_sorted(values: & Vec<i32>) -> bool;
 ```
 It is helpful to think of ‘borrowed’ as a part of the type(i.e. “The method takes a borrowed list.”) 
 
-This declaration provides a strong and useful guarantee to the callers of a method. But it would be worthless if in a newer version, the method just deleted the ‘&’ from its signature and removed the guarantee. To prevent this and to make the guarantee explicit in the caller's code, when a method that borrows a parameter is invoked, the caller puts an ‘&’ in front of the variable name being passed in. For example 
+This declaration provides a strong and useful guarantee to the callers of a method. 
+
+Of course it would be worthless if in a newer version, the method just deleted the ‘&’ from its signature and removed the guarantee. To prevent this and to make the guarantee explicit in the caller's code, when a method that borrows a parameter is invoked, the caller puts an ‘&’ in front of the variable name being passed in. For example 
 ```rust ,skt-main
 # fn is_sorted(values: & Vec<i32>) -> bool { true }
 # let values = vec![1, 2, 3];
@@ -74,13 +76,26 @@ if (is_sorted(&values)) {
     //...
 }
 ```
-This is only needed if the variable being passed isn't self-borrowed. (Otherwise it would be redundant, because it can only pass it to methods which borrow it.)
+This is only needed if the variable being passed isn't borrowed already. (Otherwise it would be redundant, because it can only pass it to methods which borrow it.)
 
 Passing a parameter to a method that borrows is sometimes referred to a the parameter being “lent” to the method. 
 
 ### Mutability
 
+In Java a variable can be declared `final`. This means the value cannot be reassigned. It however does not guarentee that its contents won't change. For example if you have the method:
+```java
+void process(final List<Foo> toProcess);
+```
+You can't tell from looking at the signature if the `toProcess` list will be modified or if the individual items in the list will be modified.
+
+Rust avoids this ambiguity with the keyword `mut`. All values are unmodifyable by default, and if the variable or any of its contents are going to be changed it is prefixed with the `mut` keyword for eample:
+```rust ,skt-default
+let mut value = 0;
+value += 10;
+```
+
 Similar to variable declaration, if you want to modify a borrowed parameter, you use the `mut` keyword. This goes right in front of the type.
+
 ```java
 void populateCounts(HashMap<String, int> itemCounts);
 ```
@@ -219,7 +234,7 @@ fn main() {
 <tr>
 <td colspan="2">
 
-> This kind of verification is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.
+> Checking a template at compile time is something a normal function couldn't possibly do. Will get into how this implemented in a later chapter. But for now you should think of an elimination mark, as an alert that there's something unusual about that function and you should read its documentation.
 </td>
 </tr>
 </table>
