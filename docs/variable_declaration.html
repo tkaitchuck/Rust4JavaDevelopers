@@ -159,7 +159,7 @@
 <pre><code class="language-java">int foo = 5;
 </code></pre>
 <p>The keyword <code>let</code>is used to indicate you are declaring a variable. This is followed by the variable name, then a colon and then the type. 
-The reason Rust puts the type one the right is because the type is optional anytime it can be inferred by the compiler. Which means that most of the time we can just write:</p>
+The reason Rust puts the type on the right is because the type is optional anytime it can be inferred by the compiler. Which means that most of the time we can just write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -175,7 +175,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
 <tr><td>double</td><td>f64</td></tr>
 <tr><td>float</td><td>f32</td></tr>
 </tbody></table>
-<p>Rust also supports unsigned integers these cannot be negative and use their highest order bit to represent higher numbers just like any other bit. The range of values that can be represented in each is listed in the table below. </p>
+<p>Rust also supports unsigned integers. These cannot be negative and use their highest order bit to represent higher numbers just like any other bit. The range of values that can be represented in each is listed in the table below. </p>
 <table><thead><tr><th>Type</th><th>Min</th><th>Max</th></tr></thead><tbody>
 <tr><td>u8</td><td>0</td><td>2^8-1</td></tr>
 <tr><td>u16</td><td>0</td><td>2^16-1</td></tr>
@@ -199,7 +199,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
 </span>let mut counter = 0;
 <span class="boring">}
 </span></code></pre></pre>
-<p>The advantage of using <code>mut</code> rather than <code>final</code> (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java it very common to simply omit the final keyword even when a variable is final. As a result when reading Java you often don’t know if a variable is final or not. </p>
+<p>The advantage of using <code>mut</code> rather than <code>final</code> (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java, it is very common to simply omit the final keyword even when a variable is final. As a result, when reading Java, you often don’t know if a variable is final or not. </p>
 <table width="100%">
 <tr>
 <td> 
@@ -216,7 +216,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
 <h1><a class="header" href="#common-types" id="common-types">Common types</a></h1>
 <p>There are some common builtin types that appear in a lot of the examples. The details of each will be explained later.</p>
 <h2><a class="header" href="#box" id="box">Box</a></h2>
-<p>The first and most embarassingly simple of which is <code>Box</code>. Box is a collection of exactly one item. (It can't even be empty) It's just a wrapper around a generic value. If you were to implemente Box in Java it would look like this:</p>
+<p>The first and most embarrassingly simple of those is <code>Box</code>. Box is a collection of exactly one item. (It can't even be empty) It's just a wrapper around a generic value. If you were to implement Box in Java it would look like this:</p>
 <pre><code class="language-Java">class Box&lt;T&gt; implements Iterable&lt;T&gt; {
   private final T item;
 
@@ -234,7 +234,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
   }
 }
 </code></pre>
-<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restrictions. 
+<p>You may be wondering: “Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a work-around to some restrictions. 
 These cases will be explained when they come up.</p>
 <p>Declaring a box is done like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
@@ -245,9 +245,9 @@ These cases will be explained when they come up.</p>
 let boxed2 : Box&lt;i32&gt; = Box::new(2);
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>::</code> operator in the example above acutally does exactly the same thing it does in Java. It is how you can refer to a static method without invoking it. IE: <code>Arrays.sort(stringArray, String::compareToIgnoreCase);</code> but in Rust, once you have a method reference instead of calling <code>method.run()</code> or <code>method.call(arg)</code> you can just invoke it: <code>method()</code> or <code>method(arg)</code>. So <code>Box::new</code> refers to the constructor of <code>Box</code> just like it would in Java, and the <code>(1)</code> following it invokes the method passing the argument <code>1</code>.</p>
+<p>The <code>::</code> operator in the example above actually does exactly the same thing as it does in Java. It is how you can refer to a static method without invoking it (i.e. <code>Arrays.sort(stringArray, String::compareToIgnoreCase);</code>). But in Rust, once you have a method reference, instead of calling <code>method.run()</code> or <code>method.call(arg)</code> you can just invoke it: <code>method()</code> or <code>method(arg)</code>. So <code>Box::new</code> refers to the constructor of <code>Box</code> just like it would in Java, and the <code>(1)</code> following it invokes the method passing the argument <code>1</code>.</p>
 <h2><a class="header" href="#vec" id="vec">Vec</a></h2>
-<p>Rust has a built in type called <code>Vec</code> which is short for &quot;Vector&quot;. It is equivlent to Java's <code>ArrayList</code>. However because Rust does not have &quot;primitive wrapper&quot; types like Java's &quot;Integer&quot; and &quot;Byte&quot; (as opposed to &quot;int&quot; and &quot;byte&quot;) and is capable of putting primitives in collections directly without any overhead <code>Vec</code> receives a lot more use in Rust than <code>ArrayList</code> does in Java. It is often used in places where in Java you would use an array or 'Collection'.</p>
+<p>Rust has a built in type called <code>Vec</code> which is short for “Vector&quot;. It is equivalent to Java's <code>ArrayList</code>. However because Rust does not have &quot;primitive wrapper&quot; types like Java's <code>Integer</code> and <code>Byte</code> (as opposed to <code>int</code> and <code>byte</code>), and it is capable of putting primitives in collections directly without any overhead. <code>Vec</code> receives a lot more use in Rust than <code>ArrayList</code> does in Java. It is often used in places where in Java you would use an array or <code>Collection</code>.</p>
 <p>The syntax looks like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
@@ -257,11 +257,11 @@ let boxed2 : Box&lt;i32&gt; = Box::new(2);
 numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if needed)
 <span class="boring">}
 </span></code></pre></pre>
-<p>Because adding layer of abstraction does not add any overhead in Rust it is common to pass a <code>Vec&lt;u8&gt;</code> where you would use a byte array in Java.</p>
+<p>Because adding a layer of abstraction does not add any overhead in Rust, it is common to pass a <code>Vec&lt;u8&gt;</code> where you would use a byte array in Java.</p>
 <h2><a class="header" href="#string" id="string">String</a></h2>
 <p>Rust has a string type. It's a little different from Java's. While Java's String is built out of a <code>char[]</code> where each <code>char</code> is a UTF-16 code point, Rust's String is based on a <code>Vec&lt;u8&gt;</code> where the bytes are valid UTF-8.</p>
-<p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If is declared with <code>let mut directions : String = ...</code> it is mutable, and if it is declared with <code>let name : String = ...</code> it is not. </p>
-<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the <a href="./ownership.html">chapter on Ownership</a>.</p>
+<p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If declared with <code>let mut directions : String = ...</code>, it is mutable, but if declared with <code>let name : String = ...</code>, it is not. </p>
+<p>Of course, passing around mutable Strings would be error-prone in Java. We'll cover why this is not a problem in Rust in the <a href="./ownership.html">chapter on Ownership</a>.</p>
 
                     </main>
 

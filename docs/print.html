@@ -451,7 +451,7 @@ Usability</p>
 <h1><a class="header" href="#the-rust-community" id="the-rust-community">The Rust Community</a></h1>
 <p>Rust is known for having a very helpful community. You can see dozens of links different community spaces prominently featured on the Rust homepage. This is a pretty big contrast to a lot of programming communities. In many languages there either isn’t a recognisable community, or there is one, but it can be unwelcoming or outright hostile to beginners. </p>
 <p>A big part of this is that Rust was born out of Mozilla, which has a lot of experience managing open source communities. They established a code of conduct, a moderation team, user groups, forms, and open source development teams. </p>
-<p>Another aspect it the language itself. Rust’s learning curve is both initially steep and long. Fortunately this process isn’t painful because the difficulty does not come from ‘magic’. Rust is very explicit and almost everything works exactly the way you’d expect. Rather it comes from learning to work within the safety rules. It is sometimes complicated and isn’t similar to other languages. But this has a way of keeping people humble. In a lot of other languages, it’s easy to forget that things that seem second nature now used to be confusing. </p>
+<p>Another aspect is the language itself. Rust’s learning curve is both initially steep and long. Fortunately, this process isn’t painful because the difficulty does not come from ‘magic’. Rust is very explicit and almost everything works exactly the way you’d expect. Rather it comes from learning to work within the safety rules. It is sometimes complicated and isn’t similar to other languages. But this has a way of keeping people humble. In a lot of other languages, it’s easy to forget that things that seem second nature now used to be confusing. </p>
 <p>So in some languages, you might be mocked for asking for help, or be unable to find it, or write what you think is right only to have things break at Runtime. With Rust, you might have to ask for help more or work harder to get things to compiler. But you’ll find lots of people will be happy to help. And once your code does compile, you can be fairly confident it is correct.</p>
 <h2><a class="header" href="#rfc-process" id="rfc-process">RFC process</a></h2>
 <p>TODO:</p>
@@ -485,7 +485,7 @@ Usability</p>
 <pre><code class="language-java">int foo = 5;
 </code></pre>
 <p>The keyword <code>let</code>is used to indicate you are declaring a variable. This is followed by the variable name, then a colon and then the type. 
-The reason Rust puts the type one the right is because the type is optional anytime it can be inferred by the compiler. Which means that most of the time we can just write:</p>
+The reason Rust puts the type on the right is because the type is optional anytime it can be inferred by the compiler. Which means that most of the time we can just write:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -501,7 +501,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
 <tr><td>double</td><td>f64</td></tr>
 <tr><td>float</td><td>f32</td></tr>
 </tbody></table>
-<p>Rust also supports unsigned integers these cannot be negative and use their highest order bit to represent higher numbers just like any other bit. The range of values that can be represented in each is listed in the table below. </p>
+<p>Rust also supports unsigned integers. These cannot be negative and use their highest order bit to represent higher numbers just like any other bit. The range of values that can be represented in each is listed in the table below. </p>
 <table><thead><tr><th>Type</th><th>Min</th><th>Max</th></tr></thead><tbody>
 <tr><td>u8</td><td>0</td><td>2^8-1</td></tr>
 <tr><td>u16</td><td>0</td><td>2^16-1</td></tr>
@@ -525,7 +525,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
 </span>let mut counter = 0;
 <span class="boring">}
 </span></code></pre></pre>
-<p>The advantage of using <code>mut</code> rather than <code>final</code> (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java it very common to simply omit the final keyword even when a variable is final. As a result when reading Java you often don’t know if a variable is final or not. </p>
+<p>The advantage of using <code>mut</code> rather than <code>final</code> (besides being fewer characters) is it makes the declaration is far more likely to be accurate. In Java, it is very common to simply omit the final keyword even when a variable is final. As a result, when reading Java, you often don’t know if a variable is final or not. </p>
 <table width="100%">
 <tr>
 <td> 
@@ -542,7 +542,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
 <h1><a class="header" href="#common-types" id="common-types">Common types</a></h1>
 <p>There are some common builtin types that appear in a lot of the examples. The details of each will be explained later.</p>
 <h2><a class="header" href="#box" id="box">Box</a></h2>
-<p>The first and most embarassingly simple of which is <code>Box</code>. Box is a collection of exactly one item. (It can't even be empty) It's just a wrapper around a generic value. If you were to implemente Box in Java it would look like this:</p>
+<p>The first and most embarrassingly simple of those is <code>Box</code>. Box is a collection of exactly one item. (It can't even be empty) It's just a wrapper around a generic value. If you were to implement Box in Java it would look like this:</p>
 <pre><code class="language-Java">class Box&lt;T&gt; implements Iterable&lt;T&gt; {
   private final T item;
 
@@ -560,7 +560,7 @@ The reason Rust puts the type one the right is because the type is optional anyt
   }
 }
 </code></pre>
-<p>You may be wondering: &quot;Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a to work around some restrictions. 
+<p>You may be wondering: “Why would I ever need such a useless class?&quot;. Usually you don't. But it comes up as a work-around to some restrictions. 
 These cases will be explained when they come up.</p>
 <p>Declaring a box is done like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
@@ -571,9 +571,9 @@ These cases will be explained when they come up.</p>
 let boxed2 : Box&lt;i32&gt; = Box::new(2);
 <span class="boring">}
 </span></code></pre></pre>
-<p>The <code>::</code> operator in the example above acutally does exactly the same thing it does in Java. It is how you can refer to a static method without invoking it. IE: <code>Arrays.sort(stringArray, String::compareToIgnoreCase);</code> but in Rust, once you have a method reference instead of calling <code>method.run()</code> or <code>method.call(arg)</code> you can just invoke it: <code>method()</code> or <code>method(arg)</code>. So <code>Box::new</code> refers to the constructor of <code>Box</code> just like it would in Java, and the <code>(1)</code> following it invokes the method passing the argument <code>1</code>.</p>
+<p>The <code>::</code> operator in the example above actually does exactly the same thing as it does in Java. It is how you can refer to a static method without invoking it (i.e. <code>Arrays.sort(stringArray, String::compareToIgnoreCase);</code>). But in Rust, once you have a method reference, instead of calling <code>method.run()</code> or <code>method.call(arg)</code> you can just invoke it: <code>method()</code> or <code>method(arg)</code>. So <code>Box::new</code> refers to the constructor of <code>Box</code> just like it would in Java, and the <code>(1)</code> following it invokes the method passing the argument <code>1</code>.</p>
 <h2><a class="header" href="#vec" id="vec">Vec</a></h2>
-<p>Rust has a built in type called <code>Vec</code> which is short for &quot;Vector&quot;. It is equivlent to Java's <code>ArrayList</code>. However because Rust does not have &quot;primitive wrapper&quot; types like Java's &quot;Integer&quot; and &quot;Byte&quot; (as opposed to &quot;int&quot; and &quot;byte&quot;) and is capable of putting primitives in collections directly without any overhead <code>Vec</code> receives a lot more use in Rust than <code>ArrayList</code> does in Java. It is often used in places where in Java you would use an array or 'Collection'.</p>
+<p>Rust has a built in type called <code>Vec</code> which is short for “Vector&quot;. It is equivalent to Java's <code>ArrayList</code>. However because Rust does not have &quot;primitive wrapper&quot; types like Java's <code>Integer</code> and <code>Byte</code> (as opposed to <code>int</code> and <code>byte</code>), and it is capable of putting primitives in collections directly without any overhead. <code>Vec</code> receives a lot more use in Rust than <code>ArrayList</code> does in Java. It is often used in places where in Java you would use an array or <code>Collection</code>.</p>
 <p>The syntax looks like this:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
@@ -583,11 +583,11 @@ let boxed2 : Box&lt;i32&gt; = Box::new(2);
 numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if needed)
 <span class="boring">}
 </span></code></pre></pre>
-<p>Because adding layer of abstraction does not add any overhead in Rust it is common to pass a <code>Vec&lt;u8&gt;</code> where you would use a byte array in Java.</p>
+<p>Because adding a layer of abstraction does not add any overhead in Rust, it is common to pass a <code>Vec&lt;u8&gt;</code> where you would use a byte array in Java.</p>
 <h2><a class="header" href="#string" id="string">String</a></h2>
 <p>Rust has a string type. It's a little different from Java's. While Java's String is built out of a <code>char[]</code> where each <code>char</code> is a UTF-16 code point, Rust's String is based on a <code>Vec&lt;u8&gt;</code> where the bytes are valid UTF-8.</p>
-<p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If is declared with <code>let mut directions : String = ...</code> it is mutable, and if it is declared with <code>let name : String = ...</code> it is not. </p>
-<p>Of course, passing around mutable Strings would be error prone in Java. We'll cover why this is not a problem in Rust in the <a href="./ownership.html">chapter on Ownership</a>.</p>
+<p>This has advantages for size and serialization. But the real gain is that Strings can be mutable if desired. If declared with <code>let mut directions : String = ...</code>, it is mutable, but if declared with <code>let name : String = ...</code>, it is not. </p>
+<p>Of course, passing around mutable Strings would be error-prone in Java. We'll cover why this is not a problem in Rust in the <a href="./ownership.html">chapter on Ownership</a>.</p>
 <h1><a class="header" href="#method-signatures" id="method-signatures">Method Signatures</a></h1>
 <p>Below is a Java method signature and the equivalent rust signature. </p>
 <pre><code class="language-java">void printNum(int num);
@@ -601,7 +601,7 @@ numbers.push(5); //Pushes 5 onto the vector. (vec will automatically resize if n
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>Things to notice: 
-The Rust method starts with the keyword “fn” this simply indicates that a function is being declared. This is followed by the method name and each of the parameters to the method in parentheses. Unlike Java where the type appears on the left followed by the argument name, in Rust the name comes first followed by a ':’ followed by the type. (Similar to how variables are declared)</p>
+The Rust method starts with the keyword “fn” this simply indicates that a function is being declared. This is followed by the method name and the parameters to the method in parentheses. Unlike Java where the type appears on the left followed by the argument name, in Rust the name comes first followed by a <code>:</code> followed by the type. (Similar to how variables are declared)</p>
 <p>If the function had a return value it would be declared on the right hand side like this:</p>
 <pre><code class="language-java">int add(int a, int b);
 </code></pre>
@@ -613,7 +613,7 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 <span class="boring">}
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>There is no “void” in Rust. If there isn't a return value, just don't provide one.</p>
+<p>There is no <code>void</code> in Rust. If there isn't a return value, just don't provide one.</p>
 <p>Just as in Java the method body is in between the curly braces.</p>
 <pre><code class="language-java">int add(int a, int b) {
     return a + b;
@@ -643,10 +643,10 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 </tr>
 </table>
 <p>To indicate a parameter is borrowed, in the method signature, place a “&amp;” in front of the type.</p>
-<p>As an example, in Java you might define a method 'isSorted’ like this </p>
+<p>As an example, in Java you might define a method <code>isSorted()</code> like this </p>
 <pre><code class="language-java">boolean isSorted(List&lt;Integer&gt; values);
 </code></pre>
-<p>that returns a boolean indicating if a list is sorted. In Rust you would add an ‘&amp;’ in front of the type in the method signature to indicate that it will not retain any references to the list or it's contents when the method returns.</p>
+<p>that returns a boolean indicating if a list is sorted. In Rust you would add an ‘&amp;’ in front of the type in the method signature to indicate that it will not retain any references to the list nor its contents when the method returns.</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -655,9 +655,9 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 <span class="boring">}
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>It is helpful to think of 'borrowed’ as being part of the type. IE “The method takes a borrowed list.” </p>
+<p>It is helpful to think of ‘borrowed’ as a part of the type(i.e. “The method takes a borrowed list.”) </p>
 <p>This declaration provides a strong and useful guarantee to the callers of a method. </p>
-<p>Of course it would be worthless if in a newer version, the method just deleted the ‘&amp;’ from it's signature and removed the guarantee. To prevent this, and to make the guarantee explicit in the caller's code, when a method is being invoked; When a method that borrows a parameter is invoked, the caller puts an ‘&amp;’ in front of the variable name being passed in. For example </p>
+<p>Of course it would be worthless if in a newer version, the method just deleted the ‘&amp;’ from its signature and removed the guarantee. To prevent this and to make the guarantee explicit in the caller's code, when a method that borrows a parameter is invoked, the caller puts an ‘&amp;’ in front of the variable name being passed in. For example </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -676,14 +676,14 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 </code></pre>
 <p>You can't tell from looking at the signature if the <code>toProcess</code> list will be modified or if the individual items in the list will be modified.</p>
 <p>Rust avoids this ambiguity with the keyword <code>mut</code>. All values are unmodifyable by default, and if the variable or any of its contents are going to be changed it is prefixed with the <code>mut</code> keyword for eample:</p>
-<pre><pre class="playpen"><code class="language-rust skt-default">
+<pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
 </span>let mut value = 0;
 value += 10;
 <span class="boring">}
 </span></code></pre></pre>
-<p>Similar to variable declaration, if you want to modify a borrowed parameter, you use the 'mut’ keyword. This goes right in front of the type.</p>
+<p>Similar to variable declaration, if you want to modify a borrowed parameter, you use the <code>mut</code> keyword. This goes right in front of the type.</p>
 <pre><code class="language-java">void populateCounts(HashMap&lt;String, int&gt; itemCounts);
 </code></pre>
 <pre><pre class="playpen"><code class="language-rust skt-default">
@@ -695,8 +695,8 @@ value += 10;
 <span class="boring">}
 </span><span class="boring">}
 </span></code></pre></pre>
-<p><code>mut</code> can be thought of a part of the type. IE “a borrowed mutable Hashmap” as opposed to “a Hashmap&quot;.</p>
-<p>When 'Borrowed’ is combined with 'mut’ the ‘&amp;’ goes first. If you wanted to write a method to sort a list, it would take a borrowed mutable list.</p>
+<p><code>mut</code> can be thought of a part of the type(i.e. “a borrowed mutable Hashmap” as opposed to “a Hashmap&quot;).</p>
+<p>When ‘Borrowed’ is combined with <code>mut</code>, the <code>&amp;</code> goes first. If you wanted to write a method to sort a list, it would take a borrowed mutable list.</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -707,7 +707,7 @@ value += 10;
 </span></code></pre></pre>
 <p>This signature means <code>sort()</code> may change the list, but only during the invocation of the method and will retain no references to the list or its contents once the method returns.</p>
 <h2><a class="header" href="#javadocs" id="javadocs">Javadocs</a></h2>
-<p>Documentation is an area where Rust and Java are very similar. In Java you might add a javdoc like this </p>
+<p>Documentation is an area where Rust and Java are very similar. In Java, you might add a javdoc like this </p>
 <pre><code class="language-java">/**
  * Computes an approximation of {@code 1/sqrt(a)} segnifigantly faster. 
  * However compared to using {@link java.lang.Math.sqrt()} the result is much less accurate.
@@ -716,9 +716,9 @@ value += 10;
  */
 public double fastInvSqrt(double a);
 </code></pre>
-<p>which can be automatically translated into HTML documentation. </p>
+<p>which can be automatically transformed into HTML documentation. </p>
 <h2><a class="header" href="#rustdocs" id="rustdocs">Rustdocs</a></h2>
-<p>Rust has rustdocs which work similarly. You could write the following:</p>
+<p>Rust has rustdocs which works similarly. You could write the following:</p>
 <pre><code class="language-rust ignore">/**
  * Computes an approximation of `1/a.sqrt()` segnifigantly faster.
  * However compared to using [`sqrt`] the result is much less accurate.
@@ -742,7 +742,7 @@ public double fastInvSqrt(double a);
 /// assert!((approx-exact).abs() &lt; 1e-5);
 /// ```
 </code></pre>
-<p>(This helps with small comments as it doesn't require an extra line at the top and bottom.)</p>
+<p>(This helps with short comments as it doesn't require an extra line at the top and bottom.)</p>
 <p>Javadocs have a number of common tags such as “@param” and “{@link }”. Below are some common ones and their Rust equivalents.</p>
 <table><thead><tr><th>Type</th><th>Java</th><th>Rust</th></tr></thead><tbody>
 <tr><td>Link to method</td><td><code>{@link Foo#bar() }</code></td><td><code>[`Foo::bar()`]</code></td></tr>
@@ -755,7 +755,7 @@ public double fastInvSqrt(double a);
 <tr><td>Custom tag</td><td>Requires custom javac args</td><td><code># My custom section</code> <br/> <code>//...</code></td></tr>
 <tr><td>Bulleted list</td><td><code>&lt;ul&gt; </code><br/><code>&lt;li&gt;one&lt;/li&gt; </code><br/><code>&lt;ul&gt; &lt;li&gt;one point one&lt;/li&gt; &lt;/ul&gt;</code><br/><code> &lt;/ul&gt;</code></td><td><code>* one</code><br/><code>** one point one</code></td></tr>
 </tbody></table>
-<p>Difference between Javadocs and Rustdocs is that to do formatting, in Java you would inject HTML tags, where as in Rust you use Markdown syntax. So the following Javadoc and Rustdoc are equivalent __ vs __. As you can see this improves readability a lot.</p>
+<p>The difference between Javadocs and Rustdocs is that, to do formatting, in Java, you would inject HTML tags, where as in Rust you use Markdown syntax. So the following Javadoc and Rustdoc are equivalent __ vs __. As you can see this improves readability a lot.</p>
 <p>To generate an view your docs you can run _. Which will put the documentation in _. When you publish your code to Crates.io (Rust’s main package repo, the docs will be published automatically.) There will be more on Crates.io and the Cargo command in chapter _.</p>
 <p>Additional information for the doc can also be placed inside of the method, if for some reason that makes more sense from an organization point of view. So the following are equivalent __ and __.</p>
 <p>Docs can also be hidden (If for example a feature is still being tested) like this __. Similarly you can use the _ annotation to mark them as being platform specific. For example __.</p>
@@ -767,8 +767,8 @@ fn main() {
     println!(&quot;Hello World!&quot;);
 }
 </code></pre></pre>
-<p>You may be wondering: “What is that exclamation point doing at the end of that function name?” The answer is 'println!’ is not a normal function it is what is called a “Macro”. Rust macros are &quot;hygienic&quot; so they don't have the horrifyingly dangerous properties of C and C++ macros, and are designed to be safe.</p>
-<p>You can think of macros as a function that does things that functions can't normally do. In this case ‘println’ supports string templates. </p>
+<p>You may be wondering: “What is that exclamation point doing at the end of that function name?” The answer is <code>println!</code> is not a normal function but a “Macro”. Rust macros are &quot;hygienic&quot; so they don't have the horrifyingly dangerous properties of C and C++ macros and designed to be safe.</p>
+<p>You can think of macros as a function that does things that functions can't normally do. In this case <code>println!</code> supports string templates. </p>
 <pre><pre class="playpen"><code class="language-rust">fn main() {
     let name = &quot;Ferris&quot;;
     println!(&quot;Hello {}!&quot;, name);
@@ -788,7 +788,7 @@ fn main() {
 <pre><code class="language-rust ignore"><span class="boring">let name = &quot;a&quot;; let name = &quot;b&quot;
 </span>println!(&quot;Hello {}!&quot;, name1, name2);
 </code></pre>
-<p>the mistake would actually be a compile error. Which is great because it means you can't write incorrect code.</p>
+<p>the mistake would actually cause a compile error, which is great, because it means you can't write incorrect code.</p>
 </blockquote>
 </td>
 <tr>
@@ -797,7 +797,7 @@ fn main() {
 </td>
 <td width="80%">
 <blockquote>
-<p><em>This has the added bonus of not spending any CPU at runtime parsing and verifying the template.</em></p>
+<p><em>This gives an extra bonus of not spending any CPU time at runtime on parsing and verifying the template.</em></p>
 </blockquote>
 </td>
 </tr>
@@ -809,7 +809,7 @@ fn main() {
 </td>
 </tr>
 </table>
-<p>Another place you'll see macros, is for initilizing collections or places where you might find &quot;varargs&quot; in Java. For example you can initilaize a Vec with the <code>vec!</code> macro:</p>
+<p>Another place you'll see macros is initializing collections or places where you might find “varargs&quot; in Java. For example you can initialize a <code>Vec</code> with the <code>vec!</code> macro:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -1282,7 +1282,8 @@ fn process_foo(foo: &amp;Foo) {
     let bar = foo.get_bar();
     process_bar(bar);
 }
-<span class="boring">}
+<span class="boring">fn process_bar(bar: &amp;Bar) {}
+</span><span class="boring">}
 </span></code></pre></pre>
 </td>
 <td>
@@ -1295,7 +1296,8 @@ fn process_foo(foo: &amp;Foo) {
 </span>fn process_foo(foo: &amp;Foo) {
     process_bar(&amp;foo.bar);
 }
-<span class="boring">}
+<span class="boring">fn process_bar(bar: &amp;Bar) {}
+</span><span class="boring">}
 </span></code></pre></pre>
 </td>
 </tr>
@@ -1697,7 +1699,7 @@ public final class UUID implements Serializable, Comparable&lt;UUID&gt; {}
 </span><span class="boring">fn main() {
 </span>use std::u64; 
 use std::str::FromStr;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 struct UUID {

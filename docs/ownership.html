@@ -436,7 +436,8 @@ fn process_foo(foo: &amp;Foo) {
     let bar = foo.get_bar();
     process_bar(bar);
 }
-<span class="boring">}
+<span class="boring">fn process_bar(bar: &amp;Bar) {}
+</span><span class="boring">}
 </span></code></pre></pre>
 </td>
 <td>
@@ -449,7 +450,8 @@ fn process_foo(foo: &amp;Foo) {
 </span>fn process_foo(foo: &amp;Foo) {
     process_bar(&amp;foo.bar);
 }
-<span class="boring">}
+<span class="boring">fn process_bar(bar: &amp;Bar) {}
+</span><span class="boring">}
 </span></code></pre></pre>
 </td>
 </tr>

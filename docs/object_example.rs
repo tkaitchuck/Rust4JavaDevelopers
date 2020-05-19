@@ -1,6 +1,6 @@
 use std::u64; 
 use std::str::FromStr;
-use serde_derive::{Deserialize, Serialize};
+use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 struct UUID {

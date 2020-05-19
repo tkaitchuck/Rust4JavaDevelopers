@@ -261,6 +261,7 @@ fn process_foo(foo: &Foo) {
     let bar = foo.get_bar();
     process_bar(bar);
 }
+# fn process_bar(bar: &Bar) {}
 ```
 </td>
 <td>
@@ -272,6 +273,7 @@ This is equivalent to:
 fn process_foo(foo: &Foo) {
     process_bar(&foo.bar);
 }
+# fn process_bar(bar: &Bar) {}
 ```
 </td>
 </tr>

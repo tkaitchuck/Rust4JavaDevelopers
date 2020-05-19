@@ -89,7 +89,7 @@ void process(final List<Foo> toProcess);
 You can't tell from looking at the signature if the `toProcess` list will be modified or if the individual items in the list will be modified.
 
 Rust avoids this ambiguity with the keyword `mut`. All values are unmodifyable by default, and if the variable or any of its contents are going to be changed it is prefixed with the `mut` keyword for eample:
-```rust ,skt-default
+```rust ,skt-main
 let mut value = 0;
 value += 10;
 ```

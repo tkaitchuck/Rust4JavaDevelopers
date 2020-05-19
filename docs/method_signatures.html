@@ -161,7 +161,7 @@
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>Things to notice: 
-The Rust method starts with the keyword “fn” this simply indicates that a function is being declared. This is followed by the method name and each of the parameters to the method in parentheses. Unlike Java where the type appears on the left followed by the argument name, in Rust the name comes first followed by a ':’ followed by the type. (Similar to how variables are declared)</p>
+The Rust method starts with the keyword “fn” this simply indicates that a function is being declared. This is followed by the method name and the parameters to the method in parentheses. Unlike Java where the type appears on the left followed by the argument name, in Rust the name comes first followed by a <code>:</code> followed by the type. (Similar to how variables are declared)</p>
 <p>If the function had a return value it would be declared on the right hand side like this:</p>
 <pre><code class="language-java">int add(int a, int b);
 </code></pre>
@@ -173,7 +173,7 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 <span class="boring">}
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>There is no “void” in Rust. If there isn't a return value, just don't provide one.</p>
+<p>There is no <code>void</code> in Rust. If there isn't a return value, just don't provide one.</p>
 <p>Just as in Java the method body is in between the curly braces.</p>
 <pre><code class="language-java">int add(int a, int b) {
     return a + b;
@@ -203,10 +203,10 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 </tr>
 </table>
 <p>To indicate a parameter is borrowed, in the method signature, place a “&amp;” in front of the type.</p>
-<p>As an example, in Java you might define a method 'isSorted’ like this </p>
+<p>As an example, in Java you might define a method <code>isSorted()</code> like this </p>
 <pre><code class="language-java">boolean isSorted(List&lt;Integer&gt; values);
 </code></pre>
-<p>that returns a boolean indicating if a list is sorted. In Rust you would add an ‘&amp;’ in front of the type in the method signature to indicate that it will not retain any references to the list or it's contents when the method returns.</p>
+<p>that returns a boolean indicating if a list is sorted. In Rust you would add an ‘&amp;’ in front of the type in the method signature to indicate that it will not retain any references to the list nor its contents when the method returns.</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -215,9 +215,9 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 <span class="boring">}
 </span><span class="boring">}
 </span></code></pre></pre>
-<p>It is helpful to think of 'borrowed’ as being part of the type. IE “The method takes a borrowed list.” </p>
+<p>It is helpful to think of ‘borrowed’ as a part of the type(i.e. “The method takes a borrowed list.”) </p>
 <p>This declaration provides a strong and useful guarantee to the callers of a method. </p>
-<p>Of course it would be worthless if in a newer version, the method just deleted the ‘&amp;’ from it's signature and removed the guarantee. To prevent this, and to make the guarantee explicit in the caller's code, when a method is being invoked; When a method that borrows a parameter is invoked, the caller puts an ‘&amp;’ in front of the variable name being passed in. For example </p>
+<p>Of course it would be worthless if in a newer version, the method just deleted the ‘&amp;’ from its signature and removed the guarantee. To prevent this and to make the guarantee explicit in the caller's code, when a method that borrows a parameter is invoked, the caller puts an ‘&amp;’ in front of the variable name being passed in. For example </p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -236,14 +236,14 @@ The Rust method starts with the keyword “fn” this simply indicates that a fu
 </code></pre>
 <p>You can't tell from looking at the signature if the <code>toProcess</code> list will be modified or if the individual items in the list will be modified.</p>
 <p>Rust avoids this ambiguity with the keyword <code>mut</code>. All values are unmodifyable by default, and if the variable or any of its contents are going to be changed it is prefixed with the <code>mut</code> keyword for eample:</p>
-<pre><pre class="playpen"><code class="language-rust skt-default">
+<pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
 </span>let mut value = 0;
 value += 10;
 <span class="boring">}
 </span></code></pre></pre>
-<p>Similar to variable declaration, if you want to modify a borrowed parameter, you use the 'mut’ keyword. This goes right in front of the type.</p>
+<p>Similar to variable declaration, if you want to modify a borrowed parameter, you use the <code>mut</code> keyword. This goes right in front of the type.</p>
 <pre><code class="language-java">void populateCounts(HashMap&lt;String, int&gt; itemCounts);
 </code></pre>
 <pre><pre class="playpen"><code class="language-rust skt-default">
@@ -255,8 +255,8 @@ value += 10;
 <span class="boring">}
 </span><span class="boring">}
 </span></code></pre></pre>
-<p><code>mut</code> can be thought of a part of the type. IE “a borrowed mutable Hashmap” as opposed to “a Hashmap&quot;.</p>
-<p>When 'Borrowed’ is combined with 'mut’ the ‘&amp;’ goes first. If you wanted to write a method to sort a list, it would take a borrowed mutable list.</p>
+<p><code>mut</code> can be thought of a part of the type(i.e. “a borrowed mutable Hashmap” as opposed to “a Hashmap&quot;).</p>
+<p>When ‘Borrowed’ is combined with <code>mut</code>, the <code>&amp;</code> goes first. If you wanted to write a method to sort a list, it would take a borrowed mutable list.</p>
 <pre><pre class="playpen"><code class="language-rust skt-default">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
@@ -267,7 +267,7 @@ value += 10;
 </span></code></pre></pre>
 <p>This signature means <code>sort()</code> may change the list, but only during the invocation of the method and will retain no references to the list or its contents once the method returns.</p>
 <h2><a class="header" href="#javadocs" id="javadocs">Javadocs</a></h2>
-<p>Documentation is an area where Rust and Java are very similar. In Java you might add a javdoc like this </p>
+<p>Documentation is an area where Rust and Java are very similar. In Java, you might add a javdoc like this </p>
 <pre><code class="language-java">/**
  * Computes an approximation of {@code 1/sqrt(a)} segnifigantly faster. 
  * However compared to using {@link java.lang.Math.sqrt()} the result is much less accurate.
@@ -276,9 +276,9 @@ value += 10;
  */
 public double fastInvSqrt(double a);
 </code></pre>
-<p>which can be automatically translated into HTML documentation. </p>
+<p>which can be automatically transformed into HTML documentation. </p>
 <h2><a class="header" href="#rustdocs" id="rustdocs">Rustdocs</a></h2>
-<p>Rust has rustdocs which work similarly. You could write the following:</p>
+<p>Rust has rustdocs which works similarly. You could write the following:</p>
 <pre><code class="language-rust ignore">/**
  * Computes an approximation of `1/a.sqrt()` segnifigantly faster.
  * However compared to using [`sqrt`] the result is much less accurate.
@@ -302,7 +302,7 @@ public double fastInvSqrt(double a);
 /// assert!((approx-exact).abs() &lt; 1e-5);
 /// ```
 </code></pre>
-<p>(This helps with small comments as it doesn't require an extra line at the top and bottom.)</p>
+<p>(This helps with short comments as it doesn't require an extra line at the top and bottom.)</p>
 <p>Javadocs have a number of common tags such as “@param” and “{@link }”. Below are some common ones and their Rust equivalents.</p>
 <table><thead><tr><th>Type</th><th>Java</th><th>Rust</th></tr></thead><tbody>
 <tr><td>Link to method</td><td><code>{@link Foo#bar() }</code></td><td><code>[`Foo::bar()`]</code></td></tr>
@@ -315,7 +315,7 @@ public double fastInvSqrt(double a);
 <tr><td>Custom tag</td><td>Requires custom javac args</td><td><code># My custom section</code> <br/> <code>//...</code></td></tr>
 <tr><td>Bulleted list</td><td><code>&lt;ul&gt; </code><br/><code>&lt;li&gt;one&lt;/li&gt; </code><br/><code>&lt;ul&gt; &lt;li&gt;one point one&lt;/li&gt; &lt;/ul&gt;</code><br/><code> &lt;/ul&gt;</code></td><td><code>* one</code><br/><code>** one point one</code></td></tr>
 </tbody></table>
-<p>Difference between Javadocs and Rustdocs is that to do formatting, in Java you would inject HTML tags, where as in Rust you use Markdown syntax. So the following Javadoc and Rustdoc are equivalent __ vs __. As you can see this improves readability a lot.</p>
+<p>The difference between Javadocs and Rustdocs is that, to do formatting, in Java, you would inject HTML tags, where as in Rust you use Markdown syntax. So the following Javadoc and Rustdoc are equivalent __ vs __. As you can see this improves readability a lot.</p>
 <p>To generate an view your docs you can run _. Which will put the documentation in _. When you publish your code to Crates.io (Rust’s main package repo, the docs will be published automatically.) There will be more on Crates.io and the Cargo command in chapter _.</p>
 <p>Additional information for the doc can also be placed inside of the method, if for some reason that makes more sense from an organization point of view. So the following are equivalent __ and __.</p>
 <p>Docs can also be hidden (If for example a feature is still being tested) like this __. Similarly you can use the _ annotation to mark them as being platform specific. For example __.</p>
@@ -327,8 +327,8 @@ fn main() {
     println!(&quot;Hello World!&quot;);
 }
 </code></pre></pre>
-<p>You may be wondering: “What is that exclamation point doing at the end of that function name?” The answer is 'println!’ is not a normal function it is what is called a “Macro”. Rust macros are &quot;hygienic&quot; so they don't have the horrifyingly dangerous properties of C and C++ macros, and are designed to be safe.</p>
-<p>You can think of macros as a function that does things that functions can't normally do. In this case ‘println’ supports string templates. </p>
+<p>You may be wondering: “What is that exclamation point doing at the end of that function name?” The answer is <code>println!</code> is not a normal function but a “Macro”. Rust macros are &quot;hygienic&quot; so they don't have the horrifyingly dangerous properties of C and C++ macros and designed to be safe.</p>
+<p>You can think of macros as a function that does things that functions can't normally do. In this case <code>println!</code> supports string templates. </p>
 <pre><pre class="playpen"><code class="language-rust">fn main() {
     let name = &quot;Ferris&quot;;
     println!(&quot;Hello {}!&quot;, name);
@@ -348,7 +348,7 @@ fn main() {
 <pre><code class="language-rust ignore"><span class="boring">let name = &quot;a&quot;; let name = &quot;b&quot;
 </span>println!(&quot;Hello {}!&quot;, name1, name2);
 </code></pre>
-<p>the mistake would actually be a compile error. Which is great because it means you can't write incorrect code.</p>
+<p>the mistake would actually cause a compile error, which is great, because it means you can't write incorrect code.</p>
 </blockquote>
 </td>
 <tr>
@@ -357,7 +357,7 @@ fn main() {
 </td>
 <td width="80%">
 <blockquote>
-<p><em>This has the added bonus of not spending any CPU at runtime parsing and verifying the template.</em></p>
+<p><em>This gives an extra bonus of not spending any CPU time at runtime on parsing and verifying the template.</em></p>
 </blockquote>
 </td>
 </tr>
@@ -369,7 +369,7 @@ fn main() {
 </td>
 </tr>
 </table>
-<p>Another place you'll see macros, is for initilizing collections or places where you might find &quot;varargs&quot; in Java. For example you can initilaize a Vec with the <code>vec!</code> macro:</p>
+<p>Another place you'll see macros is initializing collections or places where you might find “varargs&quot; in Java. For example you can initialize a <code>Vec</code> with the <code>vec!</code> macro:</p>
 <pre><pre class="playpen"><code class="language-rust skt-main">
 <span class="boring">#![allow(unused_variables)]
 </span><span class="boring">fn main() {
